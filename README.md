@@ -1,0 +1,1 @@
+A Real World Implementation of Functional Architecture using F#, Suave, NEventStore and CQRS
