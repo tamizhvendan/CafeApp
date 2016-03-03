@@ -1,4 +1,4 @@
-namespace Core.AssemblyInfo
+namespace CafeApp.Core.Tests.AssemblyInfo
 
 open System.Reflection
 open System.Runtime.CompilerServices
@@ -7,11 +7,11 @@ open System.Runtime.InteropServices
 (* General Information about an assembly is controlled through the following 
 set of attributes. Change these attribute values to modify the information
 associated with an assembly. *)
-[<assembly: AssemblyTitle("Core")>]
+[<assembly: AssemblyTitle("CafeApp.Core.Tests")>]
 [<assembly: AssemblyDescription("")>]
 [<assembly: AssemblyConfiguration("")>]
 [<assembly: AssemblyCompany("MyOrg")>]
-[<assembly: AssemblyProduct("Core")>]
+[<assembly: AssemblyProduct("CafeApp.Core.Tests")>]
 [<assembly: AssemblyCopyright("Copyright © MyOrg 2016")>]
 [<assembly: AssemblyTrademark("")>]
 [<assembly: AssemblyCulture("")>]
@@ -22,7 +22,7 @@ COM, set the ComVisible attribute to true on that type. *)
 [<assembly: ComVisible(false)>]
 
 // The following GUID is for the ID of the typelib if this project is exposed to COM
-[<assembly: Guid("11735495-e354-4a32-a619-8e4c40c24225")>]
+[<assembly: Guid("065f307b-8b05-4d9f-88b3-d549a918f9d1")>]
 
 (* Version information for an assembly consists of the following four values:
 

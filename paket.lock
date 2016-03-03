@@ -2,3 +2,5 @@ NUGET
   remote: https://www.nuget.org/api/v2
   specs:
     FAKE (4.21.3)
+    NUnit (2.6.4)
+    NUnit.Runners (2.6.4)

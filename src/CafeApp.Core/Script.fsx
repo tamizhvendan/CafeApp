@@ -2,7 +2,7 @@
 // for more guidance on F# programming.
 
 #load "Library1.fs"
-open Core.Tests
+open CafeApp.Core
 
 // Define your library scripting code here
 
