@@ -4,7 +4,7 @@ open Fake
 let buildDir = "./build"
 let testDir = "./tests"
 
-Target "Clean" (fun _ -> CleanDir buildDir)
+Target "Clean" (fun _ -> CleanDirs [buildDir; testDir])
 
 Target "BuildApp" (fun _ ->
           !! "src/**/*.fsproj"
