@@ -1,6 +1,6 @@
 #!/bin/bash
 if test "$OS" = "Windows_NT"
-then # use .Net
+then # For Windows
     .paket/paket.bootstrapper.exe
     exit_code=$?
     if [ $exit_code -ne 0 ]; then
@@ -12,7 +12,7 @@ then # use .Net
     	exit $exit_code
     fi
     packages/FAKE/tools/FAKE.exe $@ --fsiargs build.fsx
-else # use mono
+else # For NonWindows
     mono .paket/paket.bootstrapper.exe
     exit_code=$?
     if [ $exit_code -ne 0 ]; then
