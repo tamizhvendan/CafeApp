@@ -8,3 +8,7 @@ type State =
   | PlacedOrder of Order
   | OrderInProgress of InProgressOrder
   | OrderServed of Order
+
+let apply state event =
+  match state,event with
+  | _ -> ClosedTab None

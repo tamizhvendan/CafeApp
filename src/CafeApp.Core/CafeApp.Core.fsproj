@@ -45,6 +45,7 @@
     <Compile Include="Events.fs" />
     <Compile Include="Commands.fs" />
     <Compile Include="States.fs" />
+    <Compile Include="CommandHandlers.fs" />
   </ItemGroup>
   <PropertyGroup>
     <MinimumVisualStudioVersion Condition="'$(MinimumVisualStudioVersion)' == ''">11</MinimumVisualStudioVersion>
