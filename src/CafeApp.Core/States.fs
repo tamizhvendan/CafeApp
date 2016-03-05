@@ -1,6 +1,7 @@
 module States
 open Domain
 open System
+open Events
 
 type State =
   | ClosedTab of Guid option
@@ -11,4 +12,5 @@ type State =
 
 let apply state event =
   match state,event with
-  | _ -> ClosedTab None
+  | ClosedTab _, TabOpened tab -> OpenedTab tab
+  | _ -> state

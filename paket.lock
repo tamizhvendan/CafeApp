@@ -1,6 +1,8 @@
 NUGET
   remote: https://www.nuget.org/api/v2
   specs:
+    Chessie (0.4.0)
+      FSharp.Core
     FAKE (4.21.3)
     FSharp.Core (4.0.0.1)
     FsUnit (1.4.1)

@@ -1,14 +1,24 @@
 module CommandHandlers
+open Chessie.ErrorHandling
 open States
 open Events
 open System
 open Domain
+open Commands
+open Errors
+
+let handleOpenTab tab = function
+| ClosedTab _ -> TabOpened tab |> ok
+| _ -> TabAlreadyOpened |> fail
 
 let execute state command =
   match command with
-  | _ -> TabOpened {Id = Guid.NewGuid(); TableNumber = 1}
+  | OpenTab tab -> handleOpenTab tab state
+  | _ -> failwith "ToDo"
 
 let evolve state command =
-  let event = execute state command
-  let newState = apply state event
-  (newState, event)
+  match execute state command with
+  | Ok (event,_) ->
+    let newState = apply state event
+    (newState, event) |> ok
+  | Bad err -> Bad err
