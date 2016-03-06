@@ -1,4 +1,4 @@
-module ClosedTabTests
+module OpenTabTests
 open NUnit.Framework
 open CafeAppTestsDSL
 open Domain

@@ -4,8 +4,9 @@ open CommandHandlers
 open Chessie.ErrorHandling
 open NUnit.Framework
 open Errors
+open States
 
-let Given = id
+let Given (state : State) = state
 let When command state = (command, state)
 let ThenStateShouldBe expectedState (command, state) =
   match evolve state command with
