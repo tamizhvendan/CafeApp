@@ -12,7 +12,11 @@ let handleOpenTab tab = function
 | _ -> TabAlreadyOpened |> fail
 
 let handlePlaceOrder order = function
-| OpenedTab _ -> OrderPlaced order |> ok
+| OpenedTab _ ->
+  if List.isEmpty order.FoodItems && List.isEmpty order.DrinksItems then
+    fail CanNotPlaceEmptyOrder
+  else
+    OrderPlaced order |> ok
 | ClosedTab _ -> fail CanNotOrderWithClosedTab
 | _ -> fail OrderAlreadyPlaced
 

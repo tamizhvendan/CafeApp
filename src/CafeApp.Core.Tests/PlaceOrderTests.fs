@@ -34,6 +34,13 @@ let ``Can place drinks order`` () =
   |> ThenStateShouldBe (PlacedOrder order)
   |> WithEvent (OrderPlaced order)
 
+
+[<Test>]
+let ``Can not place empty order`` () =
+  Given (OpenedTab tab)
+  |> When (PlaceOrder order)
+  |> ShouldFailWith CanNotPlaceEmptyOrder
+
 [<Test>]
 let ``Can not place order with a closed tab`` () =
   let order = {order with DrinksItems = [coke]}
