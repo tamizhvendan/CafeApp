@@ -8,5 +8,8 @@ type Error =
   | OrderAlreadyPlaced
   | CanNotServeNonOrderedDrinks of DrinksItem
   | OrderAlreadyServed
-  | CanNotServeForNonPlacedOrder of DrinksItem
+  | CanNotServeForNonPlacedOrder
   | CanNotServeWithClosedTab
+  | CanNotPrepareNonOrderedFood of FoodItem
+  | CanNotPrepareForNonPlacedOrder
+  | CanNotPrepareWithClosedTab

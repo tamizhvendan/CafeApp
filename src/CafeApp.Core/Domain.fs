@@ -32,3 +32,13 @@ type InProgressOrder = {
   ServedFoods : FoodItem list
   PreparedFoods : FoodItem list
 }
+
+let nonServedFoods ipo =
+  List.except ipo.ServedFoods ipo.PlacedOrder.FoodItems
+
+let nonServedDrinks ipo =
+  List.except ipo.ServedDrinks ipo.PlacedOrder.DrinksItems
+
+let isOrderServed ipo =
+  List.isEmpty (nonServedFoods ipo) &&
+    List.isEmpty (nonServedDrinks ipo)
