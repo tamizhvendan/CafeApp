@@ -8,23 +8,7 @@ open Commands
 open Events
 open Errors
 open States
-
-let tab = {Id = Guid.NewGuid(); TableNumber = 1}
-let coke = DrinksItem {
-            MenuNumber = 1
-            Name = "Coke"
-            Price = 1.5m}
-let order = {
-  TabId = tab.Id
-  FoodItems = []
-  DrinksItems = []
-}
-let salad = FoodItem {
-  MenuNumber = 2
-  Name = "Salad"
-  Price = 2.5m
-}
-
+open TestData
 
 [<Test>]
 let ``Can place drinks order`` () =

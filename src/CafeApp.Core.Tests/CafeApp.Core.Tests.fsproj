@@ -49,8 +49,10 @@
     <Compile Include="AssemblyInfo.fs" />
     <None Include="Script.fsx" />
     <Compile Include="CafeAppTestsDSL.fs" />
+    <Compile Include="TestData.fs" />
     <Compile Include="OpenTabTests.fs" />
     <Compile Include="PlaceOrderTests.fs" />
+    <Compile Include="ServeDrinksTests.fs" />
   </ItemGroup>
   <PropertyGroup>
     <MinimumVisualStudioVersion Condition="'$(MinimumVisualStudioVersion)' == ''">11</MinimumVisualStudioVersion>
@@ -68,7 +70,7 @@
     </Otherwise>
   </Choose>
   <Import Project="$(FSharpTargetsPath)" />
-  <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
+  <!-- To modify your build process, add your task inside one of the targets below and uncomment it.
        Other similar extension points exist, see Microsoft.Common.targets.
   <Target Name="BeforeBuild">
   </Target>
