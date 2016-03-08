@@ -20,17 +20,27 @@ let handlePlaceOrder order = function
 | ClosedTab _ -> fail CanNotOrderWithClosedTab
 | _ -> fail OrderAlreadyPlaced
 
-let handleServeDrinks item tabId = function
-| PlacedOrder order ->
-    if List.contains item order.DrinksItems then
-      DrinksServed (item,tabId) |> ok
-    else
-      CanNotServeNonOrderedDrinks item |> fail
-| OrderServed _ -> OrderAlreadyServed |> fail
-| OpenedTab _ ->  CanNotServeForNonPlacedOrder |> fail
-| ClosedTab _ -> CanNotServeWithClosedTab |> fail
-| OrderInProgress _ ->
-    DrinksServed (item, tabId) |> ok
+let handleServeDrinks item tabId state =
+  let isOrderedDrinks item order =
+    List.contains item order.DrinksItems
+  match state with
+  | PlacedOrder order ->
+      if isOrderedDrinks item order then
+        DrinksServed (item,tabId) |> ok
+      else
+        CanNotServeNonOrderedDrinks item |> fail
+  | OrderServed _ -> OrderAlreadyServed |> fail
+  | OpenedTab _ ->  CanNotServeForNonPlacedOrder |> fail
+  | ClosedTab _ -> CanNotServeWithClosedTab |> fail
+  | OrderInProgress ipo ->
+      if isOrderedDrinks item ipo.PlacedOrder then
+        let nonServedDrinks = nonServedDrinks ipo
+        if List.contains item nonServedDrinks then
+          DrinksServed (item,tabId) |> ok
+        else
+          CanNotServeAlreadyServedDrinks item |> fail
+      else
+        CanNotServeNonOrderedDrinks item |> fail
 
 let handlePrepareFood item tabId = function
 | PlacedOrder order ->

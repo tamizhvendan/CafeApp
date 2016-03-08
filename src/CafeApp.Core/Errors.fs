@@ -7,6 +7,7 @@ type Error =
   | CanNotOrderWithClosedTab
   | OrderAlreadyPlaced
   | CanNotServeNonOrderedDrinks of DrinksItem
+  | CanNotServeAlreadyServedDrinks of DrinksItem
   | OrderAlreadyServed
   | CanNotServeForNonPlacedOrder
   | CanNotServeWithClosedTab
