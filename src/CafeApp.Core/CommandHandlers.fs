@@ -42,16 +42,26 @@ let handleServeDrinks item tabId state =
       else
         CanNotServeNonOrderedDrinks item |> fail
 
-let handlePrepareFood item tabId = function
-| PlacedOrder order ->
-  if List.contains item order.FoodItems then
-    FoodPrepared (item, tabId) |> ok
-  else
-    CanNotPrepareNonOrderedFood item |> fail
-| OrderServed _ -> OrderAlreadyServed |> fail
-| OpenedTab _ ->  CanNotPrepareForNonPlacedOrder |> fail
-| ClosedTab _ -> CanNotPrepareWithClosedTab |> fail
-| _ -> failwith "TODO"
+let handlePrepareFood item tabId state =
+  let isOrderedFoodItem item order =
+    List.contains item order.FoodItems
+  match state with
+  | PlacedOrder order ->
+    if isOrderedFoodItem item order then
+      FoodPrepared (item, tabId) |> ok
+    else
+      CanNotPrepareNonOrderedFood item |> fail
+  | OrderServed _ -> OrderAlreadyServed |> fail
+  | OpenedTab _ ->  CanNotPrepareForNonPlacedOrder |> fail
+  | ClosedTab _ -> CanNotPrepareWithClosedTab |> fail
+  | OrderInProgress ipo ->
+    if isOrderedFoodItem item ipo.PlacedOrder then
+      if List.contains item ipo.PreparedFoods then
+        CanNotPrepareAlreadyPreparedFood item |> fail
+      else
+        FoodPrepared (item, tabId) |> ok
+    else
+      CanNotPrepareNonOrderedFood item |> fail
 
 let execute state command =
   match command with

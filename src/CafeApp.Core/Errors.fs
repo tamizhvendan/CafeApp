@@ -12,5 +12,6 @@ type Error =
   | CanNotServeForNonPlacedOrder
   | CanNotServeWithClosedTab
   | CanNotPrepareNonOrderedFood of FoodItem
+  | CanNotPrepareAlreadyPreparedFood of FoodItem
   | CanNotPrepareForNonPlacedOrder
   | CanNotPrepareWithClosedTab
