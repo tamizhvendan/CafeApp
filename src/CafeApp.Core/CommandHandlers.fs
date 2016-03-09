@@ -63,12 +63,30 @@ let handlePrepareFood item tabId state =
     else
       CanNotPrepareNonOrderedFood item |> fail
 
+let handleServeFood item tabId = function
+| OrderInProgress ipo ->
+  if List.contains item ipo.PlacedOrder.FoodItems then
+    if List.contains item ipo.ServedFoods then
+      CanNotServeAlreadyServedFood item |> fail
+    else
+      if List.contains item ipo.PreparedFoods then
+        FoodServed (item, tabId) |> ok
+      else
+        CanNotServeNonPreparedFood item |> fail
+  else
+    CanNotServeNonOrderedFood item |> fail
+| PlacedOrder _ -> CanNotServeNonPreparedFood item |> fail
+| OrderServed _ -> OrderAlreadyServed |> fail
+| OpenedTab _ -> CanNotServeForNonPlacedOrder |> fail
+| ClosedTab _ -> CanNotServeWithClosedTab |> fail
+
 let execute state command =
   match command with
   | OpenTab tab -> handleOpenTab tab state
   | PlaceOrder order -> handlePlaceOrder order state
   | ServeDrinks (item, tabId) -> handleServeDrinks item tabId state
   | PrepareFood (item, tabId) -> handlePrepareFood item tabId state
+  | ServeFood (item, tabId) -> handleServeFood item tabId state
   | _ -> failwith "ToDo"
 
 let evolve state command =
