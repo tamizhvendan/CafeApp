@@ -42,3 +42,12 @@ let nonServedDrinks ipo =
 let isOrderServed ipo =
   List.isEmpty (nonServedFoods ipo) &&
     List.isEmpty (nonServedDrinks ipo)
+
+let orderAmount order =
+  let foodAmount =
+    order.FoodItems
+    |> List.map (fun (FoodItem f) -> f.Price) |> List.sum
+  let drinksAmount =
+    order.DrinksItems
+    |> List.map (fun (DrinksItem d) -> d.Price) |> List.sum
+  foodAmount + drinksAmount

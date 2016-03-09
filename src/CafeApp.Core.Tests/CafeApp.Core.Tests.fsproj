@@ -55,6 +55,7 @@
     <Compile Include="ServeDrinksTests.fs" />
     <Compile Include="PrepareFoodTests.fs" />
     <Compile Include="ServeFoodTests.fs" />
+    <Compile Include="CloseTabTests.fs" />
   </ItemGroup>
   <PropertyGroup>
     <MinimumVisualStudioVersion Condition="'$(MinimumVisualStudioVersion)' == ''">11</MinimumVisualStudioVersion>

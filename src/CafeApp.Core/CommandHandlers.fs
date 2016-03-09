@@ -80,6 +80,15 @@ let handleServeFood item tabId = function
 | OpenedTab _ -> CanNotServeForNonPlacedOrder |> fail
 | ClosedTab _ -> CanNotServeWithClosedTab |> fail
 
+let handleCloseTab payment = function
+| OrderServed order ->
+  let orderAmount = orderAmount order
+  if payment.Amount = orderAmount then
+    TabClosed payment |> ok
+  else
+    InvalidPayment (orderAmount, payment.Amount) |> fail
+| _ -> CanNotPayForNonServedOrder |> fail
+
 let execute state command =
   match command with
   | OpenTab tab -> handleOpenTab tab state
@@ -87,7 +96,7 @@ let execute state command =
   | ServeDrinks (item, tabId) -> handleServeDrinks item tabId state
   | PrepareFood (item, tabId) -> handlePrepareFood item tabId state
   | ServeFood (item, tabId) -> handleServeFood item tabId state
-  | _ -> failwith "ToDo"
+  | CloseTab payment -> handleCloseTab payment state
 
 let evolve state command =
   match execute state command with

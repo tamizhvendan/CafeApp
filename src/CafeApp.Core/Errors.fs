@@ -18,3 +18,5 @@ type Error =
   | CanNotServeAlreadyServedFood of FoodItem
   | CanNotPrepareForNonPlacedOrder
   | CanNotPrepareWithClosedTab
+  | InvalidPayment of decimal * decimal
+  | CanNotPayForNonServedOrder
