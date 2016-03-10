@@ -19,6 +19,7 @@ let saveEvent (storeEvents : IStoreEvents) state event  =
     stream.Add(new EventMessage(Body = event))
     stream.CommitChanges(Guid.NewGuid())
   | _ -> ()
+  async.Return ()
 
 let getEvents (storeEvents : IStoreEvents) (tabId : Guid) =
   use stream = storeEvents.OpenStream(tabId.ToString())
@@ -29,8 +30,9 @@ let getEvents (storeEvents : IStoreEvents) (tabId : Guid) =
 let getState storeEvents tabId =
   getEvents storeEvents tabId
   |> Seq.fold apply (ClosedTab None)
+  |> async.Return
 
 type EventStore = {
-  GetState : Guid -> State
-  SaveEvent : State * Event -> unit
+  GetState : Guid -> Async<State>
+  SaveEvent : State -> Event -> Async<unit>
 }
