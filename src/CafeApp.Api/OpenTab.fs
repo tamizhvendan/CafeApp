@@ -4,6 +4,7 @@ open System
 open FSharp.Data
 open Commands
 open Queries
+open CommandHandlers
 
 [<Literal>]
 let OpenTabJson = """{
@@ -22,13 +23,15 @@ let (|OpenTabRequest|_|) payload =
   with
   | ex -> None
 
-let validateOpenTab validationQueries tab = async {
-  let! isValid =
-    validationQueries.IsValidTableNumber tab.TableNumber
+let validateOpenTab isValidTableNumber tab = async {
+  let! isValid = isValidTableNumber tab.TableNumber
   if isValid then
     return Choice1Of2 tab
   else
     return Choice2Of2 "Invalid Table Number"
 }
 
-let toOpenTabCommand = OpenTab
+let openTabCommander isValidTableNumber = {
+  Validate = validateOpenTab isValidTableNumber
+  ToCommand = OpenTab
+}
