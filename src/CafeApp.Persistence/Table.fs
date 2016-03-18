@@ -33,6 +33,9 @@ let getTables () =
   |> Seq.toList
   |> async.Return
 
+let isValidTableNumber tableNumber =
+  tables.ContainsKey tableNumber |> async.Return
+
 let getTableByTabId tabId =
   tables.Values
   |> Seq.tryFind(fun t ->

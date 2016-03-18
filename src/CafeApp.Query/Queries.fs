@@ -10,3 +10,7 @@ type Queries = {
   GetCashierToDos : unit -> Async<Payment list>
   GetState : Guid -> Async<State>
 }
+
+type ValidationQueries = {
+    IsValidTableNumber : int -> Async<bool>
+}

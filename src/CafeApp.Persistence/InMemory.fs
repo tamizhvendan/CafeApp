@@ -25,6 +25,10 @@ let inMemoryQueries = {
   GetState = inMemoryEventStore.GetState
 }
 
+let inMemoryValidationQueries = {
+  IsValidTableNumber = isValidTableNumber
+}
+
 let inMemoryActions = {
   Table = tableActions
   Chef = chefActions
