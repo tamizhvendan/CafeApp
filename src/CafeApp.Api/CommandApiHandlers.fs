@@ -14,11 +14,21 @@ let getTabIdFromCommand = function
 | OpenTab tab -> tab.Id
 | _ -> failwith "TODO"
 
-let handleCommand validate toCommand validationQueries eventStore commandPayload = async {
-  let! validationResult = validate validationQueries commandPayload
+type CommandHandler<'a, 'b> = {
+  Validate : ValidationQueries -> 'a -> Async<Choice<'b,string>>
+  ToCommand : 'b -> Command
+}
+
+let openTabHandler = {
+  Validate = validateOpenTab
+  ToCommand = toOpenTabCommand
+}
+
+let handleCommand validationQueries eventStore commandData handler  = async {
+  let! validationResult = handler.Validate validationQueries commandData
   match validationResult with
-  | Choice1Of2 domainPayload ->
-    let command = toCommand domainPayload
+  | Choice1Of2 validatedCommandData ->
+    let command = handler.ToCommand validatedCommandData
     let! state = eventStore.GetState (getTabIdFromCommand command)
     match evolve state command with
     | Ok((newState, event), _) ->
@@ -29,27 +39,12 @@ let handleCommand validate toCommand validationQueries eventStore commandPayload
     return Choice2Of2 errorMessage
 }
 
-
-let handleOpenTab eventStore validationQueries (context : HttpContext) tab = async {
-  let! validationResult =
-    validateOpenTab validationQueries.IsValidTableNumber tab
-  match validationResult with
-  | Choice1Of2 tab ->
-      let command = toOpenTabCommand tab
-      let! state = eventStore.GetState (tab.Id)
-      match evolve state command with
-      | Ok((newState, event), _) ->
-        return OK (sprintf "%A" newState) context
-      | Bad (err) ->
-        return BAD_REQUEST (sprintf "%A" err.Head) context
-  | Choice2Of2 errorMessage ->
-    return BAD_REQUEST errorMessage context
-}
-
-
-let handleCommandRequest validationQueries (context : HttpContext) =
+let handleCommandRequest validationQueries eventStore (context : HttpContext) =
   let jsonPayload =
     Encoding.UTF8.GetString context.request.rawForm
+
+  let handle = handleCommand validationQueries eventStore
+
   match jsonPayload with
-  | OpenTabRequest tab -> failwith "TODO"
+  | OpenTabRequest tab -> handle tab openTabHandler
   | _ -> failwith "TODO"

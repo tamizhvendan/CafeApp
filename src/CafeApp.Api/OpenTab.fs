@@ -3,6 +3,7 @@ open Domain
 open System
 open FSharp.Data
 open Commands
+open Queries
 
 [<Literal>]
 let OpenTabJson = """{
@@ -21,8 +22,9 @@ let (|OpenTabRequest|_|) payload =
   with
   | ex -> None
 
-let validateOpenTab isValidTableNumber tab = async {
-  let! isValid = isValidTableNumber tab.TableNumber
+let validateOpenTab validationQueries tab = async {
+  let! isValid =
+    validationQueries.IsValidTableNumber tab.TableNumber
   if isValid then
     return Choice1Of2 tab
   else
