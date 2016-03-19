@@ -5,6 +5,7 @@ open FSharp.Data
 open Commands
 open Queries
 open CommandHandlers
+open ReadModel
 
 [<Literal>]
 let OpenTabJson = """{
@@ -23,15 +24,18 @@ let (|OpenTabRequest|_|) payload =
   with
   | ex -> None
 
-let validateOpenTab isValidTableNumber tab = async {
-  let! isValid = isValidTableNumber tab.TableNumber
-  if isValid then
-    return Choice1Of2 tab
-  else
+let validateOpenTab getTableByTableNumber tab = async {
+  let! result = getTableByTableNumber tab.TableNumber
+  match result with
+  | Some table ->
+    match table.Status with
+    | Closed -> return Choice1Of2 tab
+    | Open tabId -> return Choice2Of2 "Table already opened"
+  | _ ->
     return Choice2Of2 "Invalid Table Number"
 }
 
-let openTabCommander isValidTableNumber = {
-  Validate = validateOpenTab isValidTableNumber
+let openTabCommander getTableByTableNumber = {
+  Validate = validateOpenTab getTableByTableNumber
   ToCommand = OpenTab
 }

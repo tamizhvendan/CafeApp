@@ -1,13 +1,14 @@
-module CommandApiHandlers
+module CommandApi
 
 open System.Text
 open CommandHandlers
 open OpenTab
 open Queries
 
-let handleCommandRequest validationQueries eventStore jsonPayload = function
-| OpenTabRequest tab ->
-  validationQueries.IsValidTableNumber
-  |> openTabCommander
-  |> handleCommand eventStore
-| _ -> failwith "TODO"
+let handleCommandRequest validationQueries eventStore
+  = function
+  | OpenTabRequest tab ->
+      validationQueries.GetTableByTableNumber
+      |> openTabCommander
+      |> handleCommand eventStore tab
+  | _ -> failwith "TODO"

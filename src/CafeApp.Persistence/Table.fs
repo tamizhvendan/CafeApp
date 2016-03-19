@@ -33,8 +33,11 @@ let getTables () =
   |> Seq.toList
   |> async.Return
 
-let isValidTableNumber tableNumber =
-  tables.ContainsKey tableNumber |> async.Return
+let getTableByTableNumber tableNumber =
+  if tables.ContainsKey tableNumber then
+    tables.[tableNumber] |> Some |> async.Return
+  else
+    None |> async.Return
 
 let getTableByTabId tabId =
   tables.Values

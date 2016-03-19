@@ -8,25 +8,27 @@ open Queries
 open EventStore
 open NEventStore
 
-let private inMemoryEventStoreInstance =
-              Wireup.Init()
-                .UsingInMemoryPersistence()
-                .Build()
+type InMemoryEventStore () =
+  static member Instance =
+                  Wireup.Init()
+                    .UsingInMemoryPersistence()
+                    .Build()
 
-let inMemoryEventStore = {
-  GetState = getState inMemoryEventStoreInstance
-  SaveEvent = saveEvent inMemoryEventStoreInstance
-}
+let inMemoryEventStore () =
+  let eventStoreInstance = InMemoryEventStore.Instance
+  {
+    GetState = getState eventStoreInstance
+    SaveEvent = saveEvent eventStoreInstance
+  }
 
 let inMemoryQueries = {
   GetTables = getTables
   GetChefToDos = getChefToDos
   GetCashierToDos = getCashierToDos
-  GetState = inMemoryEventStore.GetState
 }
 
 let inMemoryValidationQueries = {
-  IsValidTableNumber = isValidTableNumber
+  GetTableByTableNumber = getTableByTableNumber
 }
 
 let inMemoryActions = {
