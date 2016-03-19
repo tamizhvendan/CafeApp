@@ -4,6 +4,7 @@ open System.Text
 open CommandHandlers
 open OpenTab
 open Queries
+open Chessie.ErrorHandling
 
 let handleCommandRequest validationQueries eventStore
   = function
@@ -11,4 +12,4 @@ let handleCommandRequest validationQueries eventStore
       validationQueries.GetTableByTableNumber
       |> openTabCommander
       |> handleCommand eventStore tab
-  | _ -> failwith "TODO"
+  | _ -> err "Invalid command" |> fail |> async.Return
