@@ -8,3 +8,4 @@ nuget Chessie
 nuget NEventStore
 nuget Suave
 nuget FSharp.Data
+nuget Rx-Main

@@ -10,34 +10,51 @@ open CommandApi
 open InMemory
 open System.Text
 open Chessie.ErrorHandling
+open Events
+open System.Reactive.Linq
+open System.Reactive.Subjects
+open System.Reactive.Concurrency
+open Projections
+
+let eventStream =
+  let subject = new Subject<Event>()
+  subject.ObserveOn(Scheduler.Default) |> ignore
+  subject
+
+let project event =
+  projectReadModel inMemoryActions event
+  |> Async.RunSynchronously |> ignore
+
+let commandApiHandler eventStore (context : HttpContext) = async {
+  let payload =
+    Encoding.UTF8.GetString context.request.rawForm
+  let! response =
+    handleCommandRequest
+      inMemoryValidationQueries eventStore payload
+  match response with
+  | Ok ((state,event), _) ->
+    eventStream.OnNext(event)
+    return! OK (sprintf "%A" state) context
+  | Bad (err) ->
+    return! BAD_REQUEST err.Head.Message context
+}
+
+let commandApi eventStore =
+  path "/command"
+    >=> POST
+    >=> commandApiHandler eventStore
 
 [<EntryPoint>]
 let main argv =
-
-  let commandApiHandler eventStore (context : HttpContext) = async {
-    let payload =
-      Encoding.UTF8.GetString context.request.rawForm
-    let! response =
-      handleCommandRequest
-        inMemoryValidationQueries eventStore payload
-    match response with
-    | Ok ((state,event), _) ->
-      return! OK (sprintf "%A" state) context
-    | Bad (err) ->
-      return! BAD_REQUEST err.Head.Message context
-  }
-
-  let commandApi eventStore =
-    path "/command"
-      >=> POST
-      >=> commandApiHandler eventStore
-
 
   let app =
     let eventStore = inMemoryEventStore ()
     choose [
       commandApi eventStore
     ]
+
+  use projectionSubscription =
+    eventStream.Subscribe project
 
   startWebServer defaultConfig app
   0
