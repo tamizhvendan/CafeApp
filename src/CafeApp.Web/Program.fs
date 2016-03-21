@@ -16,10 +16,9 @@ open System.Reactive.Subjects
 open System.Reactive.Concurrency
 open Projections
 
-let eventStream =
-  let subject = new Subject<Event>()
-  subject.ObserveOn(Scheduler.Default) |> ignore
-  subject
+let eventStream = new Subject<Event>()
+let asyncEventStream =
+  eventStream.ObserveOn(Scheduler.Default)
 
 let project event =
   projectReadModel inMemoryActions event
@@ -54,7 +53,7 @@ let main argv =
     ]
 
   use projectionSubscription =
-    eventStream.Subscribe project
+    asyncEventStream.Subscribe project
 
   startWebServer defaultConfig app
   0
