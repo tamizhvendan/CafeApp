@@ -12,4 +12,7 @@ type Queries = {
 
 type ValidationQueries = {
     GetTableByTableNumber : int -> Async<Table option>
+    GetFoodsByMenuNumbers : int[] -> Async<Choice<FoodItem list, int[]>>
+    GetDrinksByMenuNumbers : int[] -> Async<Choice<DrinksItem list, int[]>>
+    GetTableByTabId : Guid -> Async<Table option>
 }

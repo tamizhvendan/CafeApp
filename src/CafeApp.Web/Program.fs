@@ -24,6 +24,8 @@ let project event =
   projectReadModel inMemoryActions event
   |> Async.RunSynchronously |> ignore
 
+
+
 let commandApiHandler eventStore (context : HttpContext) = async {
   let payload =
     Encoding.UTF8.GetString context.request.rawForm
@@ -32,6 +34,7 @@ let commandApiHandler eventStore (context : HttpContext) = async {
       inMemoryValidationQueries eventStore payload
   match response with
   | Ok ((state,event), _) ->
+    do! eventStore.SaveEvent state event
     eventStream.OnNext(event)
     return! OK (sprintf "%A" state) context
   | Bad (err) ->

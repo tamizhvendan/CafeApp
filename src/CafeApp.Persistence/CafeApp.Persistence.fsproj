@@ -57,6 +57,7 @@
     <Compile Include="Chef.fs" />
     <Compile Include="Waiter.fs" />
     <Compile Include="Cashier.fs" />
+    <Compile Include="Items.fs" />
     <Compile Include="InMemory.fs" />
   </ItemGroup>
   <PropertyGroup>

@@ -5,6 +5,7 @@ open Waiter
 open Cashier
 open Projections
 open Queries
+open Items
 open EventStore
 open NEventStore
 
@@ -27,9 +28,16 @@ let inMemoryQueries = {
   GetCashierToDos = getCashierToDos
 }
 
-let inMemoryValidationQueries = {
-  GetTableByTableNumber = getTableByTableNumber
-}
+let inMemoryValidationQueries =
+  let getTableByTabId tabId =
+    getTableByTabId tabId |> async.Return
+
+  {
+    GetTableByTableNumber = getTableByTableNumber
+    GetTableByTabId = getTableByTabId
+    GetFoodsByMenuNumbers = getFoodsByMenuNumbers
+    GetDrinksByMenuNumbers = getDrinksByMenuNumbers
+  }
 
 let inMemoryActions = {
   Table = tableActions
