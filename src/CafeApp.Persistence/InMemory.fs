@@ -38,6 +38,7 @@ let inMemoryValidationQueries =
     GetFoodsByMenuNumbers = getFoodsByMenuNumbers
     GetDrinksByMenuNumbers = getDrinksByMenuNumbers
     GetDrinksByMenuNumber = getDrinksByMenuNumber
+    GetFoodByMenuNumber = getFoodByMenuNumber
   }
 
 let inMemoryActions = {

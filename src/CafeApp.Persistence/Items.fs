@@ -49,6 +49,9 @@ let getItem<'a> (dict : Dictionary<int,'a>) key =
 let getFoodsByMenuNumbers keys =
   getItems foodItems keys |> async.Return
 
+let getFoodByMenuNumber key =
+  getItem foodItems key |> async.Return
+
 let getDrinksByMenuNumbers keys =
   getItems drinksItems keys |> async.Return
 
