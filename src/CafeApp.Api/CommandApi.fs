@@ -5,6 +5,7 @@ open CommandHandlers
 open OpenTab
 open PlaceOrder
 open Queries
+open ServeDrinks
 open Chessie.ErrorHandling
 
 let handleCommandRequest validationQueries eventStore
@@ -16,4 +17,9 @@ let handleCommandRequest validationQueries eventStore
   | PlaceOrderRequest placeOrder ->
     placeOrderCommander validationQueries
     |> handleCommand eventStore placeOrder
+  | ServeDrinksRequest (tabId, drinksMenuNumber) ->
+    validationQueries.GetDrinksByMenuNumber
+    |> serveDrinksCommander
+        validationQueries.GetTableByTabId
+    |> handleCommand eventStore (tabId, drinksMenuNumber)
   | _ -> err "Invalid command" |> fail |> async.Return

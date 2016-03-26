@@ -40,8 +40,17 @@ let private getItems<'a> (dict : Dictionary<int,'a>) keys =
   else
     invalidKeys |> Choice2Of2
 
+let getItem<'a> (dict : Dictionary<int,'a>) key =
+  if dict.ContainsKey key then
+    dict.[key] |> Some
+  else
+    None
+
 let getFoodsByMenuNumbers keys =
   getItems foodItems keys |> async.Return
 
 let getDrinksByMenuNumbers keys =
   getItems drinksItems keys |> async.Return
+
+let getDrinksByMenuNumber key =
+  getItem drinksItems key |> async.Return
