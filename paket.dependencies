@@ -9,3 +9,4 @@ nuget NEventStore
 nuget Suave
 nuget FSharp.Data
 nuget Rx-Main
+nuget Newtonsoft.Json

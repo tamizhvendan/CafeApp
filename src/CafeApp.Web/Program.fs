@@ -15,6 +15,7 @@ open System.Reactive.Linq
 open System.Reactive.Subjects
 open System.Reactive.Concurrency
 open Projections
+open JsonFormatter
 
 let eventStream = new Subject<Event>()
 let asyncEventStream =
@@ -36,7 +37,8 @@ let commandApiHandler eventStore (context : HttpContext) = async {
   | Ok ((state,event), _) ->
     do! eventStore.SaveEvent state event
     eventStream.OnNext(event)
-    return! OK (sprintf "%A" state) context
+    //let jsonString = ((toJSON state).ToString())
+    return! toStateJson state context
   | Bad (err) ->
     return! BAD_REQUEST err.Head.Message context
 }

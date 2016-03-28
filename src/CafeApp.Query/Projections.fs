@@ -61,4 +61,5 @@ let projectReadModel actions = function
     actions.Cashier.Remove tabId
     actions.Waiter.Remove tabId
     actions.Chef.Remove tabId
+    actions.Table.CloseTab payment.Tab
   ] |> Async.Parallel
