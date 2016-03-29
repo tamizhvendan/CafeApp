@@ -18,6 +18,11 @@ let jArray jObjects =
   jObjects |> List.iter jArray.Add
   jArray
 
+let tabIdJObj tabId =
+  jobj [
+    "tabId" .= tabId
+  ]
+
 let tabJObj tab =
   jobj [
     "id" .= tab.Id
@@ -55,7 +60,7 @@ let stateJObj = function
   let state = "state" .= "ClosedTab"
   match tabId with
   | Some id ->
-    jobj [ state; "tabId" .= id.ToString() ]
+    jobj [ state; "data" .= tabIdJObj id ]
   | None -> jobj [state]
 | OpenedTab tab ->
   jobj [
