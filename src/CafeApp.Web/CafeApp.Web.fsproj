@@ -70,6 +70,7 @@
   <ItemGroup>
     <Compile Include="AssemblyInfo.fs" />
     <Compile Include="JsonFormatter.fs" />
+    <Compile Include="QueriesApi.fs" />
     <Compile Include="Program.fs" />
     <None Include="App.config" />
   </ItemGroup>

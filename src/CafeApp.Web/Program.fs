@@ -37,10 +37,9 @@ let commandApiHandler eventStore (context : HttpContext) = async {
   | Ok ((state,event), _) ->
     do! eventStore.SaveEvent state event
     eventStream.OnNext(event)
-    //let jsonString = ((toJSON state).ToString())
     return! toStateJson state context
   | Bad (err) ->
-    return! BAD_REQUEST err.Head.Message context
+    return! toErrorJson err.Head context
 }
 
 let commandApi eventStore =

@@ -5,6 +5,8 @@ open Suave.Operators
 open Newtonsoft.Json.Linq
 open Domain
 open States
+open CommandHandlers
+open Suave.RequestErrors
 
 let (.=) key (value : obj) = new JProperty(key, value)
 
@@ -83,12 +85,17 @@ let stateJObj = function
     "data" .= orderJObj order
   ]
 
-let JSON jsonString (context : HttpContext) = async {
+let JSON webpart jsonString (context : HttpContext) = async {
   let wp =
-    OK jsonString >=>
-      Writers.setMimeType "application/json; charset=utf-8"
+    webpart jsonString >=>
+      Writers.setMimeType
+        "application/json; charset=utf-8"
   return! wp context
 }
 
 let toStateJson state =
-  state |> stateJObj |> string |> JSON
+  state |> stateJObj |> string |> JSON OK
+
+let toErrorJson err =
+  jobj [ "error" .= err.Message]
+  |> string |> JSON BAD_REQUEST
