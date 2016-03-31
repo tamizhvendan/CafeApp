@@ -16,6 +16,7 @@ open System.Reactive.Subjects
 open System.Reactive.Concurrency
 open Projections
 open JsonFormatter
+open QueriesApi
 
 let eventStream = new Subject<Event>()
 let asyncEventStream =
@@ -54,6 +55,7 @@ let main argv =
     let eventStore = inMemoryEventStore ()
     choose [
       commandApi eventStore
+      queriesApi inMemoryQueries
     ]
 
   use projectionSubscription =

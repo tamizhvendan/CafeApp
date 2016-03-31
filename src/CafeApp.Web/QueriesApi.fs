@@ -11,7 +11,7 @@ let tables getTables (context : HttpContext) = async {
 }
 
 let queriesApi queries =
+  GET >=>
   choose [
-    GET >=> path "/tables"
-        >=> tables queries.GetTables
+     path "/tables" >=> tables queries.GetTables
   ]

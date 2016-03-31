@@ -7,6 +7,7 @@ open Domain
 open States
 open CommandHandlers
 open Suave.RequestErrors
+open ReadModel
 
 let (.=) key (value : obj) = new JProperty(key, value)
 
@@ -99,3 +100,25 @@ let toStateJson state =
 let toErrorJson err =
   jobj [ "error" .= err.Message]
   |> string |> JSON BAD_REQUEST
+
+let statusJObj = function
+| Open tabId ->
+  "status" .= jobj [
+                "open" .= tabId.ToString()
+              ]
+| _ -> "status" .= "closed"
+
+let tableJObj table =
+  jobj [
+    "number" .= table.Number
+    "waiter" .= table.Waiter
+    statusJObj table.Status
+  ]
+
+let toReadModelsJson toJObj key models =
+  models
+  |> List.map toJObj |> jArray
+  |> (.=) key |> List.singleton |> jobj
+  |> string |> JSON OK
+
+let toTablesJSON = toReadModelsJson tableJObj "tables"
