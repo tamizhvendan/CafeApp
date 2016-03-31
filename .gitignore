@@ -249,3 +249,7 @@ _Pvt_Extensions
 
 # F# Projekt
 .projekt/
+
+# Client
+client/public
+client/node_modules
