@@ -7,6 +7,7 @@ open System
 type Queries = {
   GetTables : unit -> Async<Table list>
   GetChefToDos : unit -> Async<ChefToDo list>
+  GetWaiterToDos : unit -> Async<WaiterToDo list>
   GetCashierToDos : unit -> Async<Payment list>
 }
 

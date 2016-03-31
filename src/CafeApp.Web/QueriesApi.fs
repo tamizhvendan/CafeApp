@@ -4,14 +4,36 @@ open Suave
 open Suave.Filters
 open Suave.Operators
 open JsonFormatter
+open EventStore
+open CommandHandlers
 
-let tables getTables (context : HttpContext) = async {
-  let! tables = getTables ()
-  return! toTablesJSON tables context
-}
+let readModels getReadModels wp (context : HttpContext) =
+  async {
+    let! models = getReadModels()
+    return! wp models context
+  }
 
-let queriesApi queries =
+let getState eventStore tabId (context : HttpContext) =
+  async {
+    match System.Guid.TryParse(tabId) with
+    | true, tabId ->
+      let! state = eventStore.GetState tabId
+      return! toStateJson state context
+    | _ ->
+      let err = {Message = "Invalid Tab Id" }
+      return! toErrorJson err context
+  }
+
+let queriesApi queries eventStore =
   GET >=>
   choose [
-     path "/tables" >=> tables queries.GetTables
+     path "/tables" >=>
+      readModels queries.GetTables toTablesJSON
+     path "/todos/chef" >=>
+      readModels queries.GetChefToDos toChefToDosJSON
+     path "/todos/waiter" >=>
+      readModels queries.GetWaiterToDos toWaiterToDosJSON
+     path "/todos/cashier" >=>
+      readModels queries.GetCashierToDos toCashierToDosJSON
+     pathScan "/state/%s" (getState eventStore)
   ]

@@ -26,6 +26,7 @@ let inMemoryQueries = {
   GetTables = getTables
   GetChefToDos = getChefToDos
   GetCashierToDos = getCashierToDos
+  GetWaiterToDos = getWaiterToDos
 }
 
 let inMemoryValidationQueries =

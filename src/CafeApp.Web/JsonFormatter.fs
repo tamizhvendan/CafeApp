@@ -122,3 +122,34 @@ let toReadModelsJson toJObj key models =
   |> string |> JSON OK
 
 let toTablesJSON = toReadModelsJson tableJObj "tables"
+
+let chefToDoJObj (todo : ChefToDo) =
+  jobj [
+    "tabId" .= todo.Tab.Id.ToString()
+    "tableNumber" .= todo.Tab.TableNumber
+    "foodItems" .= foodItemsJArray todo.FoodItems
+  ]
+
+let toChefToDosJSON =
+  toReadModelsJson chefToDoJObj "chefToDos"
+
+let waiterToDoJObj todo =
+  jobj [
+    "tabId" .= todo.Tab.Id.ToString()
+    "tableNumber" .= todo.Tab.TableNumber
+    "foodItems" .= foodItemsJArray todo.FoodItems
+    "drinksItems" .= drinksItemsJArray todo.DrinksItems
+  ]
+
+let toWaiterToDosJSON =
+  toReadModelsJson waiterToDoJObj "waiterToDos"
+
+let cashierToDoJObj (payment : Payment) =
+  jobj [
+    "tabId" .= payment.Tab.Id.ToString()
+    "tableNumber" .= payment.Tab.TableNumber
+    "paymentAmount" .= payment.Amount
+  ]
+
+let toCashierToDosJSON =
+  toReadModelsJson cashierToDoJObj "cashierToDos"

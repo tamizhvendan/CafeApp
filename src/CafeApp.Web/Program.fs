@@ -55,7 +55,7 @@ let main argv =
     let eventStore = inMemoryEventStore ()
     choose [
       commandApi eventStore
-      queriesApi inMemoryQueries
+      queriesApi inMemoryQueries eventStore
     ]
 
   use projectionSubscription =
