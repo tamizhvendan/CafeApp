@@ -1,6 +1,8 @@
 source https://nuget.org/api/v2
 
 nuget FAKE
+nuget Node.js
+nuget Npm.js
 nuget NUnit 2.6.4
 nuget NUnit.Runners 2.6.4
 nuget FsUnit

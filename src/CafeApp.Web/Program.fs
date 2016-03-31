@@ -21,6 +21,8 @@ open Suave.WebSocket
 open Suave.Sockets.Control
 open Suave.Sockets.SocketOp
 open AsyncHelpers
+open System.Reflection
+open System.IO
 
 let eventStream = new Subject<Event>()
 let asyncEventStream =
@@ -62,9 +64,13 @@ let commandApi eventStore =
     >=> POST
     >=> commandApiHandler eventStore
 
-[<EntryPoint>]
-let main argv =
+let clientDir =
+  let exePath = Assembly.GetEntryAssembly().Location
+  let exeDir = (new FileInfo(exePath)).Directory
+  Path.Combine(exeDir.FullName, "public")
 
+[<EntryPoint>]
+let main argv = 
   let app =
     let eventStore = inMemoryEventStore ()
     choose [
@@ -72,10 +78,14 @@ let main argv =
         handShake (socketOfObservable asyncEventStream)
       commandApi eventStore
       queriesApi inMemoryQueries eventStore
+      GET >=> choose [
+        path "/" >=> Files.browseFileHome "index.html"
+        Files.browseHome ]
     ]
 
   use projectionSubscription =
     asyncEventStream.Subscribe project
 
-  startWebServer defaultConfig app
+  let cfg = {defaultConfig with homeFolder = Some(clientDir)}
+  startWebServer cfg app
   0
