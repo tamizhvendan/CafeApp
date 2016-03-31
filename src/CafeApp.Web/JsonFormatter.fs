@@ -8,6 +8,7 @@ open States
 open CommandHandlers
 open Suave.RequestErrors
 open ReadModel
+open Events
 
 let (.=) key (value : obj) = new JProperty(key, value)
 
@@ -153,3 +154,48 @@ let cashierToDoJObj (payment : Payment) =
 
 let toCashierToDosJSON =
   toReadModelsJson cashierToDoJObj "cashierToDos"
+
+let eventJObj = function
+| TabOpened tab ->
+  jobj [
+    "event" .= "TabOpened"
+    "data" .= tabJObj tab
+  ]
+| OrderPlaced order ->
+  jobj [
+    "event" .= "OrderPlaced"
+    "data" .= orderJObj order
+  ]
+| DrinksServed (item, tabId) ->
+  jobj [
+    "event" .= "DrinksServed"
+    "data" .= jobj [
+      "drinks" .= drinksItemJObj item
+      "tabId" .= tabId
+    ]
+  ]
+| FoodPrepared (item,tabId) ->
+  jobj [
+    "event" .= "FoodPrepared"
+    "data" .= jobj [
+      "food" .= foodItemJObj item
+      "tabId" .= tabId
+    ]
+  ]
+| FoodServed (item, tabId) ->
+  jobj [
+    "event" .= "FoodServed"
+    "data" .= jobj [
+      "food" .= foodItemJObj item
+      "tabId" .= tabId
+    ]
+  ]
+| TabClosed payment ->
+  jobj [
+    "event" .= "TabClosed"
+    "data" .= jobj [
+      "amountPaid" .= payment.Amount
+      "tabId" .= payment.Tab.Id
+      "tableNumber" .= payment.Tab.TableNumber
+    ]
+  ]

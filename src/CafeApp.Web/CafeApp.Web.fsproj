@@ -68,6 +68,10 @@
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="..\..\paket-files\tpetricek\new-year-tweets-2016\async.fs">
+      <Paket>True</Paket>
+      <Link>paket-files/async.fs</Link>
+    </Compile>
     <Compile Include="AssemblyInfo.fs" />
     <Compile Include="JsonFormatter.fs" />
     <Compile Include="QueriesApi.fs" />

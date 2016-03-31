@@ -17,6 +17,10 @@ open System.Reactive.Concurrency
 open Projections
 open JsonFormatter
 open QueriesApi
+open Suave.WebSocket
+open Suave.Sockets.Control
+open Suave.Sockets.SocketOp
+open AsyncHelpers
 
 let eventStream = new Subject<Event>()
 let asyncEventStream =
@@ -27,6 +31,16 @@ let project event =
   |> Async.RunSynchronously |> ignore
 
 
+let socketOfObservable eventStream (ws : WebSocket) cx = socket {
+  while true do
+    let! event =
+      eventStream
+      |> Async.AwaitObservable
+      |> ofAsync
+    let eventData =
+      event |> eventJObj |> string |> Encoding.UTF8.GetBytes
+    do! ws.send Text eventData true
+}
 
 let commandApiHandler eventStore (context : HttpContext) = async {
   let payload =
@@ -54,6 +68,8 @@ let main argv =
   let app =
     let eventStore = inMemoryEventStore ()
     choose [
+      path "/websocket" >=>
+        handShake (socketOfObservable asyncEventStream)
       commandApi eventStore
       queriesApi inMemoryQueries eventStore
     ]
