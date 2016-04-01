@@ -16,6 +16,7 @@
     "html-webpack-plugin": "^2.15.0",
     "react": "^0.14.8",
     "react-dom": "^0.14.8",
+    "react-router": "^2.0.1",
     "webpack": "^1.12.14"
   }
 }
