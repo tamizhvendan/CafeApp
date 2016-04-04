@@ -1,7 +1,9 @@
 import React from 'react';
 import {Link} from 'react-router';
+import {Navbar, Nav} from 'react-bootstrap';
 
 class App extends React.Component {
+
   render () {
     return (
       <div>
@@ -11,7 +13,10 @@ class App extends React.Component {
           <li><Link to="customer">Customer</Link></li>
           <li><Link to="waiter">Waiter</Link> </li>
           <li><Link to="cashier">Cashier</Link></li>
-        </ul>        
+        </ul>
+        <div>
+          {this.props.children}
+        </div>
       </div>
     );
   }

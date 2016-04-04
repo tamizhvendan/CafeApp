@@ -7,8 +7,6 @@ import Cashier from './components/cashier.jsx'
 import Waiter from './components/waiter.jsx'
 import Chef from './components/chef.jsx'
 
-const root = document.createElement('div')
-document.body.appendChild(root)
 
 render((
   <Router history={browserHistory}>
@@ -20,4 +18,4 @@ render((
       <Route path="customer" component={Customer}/>
     </Route>
   </Router>
-), root)
+), document.getElementById("app"))

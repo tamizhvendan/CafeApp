@@ -21,7 +21,8 @@ var config = {
     ]
   },
   plugins: [new HtmlWebpackPlugin({
-    title : "CafeApp"
+    inject : true,
+    template : './index.html'
   })]
 };
 
