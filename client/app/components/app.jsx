@@ -7,7 +7,7 @@ class App extends React.Component {
   render () {
     return (
       <div>
-        <p> Hello Fsharp + React!</p>
+        <p> Hello Fsharp!</p>
         <ul>
           <li><Link to="chef">Chef</Link></li>
           <li><Link to="customer">Customer</Link></li>
