@@ -1,19 +1,13 @@
 import React from 'react';
 import {Link} from 'react-router';
-import {Navbar, Nav} from 'react-bootstrap';
+import AppNavBar from './appNavBar.jsx'
 
 class App extends React.Component {
 
   render () {
     return (
       <div>
-        <p> Hello Fsharp!</p>
-        <ul>
-          <li><Link to="chef">Chef</Link></li>
-          <li><Link to="customer">Customer</Link></li>
-          <li><Link to="waiter">Waiter</Link> </li>
-          <li><Link to="cashier">Cashier</Link></li>
-        </ul>
+        <AppNavBar />
         <div>
           {this.props.children}
         </div>
