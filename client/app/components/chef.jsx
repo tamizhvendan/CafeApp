@@ -1,8 +1,14 @@
 import React from 'react';
+import Item from './item.jsx';
 
 class Chef extends React.Component {
   render () {
-    return <p> Hello Chef!</p>;
+    return (
+        <div>
+          <p> Hello Chef!</p>
+          <Item item={{menuNumber: 8, name : "Salad"}}/>
+        </div>
+    )
   }
 }
 

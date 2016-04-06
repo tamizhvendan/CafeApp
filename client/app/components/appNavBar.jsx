@@ -5,7 +5,7 @@ import {LinkContainer, IndexLinkContainer} from 'react-router-bootstrap';
 
 var AppNavBar = (props) => {
   return(
-    <Navbar>
+    <Navbar static>
      <Navbar.Header>
        <Navbar.Brand>
          <Link to="/">CafeApp</Link>
