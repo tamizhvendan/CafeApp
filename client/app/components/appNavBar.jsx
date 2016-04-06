@@ -23,9 +23,6 @@ var AppNavBar = (props) => {
          <LinkContainer to={{pathname : "cashier"}}>
            <NavItem>Cashier</NavItem>
          </LinkContainer>
-         <IndexLinkContainer to="/">
-           <NavItem>Customer</NavItem>
-         </IndexLinkContainer>
        </Nav>
      </Navbar.Collapse>
    </Navbar>);
