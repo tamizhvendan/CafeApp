@@ -9,6 +9,8 @@ type Queries = {
   GetChefToDos : unit -> Async<ChefToDo list>
   GetWaiterToDos : unit -> Async<WaiterToDo list>
   GetCashierToDos : unit -> Async<Payment list>
+  GetFoodItems : unit -> Async<FoodItem list>
+  GetDrinksItems : unit -> Async<DrinksItem list>
 }
 
 type ValidationQueries = {

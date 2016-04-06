@@ -155,6 +155,12 @@ let cashierToDoJObj (payment : Payment) =
 let toCashierToDosJSON =
   toReadModelsJson cashierToDoJObj "cashierToDos"
 
+let toFoodItemsJSON =
+  toReadModelsJson foodItemJObj "foods"
+
+let toDrinksItemsJSON =
+  toReadModelsJson drinksItemJObj "drinks"
+
 let eventJObj = function
 | TabOpened tab ->
   jobj [

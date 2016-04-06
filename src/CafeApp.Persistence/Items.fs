@@ -57,3 +57,9 @@ let getDrinksByMenuNumbers keys =
 
 let getDrinksByMenuNumber key =
   getItem drinksItems key |> async.Return
+
+let getFoodItems () =
+  foodItems.Values |> Seq.toList |> async.Return
+
+let getDrinksItems () =
+  drinksItems.Values |> Seq.toList |> async.Return

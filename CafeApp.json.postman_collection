@@ -7,6 +7,8 @@
 		"6ee3d559-27cc-dfd8-1b8d-a38dd8306194",
 		"1ed85a33-b062-0d47-8ce4-1cfeedc5fcfd",
 		"cb198f82-5d08-6885-537b-9ea3c10bed3b",
+		"cdd02012-7a36-79cf-e1e5-6dc9c4b1f676",
+		"e857063e-e67a-9065-6009-d572b45399ff",
 		"8ac8782a-93aa-726e-e98c-bf1395c8e642",
 		"80857c82-8f3f-bbf6-2706-643ddbe4fde6",
 		"831e6f26-42cf-4398-35df-255c77ba8a52",
@@ -18,8 +20,8 @@
 	"folders": [],
 	"timestamp": 1456726216560,
 	"owner": 0,
+	"remoteLink": "",
 	"public": false,
-	"hasRequests": true,
 	"requests": [
 		{
 			"id": "17269a8f-5f04-a925-351a-1e627633ac48",
@@ -222,6 +224,26 @@
 			"responses": []
 		},
 		{
+			"id": "cdd02012-7a36-79cf-e1e5-6dc9c4b1f676",
+			"headers": "",
+			"url": "http://localhost:8083/foods",
+			"preRequestScript": "",
+			"pathVariables": {},
+			"method": "GET",
+			"data": [],
+			"dataMode": "raw",
+			"version": 2,
+			"tests": "",
+			"currentHelper": "normal",
+			"helperAttributes": {},
+			"time": 1459926516400,
+			"name": "List Foods",
+			"description": "",
+			"collectionId": "76751510-2e40-89c9-faaa-33407eef880c",
+			"responses": [],
+			"rawModeData": ""
+		},
+		{
 			"id": "d830dc05-1886-60c1-cf12-f80f74f1e95e",
 			"headers": "Content-Type: application/json\n",
 			"url": "http://localhost:8083/command",
@@ -241,6 +263,26 @@
 			"currentHelper": "normal",
 			"helperAttributes": {},
 			"rawModeData": "{    \n    \"prepareFood\" : {\n      \"tabId\" : \"e82f4e34-50ec-4781-a486-4ce319872816\",\n      \"menuNumber\" : 9\n    }\n}"
+		},
+		{
+			"id": "e857063e-e67a-9065-6009-d572b45399ff",
+			"headers": "",
+			"url": "http://localhost:8083/drinks",
+			"preRequestScript": "",
+			"pathVariables": {},
+			"method": "GET",
+			"data": [],
+			"dataMode": "raw",
+			"version": 2,
+			"tests": "",
+			"currentHelper": "normal",
+			"helperAttributes": {},
+			"time": 1459926550667,
+			"name": "List Drinks",
+			"description": "",
+			"collectionId": "76751510-2e40-89c9-faaa-33407eef880c",
+			"responses": [],
+			"rawModeData": ""
 		}
 	]
 }
