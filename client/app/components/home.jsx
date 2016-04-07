@@ -2,20 +2,31 @@ import React from 'react';
 import { connect } from 'react-redux';
 import axios from 'axios';
 import store from './../store.js'
-
-var Table = ({table}) => {
-  let status = table.status.open ? "open" : "closed"
-  return <p>{table.number}, {status}</p>
-}
+import Table from './table.jsx'
+import {Grid, Row, Col} from 'react-bootstrap';
 
 class Home extends React.Component {
-  render () {
-    var tables = this.props.tables.map(table => <Table table={table} key={table.number}/>);
 
+  onTableClick (tableNumber) {
+    console.log(tableNumber);
+  }
+
+  toTableView(table, handler) {
     return (
-      <div>
-        {tables}
-      </div>
+      <Col md={4} key={table.number}>
+        <Table table={table} onTableClick={handler}/>
+      </Col>
+    )
+  }
+
+  render () {
+    var tables = this.props.tables.map(table => this.toTableView(table, this.onTableClick));
+    return (
+      <Grid>
+        <Row>
+          {tables}
+        </Row>
+      </Grid>
     )
   }
 }

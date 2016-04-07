@@ -10,10 +10,10 @@ class Chef extends React.Component {
 
     var foodItems =
       foodItemsArray.length
-      ? foodItemsArray
+      ? foodItemsArrayear
         .reduce((a,b) => a.concat(b))
         .map(foodItem => <Item item={foodItem} key={foodItem.menuNumber} />)
-      : []     
+      : []
 
     return (
         <div>
