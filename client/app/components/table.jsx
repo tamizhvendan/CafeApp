@@ -7,14 +7,15 @@ class Table extends React.Component {
     this.props.onTableClick(this.props.table.number);
   }
 
-  statusView() {
-    return (
-      this.props.table.status.open
-      ? <Button bsSize="large" block active>In Use</Button>
-      : ( <Button bsStyle="primary" bsSize="large" block onClick={this.onTableClick.bind(this)}>
-            Take
-          </Button> )
-    )
+  getTableStatus(table) {
+    if (table.status.open) {
+      return <Button bsSize="large" block active disabled>Waiting for Order</Button>;
+    } else if (table.status.inService) {
+      return <Button bsSize="large" block active disabled>In Service</Button>;
+    }
+    return ( <Button bsStyle="primary" bsSize="large" block onClick={this.onTableClick.bind(this)}>
+          Take
+        </Button> )
   }
 
   render () {
@@ -22,7 +23,7 @@ class Table extends React.Component {
     return (
       <div className="well" style={{margin: '0 auto 10px'}}>
         <PageHeader>Table {this.props.table.number}</PageHeader>
-        {this.statusView()}
+        {this.getTableStatus(this.props.table)}
       </div>
     )
   }

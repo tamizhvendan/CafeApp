@@ -3,6 +3,7 @@ import Item from './item.jsx';
 import { connect } from 'react-redux';
 import axios from 'axios';
 import store from './../store.js'
+import {listChefToDos} from './../chef.js'
 
 class Chef extends React.Component {
   render () {
@@ -10,7 +11,7 @@ class Chef extends React.Component {
 
     var foodItems =
       foodItemsArray.length
-      ? foodItemsArrayear
+      ? foodItemsArray
         .reduce((a,b) => a.concat(b))
         .map(foodItem => <Item item={foodItem} key={foodItem.menuNumber} />)
       : []
@@ -26,10 +27,7 @@ class Chef extends React.Component {
 class ChefContainer extends React.Component {
   componentDidMount(){
     axios.get('/todos/chef').then(response => {
-      store.dispatch({
-        type : 'CHEF_TODO_LIST_SUCCESS',
-        chefToDos : response.data
-      });
+      store.dispatch(listChefToDos(response.data));
     });
   }
 

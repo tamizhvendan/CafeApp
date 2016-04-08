@@ -7,7 +7,17 @@ import Cashier from './components/cashier.jsx'
 import Waiter from './components/waiter.jsx'
 import Chef from './components/chef.jsx'
 import { Provider } from 'react-redux';
+import CafeAppWS from './websocket.js';
 import store from './store';
+
+function dispatcher (event) {
+  store.dispatch({
+    type : event.event,
+    data : event.data
+  })
+}
+
+let ws = new CafeAppWS("ws://localhost:8083/websocket", dispatcher)
 
 const router = (
   <Router history={browserHistory}>

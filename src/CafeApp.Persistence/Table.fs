@@ -19,18 +19,19 @@ let private openTab tab =
 
 let getTableByTabId tabId =
   tables.Values
-  |> Seq.tryFind(fun t ->
-                  match t.Status with
-                  | (Open id) -> id = tabId
-                  | _ -> false)
+  |> Seq.tryFind(
+      fun t ->
+        match t.Status with
+        | (Open id) | (InService id) -> id = tabId
+        | _ -> false)
 
 let private receivedOrder tabId =
   match getTableByTabId tabId with
   | Some table ->
     let tableNumber = table.Number
     tables.[tableNumber] <- {table with Status = InService(tabId)}
-    async.Return ()
-  | None -> async.Return()
+  | None -> ()
+  async.Return ()
 
 let private closeTab tab =
   let tableNumber = tab.TableNumber

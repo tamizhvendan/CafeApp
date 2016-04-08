@@ -1,0 +1,1 @@
+export const TabOpened = "TabOpened"

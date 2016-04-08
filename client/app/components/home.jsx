@@ -3,13 +3,10 @@ import { connect } from 'react-redux';
 import axios from 'axios';
 import store from './../store.js'
 import Table from './table.jsx'
+import {listTables} from './../table.js'
 import {Grid, Row, Col} from 'react-bootstrap';
 
 class Home extends React.Component {
-
-  onTableClick (tableNumber) {
-    console.log(tableNumber);
-  }
 
   toTableView(table, handler) {
     return (
@@ -20,7 +17,7 @@ class Home extends React.Component {
   }
 
   render () {
-    var tables = this.props.tables.map(table => this.toTableView(table, this.onTableClick));
+    var tables = this.props.tables.map(table => this.toTableView(table, this.props.onTableClick));
     return (
       <Grid>
         <Row>
@@ -34,15 +31,20 @@ class Home extends React.Component {
 class HomeContainer extends React.Component {
   componentDidMount(){
     axios.get('/tables').then(response => {
-      store.dispatch({
-        type : 'TABLE_LIST_SUCCESS',
-        tables : response.data
-      });
+      store.dispatch(listTables(response.data));
+    });
+  }
+
+  openTab(tableNumber) {
+    axios.post('/command', {
+      openTab : {
+        tableNumber
+      }
     });
   }
 
   render () {
-    return <Home tables={this.props.tables} />;
+    return <Home tables={this.props.tables} onTableClick={this.openTab} />;
   }
 }
 
