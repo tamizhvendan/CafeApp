@@ -2,7 +2,10 @@ module ReadModel
 open System
 open Domain
 
-type TableStatus = Open of Guid | Closed
+type TableStatus =
+| Open of Guid
+| InService of Guid
+| Closed
 
 type Table = {
   Number : int

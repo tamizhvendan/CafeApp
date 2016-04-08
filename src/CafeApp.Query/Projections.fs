@@ -5,6 +5,7 @@ open System
 
 type TableActions = {
   OpenTab : Tab -> Async<unit>
+  ReceivedOrder : Guid -> Async<unit>
   CloseTab : Tab -> Async<unit>
 }
 
@@ -40,6 +41,7 @@ let projectReadModel actions = function
 | OrderPlaced order ->
   let tabId = order.TabId
   [
+    actions.Table.ReceivedOrder order.TabId
     actions.Cashier.AddTabAmount order.TabId (orderAmount order)
     actions.Chef.AddFoodItemsToPrepare tabId order.FoodItems
     actions.Waiter.AddDrinksToServe tabId order.DrinksItems

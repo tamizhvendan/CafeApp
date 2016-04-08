@@ -107,7 +107,11 @@ let statusJObj = function
   "status" .= jobj [
                 "open" .= tabId.ToString()
               ]
-| _ -> "status" .= "closed"
+| InService tabId ->
+  "status" .= jobj [
+                "inService" .= tabId.ToString()
+              ]
+| Closed -> "status" .= "closed"
 
 let tableJObj table =
   jobj [

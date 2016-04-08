@@ -30,7 +30,7 @@ let validateOpenTab getTableByTableNumber tab = async {
   | Some table ->
     match table.Status with
     | Closed -> return Choice1Of2 tab
-    | Open tabId -> return Choice2Of2 "Table already opened"
+    | Open _ | InService _ -> return Choice2Of2 "Table already opened"
   | _ ->
     return Choice2Of2 "Invalid Table Number"
 }
