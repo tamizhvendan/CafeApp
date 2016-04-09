@@ -4,42 +4,66 @@ import { connect } from 'react-redux';
 import axios from 'axios';
 import store from './../store.js'
 import {listChefToDos} from './../chef.js'
+import {Grid, Row, Col, Panel} from 'react-bootstrap';
 
-class Chef extends React.Component {
-  render () {
-    var foodItemsArray = this.props.chefToDos.map(chefToDo => chefToDo.foodItems)
 
-    var foodItems =
-      foodItemsArray.length
-      ? foodItemsArray
-        .reduce((a,b) => a.concat(b))
-        .map(foodItem => <Item item={foodItem} key={foodItem.menuNumber} />)
-      : []
+class ChefToDo extends React.Component {
+  onFoodPrepared(menuNumber) {
+    this.props.onFoodPrepared(this.props.chefToDo.tabId, menuNumber)
+  }
 
-    return (
-        <div>
+  render() {
+    let chefToDo = this.props.chefToDo;
+    let panelTitle = `Table Number ${chefToDo.tableNumber}`;
+    let foodItems =
+      chefToDo.foodItems.map(foodItem =>
+                                (<Item item={foodItem}
+                                    buttonLabel="Mark Prepared"
+                                    onItemClick={this.onFoodPrepared.bind(this)}
+                                    key={foodItem.menuNumber}/>))
+    return(
+      <Col md={4}>
+        <Panel header={panelTitle} bsStyle="primary">
           {foodItems}
-        </div>
-    )
+        </Panel>
+      </Col>
+    );
   }
 }
 
-class ChefContainer extends React.Component {
+class Chef extends React.Component {
   componentDidMount(){
     axios.get('/todos/chef').then(response => {
       store.dispatch(listChefToDos(response.data));
     });
   }
 
+  onFoodPrepared(tabId, menuNumber){
+    axios.post('/command', {
+      prepareFood : {
+        tabId,
+        menuNumber
+      }
+    })
+  }
+
   render () {
-    return <Chef chefToDos={this.props.chefToDos} />;
+    let todos =
+      this.props.chefToDos.map(chefToDo => <ChefToDo
+                                              key={chefToDo.tabId}
+                                              chefToDo={chefToDo}
+                                              onFoodPrepared={this.onFoodPrepared}/>)
+    return (
+        <Grid>
+          <Row>{todos}</Row>
+        </Grid>
+    )
   }
 }
-
 const mapStateToProps = function(store) {
   return {
     chefToDos: store.chefToDosState.chefToDos
   };
 }
 
-export default connect(mapStateToProps)(ChefContainer)
+export default connect(mapStateToProps)(Chef)
