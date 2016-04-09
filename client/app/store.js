@@ -1,10 +1,11 @@
 import { createStore, combineReducers } from 'redux';
-import {tablesReducer} from './table.js';
+import {tablesReducer, openTablesReducer} from './table.js';
 import {chefToDosReducer} from './chef.js';
 import {drinksReducer, foodsReducer} from './items.js';
 
 const reducers = combineReducers({
   tablesState : tablesReducer,
+  openTablesState : openTablesReducer,
   chefToDosState : chefToDosReducer,
   foodsState : foodsReducer,
   drinksState : drinksReducer

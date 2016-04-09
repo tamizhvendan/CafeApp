@@ -5,12 +5,24 @@ const initialTablesState = {
   tables : []
 }
 
+const initialOpenTablesState = {
+  openTables : []
+}
+
 const TableListSuccess = "TABLE_LIST_SUCCESS"
+const OpenTablesListSuccess = "OPEN_TABLES_LIST_SUCCESS"
 
 export function listTables (tables) {
   return {
     type : TableListSuccess,
     tables : tables
+  }
+}
+
+export function listOpenTables(openTables) {
+  return {
+    type : OpenTablesListSuccess,
+    openTables : openTables
   }
 }
 
@@ -35,4 +47,14 @@ export function tablesReducer (state = initialTablesState, action) {
   }
 
   return state;
+}
+
+export function openTablesReducer(state = initialOpenTablesState, action) {
+  if (action.type === OpenTablesListSuccess) {
+    return action.openTables
+  }
+  if (action.type === TabOpened) {
+    return {openTables : state.openTables.concat({tableNumber: action.data.tableNumber, tabId: action.data.id})};
+  }
+  return state
 }
