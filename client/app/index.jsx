@@ -6,6 +6,7 @@ import Home from './components/home.jsx'
 import Cashier from './components/cashier.jsx'
 import Waiter from './components/waiter.jsx'
 import Chef from './components/chef.jsx'
+import Orders from './components/orders.jsx'
 import { Provider } from 'react-redux';
 import CafeAppWS from './websocket.js';
 import store from './store';
@@ -26,6 +27,7 @@ const router = (
       <Route path="cashier" component={Cashier}/>
       <Route path="chef" component={Chef}/>
       <Route path="waiter" component={Waiter}/>
+      <Route path="orders" component={Orders}/>
     </Route>
   </Router>
 );
