@@ -67,5 +67,8 @@ export function openTablesReducer(state = initialOpenTablesState, action) {
   if (action.type === TabOpened) {
     return {openTables : state.openTables.concat({tableNumber: action.data.tableNumber, tabId: action.data.id})};
   }
+  if (action.type === OrderPlaced) {
+    return {openTables : state.openTables.filter(table => table.tabId != action.data.tabId)}
+  }
   return state
 }
