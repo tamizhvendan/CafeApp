@@ -12,19 +12,31 @@ class WaiterToDo extends React.Component {
     this.props.onFoodServed(this.props.waiterToDo.tabId, menuNumber)
   }
 
+  onDrinksServed(menuNumber) {
+    this.props.onDrinksServed(this.props.waiterToDo.tabId, menuNumber)
+  }
+
+  toItemView(item, handler) {
+    return (<Item item={item}
+              buttonLabel="Mark Served"
+              onItemClick={handler}
+              key={item.menuNumber} />);
+  }
+
   render() {
     let waiterToDo = this.props.waiterToDo;
     let panelTitle = `Table Number ${waiterToDo.tableNumber}`;
     let foodItems =
-      waiterToDo.foodItems.map(foodItem =>
-                                (<Item item={foodItem}
-                                    buttonLabel="Mark Served"
-                                    onItemClick={this.onFoodServed.bind(this)}
-                                    key={foodItem.menuNumber}/>))
+      waiterToDo.foodItems.map(item => this.toItemView(item, this.onFoodServed.bind(this)));
+    let drinksItems =
+      waiterToDo.drinksItems.map(item => this.toItemView(item, this.onDrinksServed.bind(this)));
+
+
     return(
       <Col md={4}>
         <Panel header={panelTitle} bsStyle="primary">
           {foodItems}
+          {drinksItems}
         </Panel>
       </Col>
     );
@@ -47,12 +59,22 @@ class Waiter extends React.Component {
     })
   }
 
+  onDrinksServed(tabId, menuNumber){
+    axios.post('/command', {
+      serveDrinks : {
+        tabId,
+        menuNumber
+      }
+    })
+  }
+
   render () {
     let todos =
       this.props.waiterToDos.map(waiterToDo => <WaiterToDo
                                               key={waiterToDo.tabId}
                                               waiterToDo={waiterToDo}
-                                              onFoodServed={this.onFoodServed}/>)
+                                              onFoodServed={this.onFoodServed}
+                                              onDrinksServed={this.onDrinksServed}/>)
     return (
         <Grid>
           <Row>{todos}</Row>
