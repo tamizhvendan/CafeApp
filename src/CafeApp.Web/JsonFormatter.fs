@@ -44,16 +44,18 @@ let foodItemsJArray foodItems =
 let drinksItemsJArray drinksItems =
   drinksItems |> List.map drinksItemJObj |> jArray
 
-let orderJObj order =
+let orderJObj (order : Order) =
   jobj [
-    "tabId" .= order.TabId
+    "tabId" .= order.Tab.Id
+    "tableNumber" .= order.Tab.TableNumber
     "foodItems" .= foodItemsJArray order.FoodItems
     "drinksItems" .= drinksItemsJArray order.DrinksItems
   ]
 
 let orderInProgressJObj ipo =
   jobj [
-    "tabId" .=  ipo.PlacedOrder.TabId.ToString()
+    "tabId" .=  ipo.PlacedOrder.Tab.Id
+    "tableNumber" .= ipo.PlacedOrder.Tab.TableNumber
     "preparedFoods" .= foodItemsJArray ipo.PreparedFoods
     "servedFoods" .= foodItemsJArray ipo.ServedFoods
     "servedDrinks" .= drinksItemsJArray ipo.ServedDrinks

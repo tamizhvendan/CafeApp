@@ -17,27 +17,27 @@ let ``Can Prepare Food`` () =
       PreparedFoods = [salad]
       ServedFoods = []}
   Given (PlacedOrder order)
-  |> When (PrepareFood (salad,order.TabId))
+  |> When (PrepareFood (salad,order.Tab.Id))
   |> ThenStateShouldBe (OrderInProgress expected)
-  |> WithEvent (FoodPrepared (salad, order.TabId))
+  |> WithEvent (FoodPrepared (salad, order.Tab.Id))
 
 [<Test>]
 let ``Can not prepare a non-ordered food`` () =
   let order = {order with FoodItems = [pizza]}
   Given (PlacedOrder order)
-  |> When (PrepareFood (salad, order.TabId))
+  |> When (PrepareFood (salad, order.Tab.Id))
   |> ShouldFailWith (CanNotPrepareNonOrderedFood salad)
 
 [<Test>]
 let ``Can not prepare a food for served order`` () =
   Given (OrderServed order)
-  |> When (PrepareFood (pizza, order.TabId))
+  |> When (PrepareFood (pizza, order.Tab.Id))
   |> ShouldFailWith OrderAlreadyServed
 
 [<Test>]
 let ``Can not prepare with closed tab`` () =
   Given (ClosedTab None)
-  |> When (PrepareFood (salad, order.TabId))
+  |> When (PrepareFood (salad, order.Tab.Id))
   |> ShouldFailWith CanNotPrepareWithClosedTab
 
 [<Test>]
@@ -52,9 +52,9 @@ let ``Can prepare food during order in progress`` () =
   let expected = {orderInProgress with PreparedFoods = [salad;pizza]}
 
   Given (OrderInProgress orderInProgress)
-  |> When (PrepareFood (salad, order.TabId))
+  |> When (PrepareFood (salad, order.Tab.Id))
   |> ThenStateShouldBe (OrderInProgress expected)
-  |> WithEvent (FoodPrepared (salad, order.TabId))
+  |> WithEvent (FoodPrepared (salad, order.Tab.Id))
 
 [<Test>]
 let ``Can not prepare non-ordered food during order in progress`` () =
@@ -67,7 +67,7 @@ let ``Can not prepare non-ordered food during order in progress`` () =
   }
 
   Given (OrderInProgress orderInProgress)
-  |> When (PrepareFood (pizza, order.TabId))
+  |> When (PrepareFood (pizza, order.Tab.Id))
   |> ShouldFailWith (CanNotPrepareNonOrderedFood pizza)
 
 [<Test>]
@@ -81,5 +81,5 @@ let ``Can not prepare already prepared food during order in progress`` () =
   }
 
   Given (OrderInProgress orderInProgress)
-  |> When (PrepareFood (salad, order.TabId))
+  |> When (PrepareFood (salad, order.Tab.Id))
   |> ShouldFailWith (CanNotPrepareAlreadyPreparedFood salad)

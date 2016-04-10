@@ -1,4 +1,3 @@
-
 module Commands
 open Domain
 open System

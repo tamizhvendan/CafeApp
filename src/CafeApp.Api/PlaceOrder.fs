@@ -30,7 +30,7 @@ let validateTabId getTableByTabId (tabId, drinks, foods)  =
 let validatePlaceOrder queries (c : PlaceOrderReq.PlaceOrder) = async {
   let! table = queries.GetTableByTabId c.TabId
   match table with
-  | Some _ ->
+  | Some table ->
       let! foodItems =
         queries.GetFoodsByMenuNumbers c.FoodMenuNumbers
       let! drinksItems =
@@ -43,7 +43,8 @@ let validatePlaceOrder queries (c : PlaceOrderReq.PlaceOrder) = async {
             let msg = "Order Should Contain atleast 1 food or drinks"
             return Choice2Of2 msg
           else
-            return Choice1Of2 (c.TabId, drinks, foods)
+            let tab = {Id = c.TabId; TableNumber = table.Number}
+            return Choice1Of2 (tab, drinks, foods)
       | Choice2Of2 fkeys, Choice2Of2 dkeys ->
           let msg =
             sprintf "Invalid Food Keys : %A, Invalid Drinks Keys %A"
@@ -58,9 +59,9 @@ let validatePlaceOrder queries (c : PlaceOrderReq.PlaceOrder) = async {
     | _ -> return Choice2Of2 "Invalid Tab Id"
   }
 
-let toPlaceOrderCommand (tabId, drinks, foods) =
+let toPlaceOrderCommand (tab, drinks, foods) =
   {
-    TabId = tabId
+    Tab = tab
     FoodItems = foods
     DrinksItems = drinks
   }

@@ -20,9 +20,9 @@ let ``Can Complete the order by serving food`` () =
   }
 
   Given (OrderInProgress orderInProgress)
-  |> When (ServeFood (salad, order.TabId))
+  |> When (ServeFood (salad, order.Tab.Id))
   |> ThenStateShouldBe (OrderServed order)
-  |> WithEvent (FoodServed (salad, order.TabId))
+  |> WithEvent (FoodServed (salad, order.Tab.Id))
 
 [<Test>]
 let ``Can maintain the order in progress state by serving food`` () =
@@ -36,9 +36,9 @@ let ``Can maintain the order in progress state by serving food`` () =
   let expected = {orderInProgress with ServedFoods = [salad]}
 
   Given (OrderInProgress orderInProgress)
-  |> When (ServeFood (salad, order.TabId))
+  |> When (ServeFood (salad, order.Tab.Id))
   |> ThenStateShouldBe (OrderInProgress expected)
-  |> WithEvent (FoodServed (salad, order.TabId))
+  |> WithEvent (FoodServed (salad, order.Tab.Id))
 
 [<Test>]
 let ``Can serve only prepared food`` () =
@@ -51,7 +51,7 @@ let ``Can serve only prepared food`` () =
   }
 
   Given (OrderInProgress orderInProgress)
-  |> When (ServeFood (pizza, order.TabId))
+  |> When (ServeFood (pizza, order.Tab.Id))
   |> ShouldFailWith (CanNotServeNonPreparedFood pizza)
 
 [<Test>]
@@ -65,7 +65,7 @@ let ``Can not serve non-ordered food`` () =
   }
 
   Given (OrderInProgress orderInProgress)
-  |> When (ServeFood (pizza, order.TabId))
+  |> When (ServeFood (pizza, order.Tab.Id))
   |> ShouldFailWith (CanNotServeNonOrderedFood pizza)
 
 [<Test>]
@@ -79,29 +79,29 @@ let ``Can not serve already served food`` () =
   }
 
   Given (OrderInProgress orderInProgress)
-  |> When (ServeFood (salad, order.TabId))
+  |> When (ServeFood (salad, order.Tab.Id))
   |> ShouldFailWith (CanNotServeAlreadyServedFood salad)
 
 [<Test>]
 let ``Can not serve for placed order`` () =
   Given (PlacedOrder order)
-  |> When (ServeFood (salad, order.TabId))
+  |> When (ServeFood (salad, order.Tab.Id))
   |> ShouldFailWith (CanNotServeNonPreparedFood salad)
 
 [<Test>]
 let ``Can not serve for non placed order`` () =
   Given (OpenedTab tab)
-  |> When (ServeFood (salad, order.TabId))
+  |> When (ServeFood (salad, order.Tab.Id))
   |> ShouldFailWith CanNotServeForNonPlacedOrder
 
 [<Test>]
 let ``Can not serve for already served order`` () =
   Given (OrderServed order)
-  |> When (ServeFood (salad, order.TabId))
+  |> When (ServeFood (salad, order.Tab.Id))
   |> ShouldFailWith OrderAlreadyServed
 
 [<Test>]
 let ``Can not serve with closed tab`` () =
   Given (ClosedTab None)
-  |> When (ServeFood (salad, order.TabId))
+  |> When (ServeFood (salad, order.Tab.Id))
   |> ShouldFailWith CanNotServeWithClosedTab

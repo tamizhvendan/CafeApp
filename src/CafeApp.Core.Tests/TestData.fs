@@ -16,7 +16,7 @@ let appleJuice = DrinksItem {
             Name = "Apple Juice"
             Price = 3.5m}
 let order = {
-  TabId = tab.Id
+  Tab = tab
   FoodItems = []
   DrinksItems = []
 }

@@ -23,7 +23,7 @@ type Payment = {
 type Order = {
   FoodItems : FoodItem list
   DrinksItems : DrinksItem list
-  TabId : Guid
+  Tab : Tab
 }
 
 type InProgressOrder = {

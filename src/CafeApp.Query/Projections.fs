@@ -39,10 +39,10 @@ let projectReadModel actions = function
 | TabOpened tab ->
   [actions.Table.OpenTab tab] |> Async.Parallel
 | OrderPlaced order ->
-  let tabId = order.TabId
+  let tabId = order.Tab.Id
   [
-    actions.Table.ReceivedOrder order.TabId
-    actions.Cashier.AddTabAmount order.TabId (orderAmount order)
+    actions.Table.ReceivedOrder tabId
+    actions.Cashier.AddTabAmount tabId (orderAmount order)
     actions.Chef.AddFoodItemsToPrepare tabId order.FoodItems
     actions.Waiter.AddDrinksToServe tabId order.DrinksItems
   ] |> Async.Parallel
