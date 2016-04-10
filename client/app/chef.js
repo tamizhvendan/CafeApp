@@ -1,4 +1,5 @@
-import {OrderPlaced} from './events.js'
+import {OrderPlaced, FoodPrepared} from './events.js';
+import update from 'react-addons-update';
 
 const intialChefTodosState = {
   chefToDos : []
@@ -25,6 +26,17 @@ export function chefToDosReducer (state = intialChefTodosState, action) {
       foodItems : order.foodItems
     }
     return {chefToDos : state.chefToDos.concat(chefToDo)}
+  }
+  if (action.type === FoodPrepared) {
+    let chefToDos = state.chefToDos.map(chefToDo => {
+      if (chefToDo.tabId === action.data.tabId) {
+        let foodItems = chefToDo.foodItems.filter(foodItem =>
+                            foodItem.menuNumber !== action.data.food.menuNumber)
+        return update(chefToDo, {foodItems : {$set : foodItems}})
+      }
+      return chefToDo;
+    })
+    return {chefToDos}
   }
   return state;
 }
