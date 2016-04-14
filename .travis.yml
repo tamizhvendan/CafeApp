@@ -1,0 +1,5 @@
+language: fsharp
+script:
+  - ./build.sh
+mono:
+  - latest
