@@ -13,7 +13,6 @@ then # For Windows
     fi
     packages/FAKE/tools/FAKE.exe $@ --fsiargs build.fsx
 else # For NonWindows
-    which npm
     mono .paket/paket.bootstrapper.exe
     exit_code=$?
     if [ $exit_code -ne 0 ]; then
@@ -24,5 +23,7 @@ else # For NonWindows
     if [ $exit_code -ne 0 ]; then
     	exit $exit_code
     fi
+    # For travis-ci
+    export NPM_PATH=$(which npm)
     mono packages/FAKE/tools/FAKE.exe $@ --fsiargs -d:MONO build.fsx
 fi
