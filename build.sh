@@ -24,6 +24,6 @@ else # For NonWindows
     	exit $exit_code
     fi
     # For travis-ci
-    export NPM_PATH=$(which npm)
+    export NPM_FILE_PATH=$(which npm)
     mono packages/FAKE/tools/FAKE.exe $@ --fsiargs -d:MONO build.fsx
 fi
