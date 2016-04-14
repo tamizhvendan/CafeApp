@@ -18,7 +18,7 @@ function dispatcher (event) {
   })
 }
 
-let ws = new CafeAppWS("ws://0.0.0.0:8083/websocket", dispatcher)
+let ws = new CafeAppWS(`ws://${window.location.hostname}:${window.location.port}/websocket`, dispatcher)
 
 const router = (
   <Router history={browserHistory}>
