@@ -13,6 +13,7 @@ then # For Windows
     fi
     packages/FAKE/tools/FAKE.exe $@ --fsiargs build.fsx
 else # For NonWindows
+    which npm
     mono .paket/paket.bootstrapper.exe
     exit_code=$?
     if [ $exit_code -ne 0 ]; then
