@@ -1,3 +1,5 @@
+import {TabClosed} from './events.js';
+
 const initialCashierToDosSate = {
   cashierToDos : []
 }
@@ -14,6 +16,10 @@ export function listCashierToDos(cashierToDos){
 export function cashierToDosReducer(state = initialCashierToDosSate, action) {
   if (action.type === CashierToDoListSuccess) {
     return action.cashierToDos;
+  }
+  if (action.type === TabClosed) {
+    let cashierToDos = state.cashierToDos.filter(todo => todo.tabId !== action.data.tabId)
+    return {cashierToDos};
   }
   return state;
 }

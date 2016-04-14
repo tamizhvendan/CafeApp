@@ -4,7 +4,7 @@ import { connect } from 'react-redux';
 import axios from 'axios';
 import store from './../store.js'
 import {listChefToDos} from './../chef.js'
-import {Grid, Row, Col, Panel} from 'react-bootstrap';
+import {Grid, Row, Col, Panel, Alert} from 'react-bootstrap';
 
 
 class ChefToDo extends React.Component {
@@ -53,11 +53,13 @@ class Chef extends React.Component {
                                               key={chefToDo.tabId}
                                               chefToDo={chefToDo}
                                               onFoodPrepared={this.onFoodPrepared}/>)
-    return (
-        <Grid>
-          <Row>{todos}</Row>
-        </Grid>
-    )
+
+    let view =
+      todos.length
+      ? <Grid><Row>{todos}</Row></Grid>
+      : <Alert bsStyle="warning">No Foods Available For Preparation</Alert>
+
+    return view;
   }
 }
 const mapStateToProps = function(store) {

@@ -1,6 +1,6 @@
 import React from 'react';
 import axios from 'axios';
-import {Grid, Row, Col, Panel, Well,Label, Button} from 'react-bootstrap';
+import {Grid, Row, Col, Panel, Well,Label, Button, Alert} from 'react-bootstrap';
 import {connect} from 'react-redux';
 import {listCashierToDos} from './../cashier.js';
 import store from './../store.js'
@@ -61,11 +61,13 @@ class Cashier extends React.Component {
                                                       key={todo.tabId}
                                                       cashierToDo={todo}
                                                       onPaymentClick={this.onPaymentClick}/>));
-    return (
-      <Grid>
-        <Row>{todos}</Row>
-      </Grid>
-    )
+
+    let view =
+      todos.length
+      ? <Grid><Row>{todos}</Row></Grid>
+      : <Alert bsStyle="warning">No Payments Available</Alert>
+
+    return view;
   }
 }
 

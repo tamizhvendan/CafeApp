@@ -4,7 +4,7 @@ import { connect } from 'react-redux';
 import axios from 'axios';
 import store from './../store.js'
 import {listWaiterToDos} from './../waiter.js'
-import {Grid, Row, Col, Panel} from 'react-bootstrap';
+import {Grid, Row, Col, Panel, Alert} from 'react-bootstrap';
 
 
 class WaiterToDo extends React.Component {
@@ -75,11 +75,12 @@ class Waiter extends React.Component {
                                               waiterToDo={waiterToDo}
                                               onFoodServed={this.onFoodServed}
                                               onDrinksServed={this.onDrinksServed}/>)
-    return (
-        <Grid>
-          <Row>{todos}</Row>
-        </Grid>
-    )
+    let view =
+      todos.length
+      ? <Grid><Row>{todos}</Row></Grid>
+      : <Alert bsStyle="warning">No Items Available For Serving</Alert>
+
+    return view;
   }
 }
 const mapStateToProps = function(store) {

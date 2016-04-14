@@ -1,6 +1,6 @@
 import React from 'react';
 import {connect} from 'react-redux';
-import {Grid, Row, Col, ButtonInput, Input, PageHeader} from 'react-bootstrap';
+import {Grid, Row, Col, ButtonInput, Input, PageHeader, Alert} from 'react-bootstrap';
 import axios from 'axios';
 import store from './../store.js';
 import {listOpenTables} from './../table.js';
@@ -73,12 +73,13 @@ class OrdersPage extends React.Component {
                       foods={this.props.foods}
                       drinks={this.props.drinks}
                       placeOrder={this.placeOrder}/>)
-      return (
-        <Grid>
-          <Row>
-            {orders}
-          </Row>
-        </Grid>);
+
+    let view =
+      orders.length
+      ? <Grid><Row>{orders}</Row></Grid>
+      : <Alert bsStyle="warning">No Pending Orders</Alert>
+
+    return view;
   }
 }
 

@@ -1,4 +1,4 @@
-import {TabOpened, OrderPlaced} from './events.js';
+import {TabOpened, OrderPlaced, TabClosed} from './events.js';
 import update from 'react-addons-update';
 
 const initialTablesState = {
@@ -36,7 +36,7 @@ function changeTableStatusByNumber(tables, tableNumber, newStatus){
 
 function changeTableStatusByTabId(tables, tabId, newStatus){
   return tables.map(table => {
-              if (table.status.open === tabId) {
+              if (table.status.open === tabId || table.status.inService === tabId) {
                 return update(table, {status : {$set : newStatus}})
               }
               return table;});
@@ -53,6 +53,11 @@ export function tablesReducer (state = initialTablesState, action) {
   }
   if (action.type === OrderPlaced) {
     let newStatus = {inService: action.data.tabId};
+    let tables = changeTableStatusByTabId(state.tables, action.data.tabId, newStatus)
+    return {tables}
+  }
+  if (action.type === TabClosed) {
+    let newStatus = "closed"
     let tables = changeTableStatusByTabId(state.tables, action.data.tabId, newStatus)
     return {tables}
   }
