@@ -70,7 +70,7 @@ let clientDir =
   Path.Combine(exeDir.FullName, "public")
 
 [<EntryPoint>]
-let main argv = 
+let main argv =
   let app =
     let eventStore = inMemoryEventStore ()
     choose [
@@ -86,6 +86,9 @@ let main argv =
   use projectionSubscription =
     asyncEventStream.Subscribe project
 
-  let cfg = {defaultConfig with homeFolder = Some(clientDir)}
+  let cfg = {defaultConfig with
+              homeFolder = Some(clientDir)
+              bindings = [HttpBinding.mkSimple HTTP "0.0.0.0" 8083]
+            }
   startWebServer cfg app
   0
