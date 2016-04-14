@@ -1,4 +1,4 @@
-language: fsharp
+language: csharp
 script:
   - ./build.sh
 mono:
