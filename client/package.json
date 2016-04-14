@@ -5,7 +5,7 @@
   "main": "index.js",
   "scripts": {
     "start": "node webpack-server.js",
-    "build": "webpack -p"
+    "build": "webpack -p --config webpack.production.config.js"
   },
   "author": "",
   "license": "ISC",

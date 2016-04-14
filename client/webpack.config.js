@@ -1,35 +1,14 @@
+var productionConfig = require('./webpack.production.config');
 var webpack = require('webpack');
-var path = require('path');
-var HtmlWebpackPlugin = require('html-webpack-plugin');
+var config = productionConfig;
 
-var BUILD_DIR = path.resolve(__dirname, 'public');
-var APP_DIR = path.resolve(__dirname, 'app');
+config.entry =
+  config.entry.concat('webpack-dev-server/client?http://0.0.0.0:3000').concat('webpack/hot/only-dev-server');
 
-var config = {
-  entry: [
-    'webpack-dev-server/client?http://0.0.0.0:3000',
-    'webpack/hot/only-dev-server',
-    APP_DIR + '/index.jsx'
-  ],
-  output: {
-    path: BUILD_DIR,
-    filename: 'bundle.js'
-  },
-  module : {
-    loaders : [
-      {
-        test : /\.jsx?/,
-        include : APP_DIR,
-        loaders : ['react-hot', 'babel']
-      }
-    ]
-  },
-  plugins: [
-    new HtmlWebpackPlugin({
-      inject : true,
-      template : './index.html'}),
-    new webpack.HotModuleReplacementPlugin()
-  ]
-};
+config.plugins[1] = new webpack.HotModuleReplacementPlugin()
+
+config.devtool = 'eval'
+
+config.module.loaders[0].loaders = ['react-hot', 'babel']
 
 module.exports = config;

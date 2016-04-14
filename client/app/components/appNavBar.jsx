@@ -8,7 +8,7 @@ var AppNavBar = (props) => {
     <Navbar static>
      <Navbar.Header>
        <Navbar.Brand>
-         <Link to="/">CafeApp</Link>
+         <Link to="/">Cafe App</Link>
        </Navbar.Brand>
        <Navbar.Toggle />
      </Navbar.Header>
