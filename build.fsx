@@ -30,15 +30,18 @@ Target "RunUnitTests" (fun _ ->
 )
 
 Target "Client" (fun _ ->
+       let npmFilePath = environVarOrDefault "NPM_FILE_PATH" defaultNpmParams.NpmFilePath
        Npm (fun p ->
               { p with
                   Command = Install Standard
                   WorkingDirectory = clientDir
+                  NpmFilePath = npmFilePath
               })
        Npm (fun p ->
               { p with
                   Command = (Run "build")
                   WorkingDirectory = clientDir
+                  NpmFilePath = npmFilePath
               })
        CopyRecursive clientAssetDir assetBuildDir true |> ignore
    )

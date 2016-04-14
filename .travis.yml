@@ -1,6 +1,7 @@
 language: csharp
-sudo: required
 script:
   - ./build.sh
 mono:
   - latest
+env:
+  - "NPM_FILE_PATH=/home/travis/.nvm/v0.10.36/bin/npm"
