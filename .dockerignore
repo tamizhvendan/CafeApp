@@ -1,4 +1,5 @@
 .paket/paket.exe
+paket-files
 build
 projekt-init.sh
 .projekt
