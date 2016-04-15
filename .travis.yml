@@ -3,3 +3,10 @@ script:
   - ./build.sh
 mono:
   - latest
+after_success:
+  # notify Docker Hub to make a new build
+  - >
+    [ "$TRAVIS_BRANCH" == "master" ]
+    && curl -X POST -H "Content-Type: application/json"
+    --data '{"docker_tag_name": "latest"}'
+    https://registry.hub.docker.com/u/tamizhvendan/cafeapp/trigger/$DOCKER_HUB_TOKEN/
