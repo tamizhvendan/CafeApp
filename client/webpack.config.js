@@ -11,4 +11,6 @@ config.devtool = 'eval'
 
 config.module.loaders[0].loaders = ['react-hot', 'babel']
 
+config.output.filename = 'bundle.js'
+
 module.exports = config;

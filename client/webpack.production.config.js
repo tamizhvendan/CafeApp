@@ -12,7 +12,7 @@ var config = {
   ],
   output: {
     path: BUILD_DIR,
-    filename: 'bundle.js'
+    filename: '[name].[hash].js'
   },
   module : {
     loaders : [
