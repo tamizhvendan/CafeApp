@@ -12,8 +12,8 @@ type Item = {
   Name : string
 }
 
-type FoodItem = FoodItem of Item
-type DrinksItem = DrinksItem of Item
+type Food = Food of Item
+type Drink = Drink of Item
 
 type Payment = {
   Tab : Tab
@@ -21,23 +21,23 @@ type Payment = {
 }
 
 type Order = {
-  FoodItems : FoodItem list
-  DrinksItems : DrinksItem list
+  Foods : Food list
+  Drinks : Drink list
   Tab : Tab
 }
 
 type InProgressOrder = {
   PlacedOrder : Order
-  ServedDrinks : DrinksItem list
-  ServedFoods : FoodItem list
-  PreparedFoods : FoodItem list
+  ServedDrinks : Drink list
+  ServedFoods : Food list
+  PreparedFoods : Food list
 }
 
 let nonServedFoods ipo =
-  List.except ipo.ServedFoods ipo.PlacedOrder.FoodItems
+  List.except ipo.ServedFoods ipo.PlacedOrder.Foods
 
 let nonServedDrinks ipo =
-  List.except ipo.ServedDrinks ipo.PlacedOrder.DrinksItems
+  List.except ipo.ServedDrinks ipo.PlacedOrder.Drinks
 
 let isOrderServed ipo =
   List.isEmpty (nonServedFoods ipo) &&
@@ -45,9 +45,9 @@ let isOrderServed ipo =
 
 let orderAmount order =
   let foodAmount =
-    order.FoodItems
-    |> List.map (fun (FoodItem f) -> f.Price) |> List.sum
+    order.Foods
+    |> List.map (fun (Food f) -> f.Price) |> List.sum
   let drinksAmount =
-    order.DrinksItems
-    |> List.map (fun (DrinksItem d) -> d.Price) |> List.sum
+    order.Drinks
+    |> List.map (fun (Drink d) -> d.Price) |> List.sum
   foodAmount + drinksAmount

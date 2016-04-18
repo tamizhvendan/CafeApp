@@ -52,7 +52,7 @@
     <Compile Include="TestData.fs" />
     <Compile Include="OpenTabTests.fs" />
     <Compile Include="PlaceOrderTests.fs" />
-    <Compile Include="ServeDrinksTests.fs" />
+    <Compile Include="ServeDrinkTests.fs" />
     <Compile Include="PrepareFoodTests.fs" />
     <Compile Include="ServeFoodTests.fs" />
     <Compile Include="CloseTabTests.fs" />

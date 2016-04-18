@@ -5,7 +5,7 @@ open CommandHandlers
 open Queries
 open OpenTab
 open PlaceOrder
-open ServeDrinks
+open ServeDrink
 open PrepareFood
 open ServeFood
 open CloseTab
@@ -20,9 +20,9 @@ let handleCommandRequest validationQueries eventStore
   | PlaceOrderRequest placeOrder ->
     placeOrderCommander validationQueries
     |> handleCommand eventStore placeOrder
-  | ServeDrinksRequest (tabId, drinksMenuNumber) ->
-    validationQueries.GetDrinksByMenuNumber
-    |> serveDrinksCommander
+  | ServeDrinkRequest (tabId, drinksMenuNumber) ->
+    validationQueries.GetDrinkByMenuNumber
+    |> serveDrinkCommander
         validationQueries.GetTableByTabId
     |> handleCommand eventStore (tabId, drinksMenuNumber)
   | PrepareFoodRequest (tabId, foodMenuNumber) ->

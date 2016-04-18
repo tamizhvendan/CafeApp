@@ -1,26 +1,26 @@
-module ServeDrinks
+module ServeDrink
 open FSharp.Data
 open Commands
 open CommandHandlers
 
 [<Literal>]
-let ServeDrinksJson = """{
-    "serveDrinks" : {
+let ServeDrinkJson = """{
+    "serveDrink" : {
       "tabId" : "2a964d85-f503-40a1-8014-2c8ee5ac4a49",
       "menuNumber" : 10
     }
 }"""
-type ServeDrinksReq = JsonProvider<ServeDrinksJson>
+type ServeDrinkReq = JsonProvider<ServeDrinkJson>
 
-let (|ServeDrinksRequest|_|) payload =
+let (|ServeDrinkRequest|_|) payload =
   try
-    let req = ServeDrinksReq.Parse(payload).ServeDrinks
+    let req = ServeDrinkReq.Parse(payload).ServeDrink
     (req.TabId, req.MenuNumber) |> Some
   with
   | ex -> None
 
 
-let validateServeDrinks getTableByTabId
+let validateServeDrink getTableByTabId
   getDrinksByMenuNumber (tabId, drinksMenuNumber) = async {
     let! table = getTableByTabId tabId
     match table with
@@ -33,12 +33,12 @@ let validateServeDrinks getTableByTabId
     | _ -> return Choice2Of2 "Invalid Tab Id"
 }
 
-let serveDrinksCommander getTableByTabId
+let serveDrinkCommander getTableByTabId
   getDrinksByMenuNumber =
   let validate =
     getDrinksByMenuNumber
-    |> validateServeDrinks getTableByTabId
+    |> validateServeDrink getTableByTabId
   {
     Validate = validate
-    ToCommand = ServeDrinks
+    ToCommand = ServeDrink
   }

@@ -8,20 +8,20 @@ open Projections
 
 let private chefToDos = new Dictionary<Guid, ChefToDo>()
 
-let private addFoodItemsToPrepare tabId foodItems =
+let private addFoodsToPrepare tabId foods =
   match getTableByTabId tabId with
   | Some table ->
     let tab = {Id = tabId; TableNumber = table.Number}
-    let todo : ChefToDo = {Tab = tab; FoodItems = foodItems}
+    let todo : ChefToDo = {Tab = tab; Foods = foods}
     chefToDos.Add(tabId, todo)
   | None -> ()
   async.Return ()
 
-let private removeFoodItem tabId foodItem =
+let private removeFood tabId food =
   let todo = chefToDos.[tabId]
   let chefToDo =
-    { todo with FoodItems =
-                  List.filter (fun d -> d <> foodItem) todo.FoodItems}
+    { todo with Foods =
+                  List.filter (fun d -> d <> food) todo.Foods}
   chefToDos.[tabId] <- chefToDo
   async.Return ()
 
@@ -30,8 +30,8 @@ let private remove tabId =
   async.Return ()
 
 let chefActions = {
-  AddFoodItemsToPrepare = addFoodItemsToPrepare
-  RemoveFoodItem = removeFoodItem
+  AddFoodsToPrepare = addFoodsToPrepare
+  RemoveFood = removeFood
   Remove = remove
 }
 

@@ -11,8 +11,8 @@ open Errors
 [<Test>]
 let ``Can close the tab by paying full amount`` () =
   let order = {order with
-                  FoodItems = [salad;pizza]
-                  DrinksItems = [coke]}
+                  Foods = [salad;pizza]
+                  Drinks = [coke]}
   let payment = {
     Tab = tab
     Amount = 10.5m
@@ -26,8 +26,8 @@ let ``Can close the tab by paying full amount`` () =
 [<Test>]
 let ``Can not close a tab with invalid payment amount`` () =
   let order = {order with
-                  FoodItems = [salad;pizza]
-                  DrinksItems = [coke]}
+                  Foods = [salad;pizza]
+                  Drinks = [coke]}
 
   Given (OrderServed order)
   |> When (CloseTab {Tab = tab; Amount = 9.5m})

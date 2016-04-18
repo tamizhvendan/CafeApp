@@ -10,16 +10,16 @@ type TableActions = {
 }
 
 type ChefActions = {
-  AddFoodItemsToPrepare : Guid -> FoodItem list -> Async<unit>
-  RemoveFoodItem : Guid -> FoodItem -> Async<unit>
+  AddFoodsToPrepare : Guid -> Food list -> Async<unit>
+  RemoveFood : Guid -> Food -> Async<unit>
   Remove : Guid -> Async<unit>
 }
 
 type WaiterActions = {
-  AddDrinksToServe : Guid -> DrinksItem list -> Async<unit>
-  MarkDrinksServed : Guid -> DrinksItem -> Async<unit>
-  AddFoodToServe : Guid -> FoodItem -> Async<unit>
-  MarkFoodServed : Guid -> FoodItem -> Async<unit>
+  AddDrinksToServe : Guid -> Drink list -> Async<unit>
+  MarkDrinkServed : Guid -> Drink -> Async<unit>
+  AddFoodToServe : Guid -> Food -> Async<unit>
+  MarkFoodServed : Guid -> Food -> Async<unit>
   Remove : Guid -> Async<unit>
 }
 
@@ -43,15 +43,15 @@ let projectReadModel actions = function
   [
     actions.Table.ReceivedOrder tabId
     actions.Cashier.AddTabAmount tabId (orderAmount order)
-    actions.Chef.AddFoodItemsToPrepare tabId order.FoodItems
-    actions.Waiter.AddDrinksToServe tabId order.DrinksItems
+    actions.Chef.AddFoodsToPrepare tabId order.Foods
+    actions.Waiter.AddDrinksToServe tabId order.Drinks
   ] |> Async.Parallel
-| DrinksServed (item, tabId) ->
-  [actions.Waiter.MarkDrinksServed tabId item]
+| DrinkServed (item, tabId) ->
+  [actions.Waiter.MarkDrinkServed tabId item]
   |> Async.Parallel
 | FoodPrepared (item, tabId) ->
   [
-    actions.Chef.RemoveFoodItem tabId item
+    actions.Chef.RemoveFood tabId item
     actions.Waiter.AddFoodToServe tabId item
   ] |> Async.Parallel
 | FoodServed (item, tabId) ->

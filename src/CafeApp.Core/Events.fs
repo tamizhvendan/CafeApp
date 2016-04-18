@@ -5,7 +5,7 @@ open System
 type Event =
   | TabOpened of Tab
   | OrderPlaced of Order
-  | DrinksServed of DrinksItem * Guid
-  | FoodPrepared of FoodItem * Guid
-  | FoodServed of FoodItem * Guid
+  | DrinkServed of Drink * Guid
+  | FoodPrepared of Food * Guid
+  | FoodServed of Food * Guid
   | TabClosed of Payment

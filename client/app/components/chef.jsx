@@ -15,16 +15,16 @@ class ChefToDo extends React.Component {
   render() {
     let chefToDo = this.props.chefToDo;
     let panelTitle = `Table Number ${chefToDo.tableNumber}`;
-    let foodItems =
-      chefToDo.foodItems.map(foodItem =>
-                                (<Item item={foodItem}
+    let foods =
+      chefToDo.foods.map(food =>
+                                (<Item item={food}
                                     buttonLabel="Mark Prepared"
                                     onItemClick={this.onFoodPrepared.bind(this)}
-                                    key={foodItem.menuNumber}/>))
+                                    key={food.menuNumber}/>))
     return(
       <Col md={4}>
         <Panel header={panelTitle} bsStyle="primary">
-          {foodItems}
+          {foods}
         </Panel>
       </Col>
     );

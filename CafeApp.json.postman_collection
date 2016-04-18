@@ -202,7 +202,7 @@
 			"tests": "",
 			"currentHelper": "normal",
 			"helperAttributes": {},
-			"rawModeData": "{\n    \"serveDrinks\" : {\n      \"tabId\" : \"56734bf7-d5d3-46b4-bdb9-b3a7c66556c5\",\n      \"menuNumber\" : 10\n    }\n}"
+			"rawModeData": "{\n    \"serveDrink\" : {\n      \"tabId\" : \"56734bf7-d5d3-46b4-bdb9-b3a7c66556c5\",\n      \"menuNumber\" : 10\n    }\n}"
 		},
 		{
 			"id": "cb198f82-5d08-6885-537b-9ea3c10bed3b",

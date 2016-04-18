@@ -12,35 +12,35 @@ let private addDrinksToServe tabId drinksItems =
   | Some table ->
     let todo =
       { Tab = {Id = tabId; TableNumber = table.Number}
-        FoodItems = []
-        DrinksItems = drinksItems}
+        Foods = []
+        Drinks = drinksItems}
     waiterToDos.Add(tabId, todo)
   | None -> ()
   async.Return ()
 
-let private addFoodToServe tabId item  =
+let private addFoodToServe tabId food  =
   if waiterToDos.ContainsKey tabId then
     let todo = waiterToDos.[tabId]
     let waiterToDo =
-      {todo with FoodItems = item :: todo.FoodItems}
+      {todo with Foods = food :: todo.Foods}
     waiterToDos.[tabId] <- waiterToDo
   else
     match getTableByTabId tabId with
     | Some table ->
       let todo =
         { Tab = {Id = tabId; TableNumber = table.Number}
-          FoodItems = [item]
-          DrinksItems = []}
+          Foods = [food]
+          Drinks = []}
       waiterToDos.Add(tabId, todo)
     | None -> ()
   async.Return ()
 
-let private markDrinksServed tabId drinks =
+let private markDrinkServed tabId drink =
   let todo = waiterToDos.[tabId]
   let waiterToDo =
     { todo with
-        DrinksItems =
-          List.filter (fun d -> d <> drinks) todo.DrinksItems }
+        Drinks =
+          List.filter (fun d -> d <> drink) todo.Drinks }
   waiterToDos.[tabId] <- waiterToDo
   async.Return ()
 
@@ -48,8 +48,8 @@ let private markFoodServed tabId food =
   let todo = waiterToDos.[tabId]
   let waiterToDo =
     { todo with
-        FoodItems =
-          List.filter (fun d -> d <> food) todo.FoodItems }
+        Foods =
+          List.filter (fun d -> d <> food) todo.Foods }
   waiterToDos.[tabId] <- waiterToDo
   async.Return ()
 
@@ -60,7 +60,7 @@ let private remove tabId =
 
 let waiterActions = {
   AddDrinksToServe = addDrinksToServe
-  MarkDrinksServed = markDrinksServed
+  MarkDrinkServed = markDrinkServed
   AddFoodToServe = addFoodToServe
   MarkFoodServed = markFoodServed
   Remove = remove

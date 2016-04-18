@@ -52,8 +52,8 @@ export function tablesReducer (state = initialTablesState, action) {
     return {tables}
   }
   if (action.type === OrderPlaced) {
-    let newStatus = {inService: action.data.tabId};
-    let tables = changeTableStatusByTabId(state.tables, action.data.tabId, newStatus)
+    let newStatus = {inService: action.data.order.tabId};
+    let tables = changeTableStatusByTabId(state.tables, action.data.order.tabId, newStatus)
     return {tables}
   }
   if (action.type === TabClosed) {
@@ -73,7 +73,7 @@ export function openTablesReducer(state = initialOpenTablesState, action) {
     return {openTables : state.openTables.concat({tableNumber: action.data.tableNumber, tabId: action.data.id})};
   }
   if (action.type === OrderPlaced) {
-    return {openTables : state.openTables.filter(table => table.tabId != action.data.tabId)}
+    return {openTables : state.openTables.filter(table => table.tabId != action.data.order.tabId)}
   }
   return state
 }

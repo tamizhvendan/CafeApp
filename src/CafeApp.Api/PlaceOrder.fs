@@ -31,13 +31,13 @@ let validatePlaceOrder queries (c : PlaceOrderReq.PlaceOrder) = async {
   let! table = queries.GetTableByTabId c.TabId
   match table with
   | Some table ->
-      let! foodItems =
+      let! foods =
         queries.GetFoodsByMenuNumbers c.FoodMenuNumbers
-      let! drinksItems =
+      let! drinks =
         queries.GetDrinksByMenuNumbers c.DrinkMenuNumbers
       let isEmptyOrder foods drinks =
         List.isEmpty foods && List.isEmpty drinks
-      match foodItems, drinksItems with
+      match foods, drinks with
       | Choice1Of2 foods, Choice1Of2 drinks ->
           if isEmptyOrder foods drinks then
             let msg = "Order Should Contain atleast 1 food or drinks"
@@ -62,8 +62,8 @@ let validatePlaceOrder queries (c : PlaceOrderReq.PlaceOrder) = async {
 let toPlaceOrderCommand (tab, drinks, foods) =
   {
     Tab = tab
-    FoodItems = foods
-    DrinksItems = drinks
+    Foods = foods
+    Drinks = drinks
   }
   |> PlaceOrder
 

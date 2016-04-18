@@ -15,11 +15,11 @@ type Table = {
 
 type ChefToDo = {
   Tab : Tab
-  FoodItems : FoodItem list
+  Foods : Food list
 }
 
 type WaiterToDo = {
   Tab : Tab
-  FoodItems : FoodItem list
-  DrinksItems : DrinksItem list
+  Foods : Food list
+  Drinks : Drink list
 }

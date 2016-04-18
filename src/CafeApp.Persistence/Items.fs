@@ -2,28 +2,28 @@ module Items
 open System.Collections.Generic
 open Domain
 
-let private foodItems =
-  let dict = new Dictionary<int, FoodItem>()
-  dict.Add(8, FoodItem {
+let private foods =
+  let dict = new Dictionary<int, Food>()
+  dict.Add(8, Food {
     MenuNumber = 8
     Price = 5m
     Name = "Salad"
   })
-  dict.Add(9, FoodItem {
+  dict.Add(9, Food {
     MenuNumber = 9
     Price = 10m
     Name = "Pizza"
   })
   dict
 
-let private drinksItems =
-  let dict = new Dictionary<int, DrinksItem>()
-  dict.Add(10, DrinksItem {
+let private drinks =
+  let dict = new Dictionary<int, Drink>()
+  dict.Add(10, Drink {
       MenuNumber = 10
       Price = 2.5m
       Name = "Coke"
   })
-  dict.Add(11, DrinksItem {
+  dict.Add(11, Drink {
     MenuNumber = 11
     Name = "Lemonade"
     Price = 1.5m
@@ -47,19 +47,19 @@ let getItem<'a> (dict : Dictionary<int,'a>) key =
     None
 
 let getFoodsByMenuNumbers keys =
-  getItems foodItems keys |> async.Return
+  getItems foods keys |> async.Return
 
 let getFoodByMenuNumber key =
-  getItem foodItems key |> async.Return
+  getItem foods key |> async.Return
 
 let getDrinksByMenuNumbers keys =
-  getItems drinksItems keys |> async.Return
+  getItems drinks keys |> async.Return
 
 let getDrinksByMenuNumber key =
-  getItem drinksItems key |> async.Return
+  getItem drinks key |> async.Return
 
-let getFoodItems () =
-  foodItems.Values |> Seq.toList |> async.Return
+let getFoods () =
+  foods.Values |> Seq.toList |> async.Return
 
-let getDrinksItems () =
-  drinksItems.Values |> Seq.toList |> async.Return
+let getDrinks () =
+  drinks.Values |> Seq.toList |> async.Return

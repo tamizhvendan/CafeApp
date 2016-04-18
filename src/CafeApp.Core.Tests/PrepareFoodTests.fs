@@ -10,7 +10,7 @@ open Errors
 
 [<Test>]
 let ``Can Prepare Food`` () =
-  let order = {order with FoodItems = [salad]}
+  let order = {order with Foods = [salad]}
   let expected = {
       PlacedOrder = order
       ServedDrinks = []
@@ -23,7 +23,7 @@ let ``Can Prepare Food`` () =
 
 [<Test>]
 let ``Can not prepare a non-ordered food`` () =
-  let order = {order with FoodItems = [pizza]}
+  let order = {order with Foods = [pizza]}
   Given (PlacedOrder order)
   |> When (PrepareFood (salad, order.Tab.Id))
   |> ShouldFailWith (CanNotPrepareNonOrderedFood salad)
@@ -42,7 +42,7 @@ let ``Can not prepare with closed tab`` () =
 
 [<Test>]
 let ``Can prepare food during order in progress`` () =
-  let order = { order with FoodItems = [salad;pizza]}
+  let order = { order with Foods = [salad;pizza]}
   let orderInProgress = {
     PlacedOrder = order
     ServedFoods = []
@@ -58,7 +58,7 @@ let ``Can prepare food during order in progress`` () =
 
 [<Test>]
 let ``Can not prepare non-ordered food during order in progress`` () =
-  let order = { order with FoodItems = [salad]}
+  let order = { order with Foods = [salad]}
   let orderInProgress = {
     PlacedOrder = order
     ServedFoods = []
@@ -72,7 +72,7 @@ let ``Can not prepare non-ordered food during order in progress`` () =
 
 [<Test>]
 let ``Can not prepare already prepared food during order in progress`` () =
-  let order = { order with FoodItems = [salad]}
+  let order = { order with Foods = [salad]}
   let orderInProgress = {
     PlacedOrder = order
     ServedFoods = []

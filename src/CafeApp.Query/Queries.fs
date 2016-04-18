@@ -9,15 +9,15 @@ type Queries = {
   GetChefToDos : unit -> Async<ChefToDo list>
   GetWaiterToDos : unit -> Async<WaiterToDo list>
   GetCashierToDos : unit -> Async<Payment list>
-  GetFoodItems : unit -> Async<FoodItem list>
-  GetDrinksItems : unit -> Async<DrinksItem list>
+  GetFoods : unit -> Async<Food list>
+  GetDrinks : unit -> Async<Drink list>
 }
 
 type ValidationQueries = {
     GetTableByTableNumber : int -> Async<Table option>
-    GetFoodsByMenuNumbers : int[] -> Async<Choice<FoodItem list, int[]>>
-    GetDrinksByMenuNumbers : int[] -> Async<Choice<DrinksItem list, int[]>>
+    GetFoodsByMenuNumbers : int[] -> Async<Choice<Food list, int[]>>
+    GetDrinksByMenuNumbers : int[] -> Async<Choice<Drink list, int[]>>
     GetTableByTabId : Guid -> Async<Table option>
-    GetDrinksByMenuNumber : int -> Async<DrinksItem option>
-    GetFoodByMenuNumber : int -> Async<FoodItem option>
+    GetDrinkByMenuNumber : int -> Async<Drink option>
+    GetFoodByMenuNumber : int -> Async<Food option>
 }

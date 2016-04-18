@@ -9,7 +9,7 @@ open Chessie.ErrorHandling
 let getTabIdFromCommand = function
 | OpenTab tab -> tab.Id
 | PlaceOrder order -> order.Tab.Id
-| ServeDrinks (item, tabId) -> tabId
+| ServeDrink (item, tabId) -> tabId
 | PrepareFood (item, tabId) -> tabId
 | ServeFood (item, tabId) -> tabId
 | CloseTab payment -> payment.Tab.Id

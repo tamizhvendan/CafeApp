@@ -12,8 +12,8 @@ class WaiterToDo extends React.Component {
     this.props.onFoodServed(this.props.waiterToDo.tabId, menuNumber)
   }
 
-  onDrinksServed(menuNumber) {
-    this.props.onDrinksServed(this.props.waiterToDo.tabId, menuNumber)
+  onDrinkServed(menuNumber) {
+    this.props.onDrinkServed(this.props.waiterToDo.tabId, menuNumber)
   }
 
   toItemView(item, handler) {
@@ -26,17 +26,17 @@ class WaiterToDo extends React.Component {
   render() {
     let waiterToDo = this.props.waiterToDo;
     let panelTitle = `Table Number ${waiterToDo.tableNumber}`;
-    let foodItems =
-      waiterToDo.foodItems.map(item => this.toItemView(item, this.onFoodServed.bind(this)));
-    let drinksItems =
-      waiterToDo.drinksItems.map(item => this.toItemView(item, this.onDrinksServed.bind(this)));
+    let foods =
+      waiterToDo.foods.map(item => this.toItemView(item, this.onFoodServed.bind(this)));
+    let drinks =
+      waiterToDo.drinks.map(item => this.toItemView(item, this.onDrinkServed.bind(this)));
 
 
     return(
       <Col md={4}>
         <Panel header={panelTitle} bsStyle="primary">
-          {foodItems}
-          {drinksItems}
+          {foods}
+          {drinks}
         </Panel>
       </Col>
     );
@@ -59,9 +59,9 @@ class Waiter extends React.Component {
     })
   }
 
-  onDrinksServed(tabId, menuNumber){
+  onDrinkServed(tabId, menuNumber){
     axios.post('/command', {
-      serveDrinks : {
+      serveDrink : {
         tabId,
         menuNumber
       }
@@ -74,7 +74,7 @@ class Waiter extends React.Component {
                                               key={waiterToDo.tabId}
                                               waiterToDo={waiterToDo}
                                               onFoodServed={this.onFoodServed}
-                                              onDrinksServed={this.onDrinksServed}/>)
+                                              onDrinkServed={this.onDrinkServed}/>)
     let view =
       todos.length
       ? <Grid><Row>{todos}</Row></Grid>

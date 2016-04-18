@@ -56,7 +56,7 @@
     <Compile Include="CommandHandlers.fs" />
     <Compile Include="OpenTab.fs" />
     <Compile Include="PlaceOrder.fs" />
-    <Compile Include="ServeDrinks.fs" />
+    <Compile Include="ServeDrink.fs" />
     <Compile Include="PrepareFood.fs" />
     <Compile Include="ServeFood.fs" />
     <Compile Include="CloseTab.fs" />

@@ -6,16 +6,16 @@ type Error =
   | CanNotPlaceEmptyOrder
   | CanNotOrderWithClosedTab
   | OrderAlreadyPlaced
-  | CanNotServeNonOrderedDrinks of DrinksItem
-  | CanNotServeAlreadyServedDrinks of DrinksItem
+  | CanNotServeNonOrderedDrink of Drink
+  | CanNotServeAlreadyServedDrink of Drink
   | OrderAlreadyServed
   | CanNotServeForNonPlacedOrder
   | CanNotServeWithClosedTab
-  | CanNotPrepareNonOrderedFood of FoodItem
-  | CanNotPrepareAlreadyPreparedFood of FoodItem
-  | CanNotServeNonPreparedFood of FoodItem
-  | CanNotServeNonOrderedFood of FoodItem
-  | CanNotServeAlreadyServedFood of FoodItem
+  | CanNotPrepareNonOrderedFood of Food
+  | CanNotPrepareAlreadyPreparedFood of Food
+  | CanNotServeNonPreparedFood of Food
+  | CanNotServeNonOrderedFood of Food
+  | CanNotServeAlreadyServedFood of Food
   | CanNotPrepareForNonPlacedOrder
   | CanNotPrepareWithClosedTab
   | InvalidPayment of decimal * decimal
@@ -25,20 +25,20 @@ let toErrorString = function
 | TabAlreadyOpened -> "Tab Already Opened"
 | CanNotOrderWithClosedTab -> "Cannot Order as Tab is Closed"
 | OrderAlreadyPlaced -> "Order already placed"
-| CanNotServeNonOrderedDrinks (DrinksItem item)  ->
-  sprintf "DrinksItem %s(%d) is not ordered" item.Name item.MenuNumber
-| CanNotServeAlreadyServedDrinks (DrinksItem item)  ->
-  sprintf "DrinksItem %s(%d) is already served" item.Name item.MenuNumber
-| CanNotServeNonOrderedFood (FoodItem item) ->
-  sprintf "FoodItem %s(%d) is not ordered" item.Name item.MenuNumber
-| CanNotPrepareNonOrderedFood (FoodItem item) ->
-  sprintf "FoodItem %s(%d) is not ordered" item.Name item.MenuNumber
-| CanNotServeNonPreparedFood (FoodItem item) ->
-  sprintf "FoodItem %s(%d) is not prepared yet" item.Name item.MenuNumber
-| CanNotPrepareAlreadyPreparedFood (FoodItem item) ->
-  sprintf "FoodItem %s(%d) is already prepared" item.Name item.MenuNumber
-| CanNotServeAlreadyServedFood (FoodItem item) ->
-  sprintf "FoodItem %s(%d) is already served" item.Name item.MenuNumber
+| CanNotServeNonOrderedDrink (Drink item)  ->
+  sprintf "Drink %s(%d) is not ordered" item.Name item.MenuNumber
+| CanNotServeAlreadyServedDrink (Drink item)  ->
+  sprintf "Drink %s(%d) is already served" item.Name item.MenuNumber
+| CanNotServeNonOrderedFood (Food item) ->
+  sprintf "Food %s(%d) is not ordered" item.Name item.MenuNumber
+| CanNotPrepareNonOrderedFood (Food item) ->
+  sprintf "Food %s(%d) is not ordered" item.Name item.MenuNumber
+| CanNotServeNonPreparedFood (Food item) ->
+  sprintf "Food %s(%d) is not prepared yet" item.Name item.MenuNumber
+| CanNotPrepareAlreadyPreparedFood (Food item) ->
+  sprintf "Food %s(%d) is already prepared" item.Name item.MenuNumber
+| CanNotServeAlreadyServedFood (Food item) ->
+  sprintf "Food %s(%d) is already served" item.Name item.MenuNumber
 | CanNotServeWithClosedTab -> "Cannot Serve as Tab is Closed"
 | CanNotPrepareWithClosedTab -> "Cannot Prepare as Tab is Closed"
 | OrderAlreadyServed -> "Order Already Served"

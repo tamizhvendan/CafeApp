@@ -37,28 +37,28 @@ let itemJObj item =
     "menuNumber" .= item.MenuNumber
     "name" .= item.Name
   ]
-let foodItemJObj (FoodItem item) = itemJObj item
-let drinksItemJObj (DrinksItem item) = itemJObj item
-let foodItemsJArray foodItems =
-  foodItems |> List.map foodItemJObj |> jArray
-let drinksItemsJArray drinksItems =
-  drinksItems |> List.map drinksItemJObj |> jArray
+let foodJObj (Food item) = itemJObj item
+let drinkJObj (Drink item) = itemJObj item
+let foodJArray foods =
+  foods |> List.map foodJObj |> jArray
+let drinkJArray drinks =
+  drinks |> List.map drinkJObj |> jArray
 
 let orderJObj (order : Order) =
   jobj [
     "tabId" .= order.Tab.Id
     "tableNumber" .= order.Tab.TableNumber
-    "foodItems" .= foodItemsJArray order.FoodItems
-    "drinksItems" .= drinksItemsJArray order.DrinksItems
+    "foods" .= foodJArray order.Foods
+    "drinks" .= drinkJArray order.Drinks
   ]
 
 let orderInProgressJObj ipo =
   jobj [
     "tabId" .=  ipo.PlacedOrder.Tab.Id
     "tableNumber" .= ipo.PlacedOrder.Tab.TableNumber
-    "preparedFoods" .= foodItemsJArray ipo.PreparedFoods
-    "servedFoods" .= foodItemsJArray ipo.ServedFoods
-    "servedDrinks" .= drinksItemsJArray ipo.ServedDrinks
+    "preparedFoods" .= foodJArray ipo.PreparedFoods
+    "servedFoods" .= foodJArray ipo.ServedFoods
+    "servedDrinks" .= drinkJArray ipo.ServedDrinks
   ]
 
 let stateJObj = function
@@ -134,7 +134,7 @@ let chefToDoJObj (todo : ChefToDo) =
   jobj [
     "tabId" .= todo.Tab.Id.ToString()
     "tableNumber" .= todo.Tab.TableNumber
-    "foodItems" .= foodItemsJArray todo.FoodItems
+    "foods" .= foodJArray todo.Foods
   ]
 
 let toChefToDosJSON =
@@ -144,8 +144,8 @@ let waiterToDoJObj todo =
   jobj [
     "tabId" .= todo.Tab.Id.ToString()
     "tableNumber" .= todo.Tab.TableNumber
-    "foodItems" .= foodItemsJArray todo.FoodItems
-    "drinksItems" .= drinksItemsJArray todo.DrinksItems
+    "foods" .= foodJArray todo.Foods
+    "drinks" .= drinkJArray todo.Drinks
   ]
 
 let toWaiterToDosJSON =
@@ -161,11 +161,11 @@ let cashierToDoJObj (payment : Payment) =
 let toCashierToDosJSON =
   toReadModelsJson cashierToDoJObj "cashierToDos"
 
-let toFoodItemsJSON =
-  toReadModelsJson foodItemJObj "foods"
+let toFoodsJSON =
+  toReadModelsJson foodJObj "foods"
 
-let toDrinksItemsJSON =
-  toReadModelsJson drinksItemJObj "drinks"
+let toDrinksJSON =
+  toReadModelsJson drinkJObj "drinks"
 
 let eventJObj = function
 | TabOpened tab ->
@@ -176,13 +176,16 @@ let eventJObj = function
 | OrderPlaced order ->
   jobj [
     "event" .= "OrderPlaced"
-    "data" .= orderJObj order
-  ]
-| DrinksServed (item, tabId) ->
-  jobj [
-    "event" .= "DrinksServed"
     "data" .= jobj [
-      "drinks" .= drinksItemJObj item
+      "order" .= orderJObj order
+      "amount" .= orderAmount order
+    ]
+  ]
+| DrinkServed (item, tabId) ->
+  jobj [
+    "event" .= "DrinkServed"
+    "data" .= jobj [
+      "drink" .= drinkJObj item
       "tabId" .= tabId
     ]
   ]
@@ -190,7 +193,7 @@ let eventJObj = function
   jobj [
     "event" .= "FoodPrepared"
     "data" .= jobj [
-      "food" .= foodItemJObj item
+      "food" .= foodJObj item
       "tabId" .= tabId
     ]
   ]
@@ -198,7 +201,7 @@ let eventJObj = function
   jobj [
     "event" .= "FoodServed"
     "data" .= jobj [
-      "food" .= foodItemJObj item
+      "food" .= foodJObj item
       "tabId" .= tabId
     ]
   ]

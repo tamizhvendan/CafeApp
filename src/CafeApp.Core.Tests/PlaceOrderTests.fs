@@ -12,7 +12,7 @@ open TestData
 
 [<Test>]
 let ``Can place drinks order`` () =
-  let order = {order with DrinksItems = [coke]}
+  let order = {order with Drinks = [coke]}
   Given (OpenedTab tab)
   |> When (PlaceOrder order)
   |> ThenStateShouldBe (PlacedOrder order)
@@ -27,21 +27,21 @@ let ``Can not place empty order`` () =
 
 [<Test>]
 let ``Can not place order with a closed tab`` () =
-  let order = {order with DrinksItems = [coke]}
+  let order = {order with Drinks = [coke]}
   Given (ClosedTab None)
   |> When (PlaceOrder order)
   |> ShouldFailWith CanNotOrderWithClosedTab
 
 [<Test>]
 let ``Can not place order multiple times`` () =
-  let order = {order with DrinksItems = [coke]}
+  let order = {order with Drinks = [coke]}
   Given (PlacedOrder order)
   |> When (PlaceOrder order)
   |> ShouldFailWith OrderAlreadyPlaced
 
 [<Test>]
 let ``Can place food order`` () =
-  let order = {order with FoodItems = [salad]}
+  let order = {order with Foods = [salad]}
   Given (OpenedTab tab)
   |> When (PlaceOrder order)
   |> ThenStateShouldBe (PlacedOrder order)
@@ -50,8 +50,8 @@ let ``Can place food order`` () =
 [<Test>]
 let ``Can place food and drinks order`` () =
   let order = {order with
-                  FoodItems = [salad]
-                  DrinksItems = [coke]}
+                  Foods = [salad]
+                  Drinks = [coke]}
   Given (OpenedTab tab)
   |> When (PlaceOrder order)
   |> ThenStateShouldBe (PlacedOrder order)

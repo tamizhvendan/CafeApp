@@ -1,4 +1,4 @@
-import {TabClosed} from './events.js';
+import {TabClosed, OrderPlaced} from './events.js';
 
 const initialCashierToDosSate = {
   cashierToDos : []
@@ -16,6 +16,14 @@ export function listCashierToDos(cashierToDos){
 export function cashierToDosReducer(state = initialCashierToDosSate, action) {
   if (action.type === CashierToDoListSuccess) {
     return action.cashierToDos;
+  }
+
+  if (action.type === OrderPlaced) {
+    let todo = { tabId : action.data.order.tabId,
+                  paymentAmount: action.data.amount,
+                  tableNumber: action.data.order.tableNumber};
+    let cashierToDos = state.cashierToDos.concat(todo);
+    return {cashierToDos}
   }
   if (action.type === TabClosed) {
     let cashierToDos = state.cashierToDos.filter(todo => todo.tabId !== action.data.tabId)

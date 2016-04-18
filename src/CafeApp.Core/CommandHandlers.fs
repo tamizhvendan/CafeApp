@@ -13,22 +13,22 @@ let handleOpenTab tab = function
 
 let handlePlaceOrder order = function
 | OpenedTab _ ->
-  if List.isEmpty order.FoodItems && List.isEmpty order.DrinksItems then
+  if List.isEmpty order.Foods && List.isEmpty order.Drinks then
     fail CanNotPlaceEmptyOrder
   else
     OrderPlaced order |> ok
 | ClosedTab _ -> fail CanNotOrderWithClosedTab
 | _ -> fail OrderAlreadyPlaced
 
-let handleServeDrinks item tabId state =
+let handleServeDrink item tabId state =
   let isOrderedDrinks item order =
-    List.contains item order.DrinksItems
+    List.contains item order.Drinks
   match state with
   | PlacedOrder order ->
       if isOrderedDrinks item order then
-        DrinksServed (item,tabId) |> ok
+        DrinkServed (item,tabId) |> ok
       else
-        CanNotServeNonOrderedDrinks item |> fail
+        CanNotServeNonOrderedDrink item |> fail
   | OrderServed _ -> OrderAlreadyServed |> fail
   | OpenedTab _ ->  CanNotServeForNonPlacedOrder |> fail
   | ClosedTab _ -> CanNotServeWithClosedTab |> fail
@@ -36,15 +36,15 @@ let handleServeDrinks item tabId state =
       if isOrderedDrinks item ipo.PlacedOrder then
         let nonServedDrinks = nonServedDrinks ipo
         if List.contains item nonServedDrinks then
-          DrinksServed (item,tabId) |> ok
+          DrinkServed (item,tabId) |> ok
         else
-          CanNotServeAlreadyServedDrinks item |> fail
+          CanNotServeAlreadyServedDrink item |> fail
       else
-        CanNotServeNonOrderedDrinks item |> fail
+        CanNotServeNonOrderedDrink item |> fail
 
 let handlePrepareFood item tabId state =
   let isOrderedFoodItem item order =
-    List.contains item order.FoodItems
+    List.contains item order.Foods
   match state with
   | PlacedOrder order ->
     if isOrderedFoodItem item order then
@@ -65,7 +65,7 @@ let handlePrepareFood item tabId state =
 
 let handleServeFood item tabId = function
 | OrderInProgress ipo ->
-  if List.contains item ipo.PlacedOrder.FoodItems then
+  if List.contains item ipo.PlacedOrder.Foods then
     if List.contains item ipo.ServedFoods then
       CanNotServeAlreadyServedFood item |> fail
     else
@@ -93,7 +93,7 @@ let execute state command =
   match command with
   | OpenTab tab -> handleOpenTab tab state
   | PlaceOrder order -> handlePlaceOrder order state
-  | ServeDrinks (item, tabId) -> handleServeDrinks item tabId state
+  | ServeDrink (item, tabId) -> handleServeDrink item tabId state
   | PrepareFood (item, tabId) -> handlePrepareFood item tabId state
   | ServeFood (item, tabId) -> handleServeFood item tabId state
   | CloseTab payment -> handleCloseTab payment state

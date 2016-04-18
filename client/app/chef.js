@@ -19,20 +19,20 @@ export function chefToDosReducer (state = intialChefTodosState, action) {
     return action.chefToDos;
   }
   if (action.type === OrderPlaced) {
-    let order = action.data
+    let order = action.data.order
     let chefToDo = {
       tabId : order.tabId,
       tableNumber : order.tableNumber,
-      foodItems : order.foodItems
+      foods : order.foods
     }
     return {chefToDos : state.chefToDos.concat(chefToDo)}
   }
   if (action.type === FoodPrepared) {
     let chefToDos = state.chefToDos.map(chefToDo => {
       if (chefToDo.tabId === action.data.tabId) {
-        let foodItems = chefToDo.foodItems.filter(foodItem =>
-                            foodItem.menuNumber !== action.data.food.menuNumber)
-        return update(chefToDo, {foodItems : {$set : foodItems}})
+        let foods = chefToDo.foods.filter(food =>
+                            food.menuNumber !== action.data.food.menuNumber)
+        return update(chefToDo, {foods : {$set : foods}})
       }
       return chefToDo;
     })

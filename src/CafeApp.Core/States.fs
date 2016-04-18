@@ -20,14 +20,14 @@ let apply state event =
   match state,event with
   | ClosedTab _, TabOpened tab -> OpenedTab tab
   | OpenedTab _, OrderPlaced order -> PlacedOrder order
-  | PlacedOrder order, DrinksServed (item,_) ->
+  | PlacedOrder order, DrinkServed (item,_) ->
     {
       PlacedOrder = order
       ServedDrinks = [item]
       ServedFoods = []
       PreparedFoods = []
     } |> getState
-  | OrderInProgress ipo, DrinksServed (item,_) ->
+  | OrderInProgress ipo, DrinkServed (item,_) ->
     {ipo with ServedDrinks = item :: ipo.ServedDrinks}
     |> getState
   | PlacedOrder order, FoodPrepared (item,_) ->

@@ -1,4 +1,4 @@
-import {FoodServed, DrinksServed, OrderPlaced, FoodPrepared, TabClosed} from './events.js';
+import {FoodServed, DrinkServed, OrderPlaced, FoodPrepared, TabClosed} from './events.js';
 import update from 'react-addons-update';
 
 const intialWaiterTodosState = {
@@ -19,20 +19,20 @@ export function waiterToDosReducer(state = intialWaiterTodosState, action) {
     return action.waiterToDos;
   }
   if (action.type === OrderPlaced) {
-    let order = action.data
+    let order = action.data.order
     let todo = {
       tabId : order.tabId,
       tableNumber : order.tableNumber,
-      drinksItems : order.drinksItems,
-      foodItems : []
+      drinks : order.drinks,
+      foods : []
     }
     return {waiterToDos : state.waiterToDos.concat(todo)}
   }
   if (action.type === FoodPrepared) {
     let waiterToDos = state.waiterToDos.map(waiterToDo => {
       if (waiterToDo.tabId === action.data.tabId) {
-        let foodItems = waiterToDo.foodItems.concat(action.data.food);
-        return update(waiterToDo, {foodItems : {$set : foodItems}})
+        let foods = waiterToDo.foods.concat(action.data.food);
+        return update(waiterToDo, {foods : {$set : foods}})
       }
       return waiterToDo;
     })
@@ -41,20 +41,20 @@ export function waiterToDosReducer(state = intialWaiterTodosState, action) {
   if (action.type === FoodServed) {
     let waiterToDos = state.waiterToDos.map(waiterToDo => {
       if (waiterToDo.tabId === action.data.tabId) {
-        let foodItems = waiterToDo.foodItems.filter(item =>
-                            item.menuNumber !== action.data.food.menuNumber)
-        return update(waiterToDo, {foodItems : {$set : foodItems}})
+        let foods = waiterToDo.foods.filter(food =>
+                            food.menuNumber !== action.data.food.menuNumber)
+        return update(waiterToDo, {foods : {$set : foods}})
       }
       return waiterToDo;
     })
     return {waiterToDos}
   }
-  if (action.type === DrinksServed) {
+  if (action.type === DrinkServed) {
     let waiterToDos = state.waiterToDos.map(waiterToDo => {
       if (waiterToDo.tabId === action.data.tabId) {
-        let drinksItems = waiterToDo.drinksItems.filter(item =>
-                            item.menuNumber !== action.data.drinks.menuNumber)
-        return update(waiterToDo, {drinksItems : {$set : drinksItems}})
+        let drinks = waiterToDo.drinks.filter(drink =>
+                            drink.menuNumber !== action.data.drink.menuNumber)
+        return update(waiterToDo, {drinks : {$set : drinks}})
       }
       return waiterToDo;
     })

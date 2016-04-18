@@ -24,7 +24,7 @@ class Order extends React.Component {
         <PageHeader>Table {this.props.table.tableNumber}</PageHeader>
         <form className="form-horizontal">
           <Input type="select"
-            label="Food Items"
+            label="Foods"
             multiple ref="foods" labelClassName="col-xs-4" wrapperClassName="col-xs-7">
             {foods}
           </Input>

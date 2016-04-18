@@ -11,7 +11,7 @@ open Errors
 
 [<Test>]
 let ``Can Complete the order by serving food`` () =
-  let order = {order with FoodItems = [salad]}
+  let order = {order with Foods = [salad]}
   let orderInProgress = {
     PlacedOrder = order
     ServedFoods = []
@@ -26,7 +26,7 @@ let ``Can Complete the order by serving food`` () =
 
 [<Test>]
 let ``Can maintain the order in progress state by serving food`` () =
-  let order = {order with FoodItems = [salad;pizza]}
+  let order = {order with Foods = [salad;pizza]}
   let orderInProgress = {
     PlacedOrder = order
     ServedFoods = []
@@ -42,7 +42,7 @@ let ``Can maintain the order in progress state by serving food`` () =
 
 [<Test>]
 let ``Can serve only prepared food`` () =
-  let order = {order with FoodItems = [salad;pizza]}
+  let order = {order with Foods = [salad;pizza]}
   let orderInProgress = {
     PlacedOrder = order
     ServedFoods = []
@@ -56,7 +56,7 @@ let ``Can serve only prepared food`` () =
 
 [<Test>]
 let ``Can not serve non-ordered food`` () =
-  let order = {order with FoodItems = [salad;]}
+  let order = {order with Foods = [salad;]}
   let orderInProgress = {
     PlacedOrder = order
     ServedFoods = []
@@ -70,7 +70,7 @@ let ``Can not serve non-ordered food`` () =
 
 [<Test>]
 let ``Can not serve already served food`` () =
-  let order = {order with FoodItems = [salad;pizza]}
+  let order = {order with Foods = [salad;pizza]}
   let orderInProgress = {
     PlacedOrder = order
     ServedFoods = [salad]

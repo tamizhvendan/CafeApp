@@ -27,8 +27,8 @@ let inMemoryQueries = {
   GetChefToDos = getChefToDos
   GetCashierToDos = getCashierToDos
   GetWaiterToDos = getWaiterToDos
-  GetDrinksItems = getDrinksItems
-  GetFoodItems = getFoodItems
+  GetDrinks = getDrinks
+  GetFoods = getFoods
 }
 
 let inMemoryValidationQueries =
@@ -40,7 +40,7 @@ let inMemoryValidationQueries =
     GetTableByTabId = getTableByTabId
     GetFoodsByMenuNumbers = getFoodsByMenuNumbers
     GetDrinksByMenuNumbers = getDrinksByMenuNumbers
-    GetDrinksByMenuNumber = getDrinksByMenuNumber
+    GetDrinkByMenuNumber = getDrinksByMenuNumber
     GetFoodByMenuNumber = getFoodByMenuNumber
   }
 
