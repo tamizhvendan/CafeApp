@@ -22,7 +22,7 @@ let ``Can Complete the order by serving food`` () =
   Given (OrderInProgress orderInProgress)
   |> When (ServeFood (salad, order.Tab.Id))
   |> ThenStateShouldBe (OrderServed order)
-  |> WithEvent (FoodServed (salad, order.Tab.Id))
+  |> WithEvents [FoodServed (salad, order.Tab.Id)]
 
 [<Test>]
 let ``Can maintain the order in progress state by serving food`` () =
@@ -38,7 +38,7 @@ let ``Can maintain the order in progress state by serving food`` () =
   Given (OrderInProgress orderInProgress)
   |> When (ServeFood (salad, order.Tab.Id))
   |> ThenStateShouldBe (OrderInProgress expected)
-  |> WithEvent (FoodServed (salad, order.Tab.Id))
+  |> WithEvents [FoodServed (salad, order.Tab.Id)]
 
 [<Test>]
 let ``Can serve only prepared food`` () =

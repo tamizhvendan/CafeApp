@@ -19,7 +19,7 @@ let ``Can Serve Drinks`` () =
   Given (PlacedOrder order)
   |> When (ServeDrink (coke, order.Tab.Id))
   |> ThenStateShouldBe (OrderInProgress expected)
-  |> WithEvent (DrinkServed (coke, order.Tab.Id))
+  |> WithEvents [DrinkServed (coke, order.Tab.Id)]
 
 [<Test>]
 let ``Can not serve non ordered drinks`` () =
@@ -58,7 +58,7 @@ let ``Can complete the order by serving drinks`` () =
   Given (OrderInProgress orderInProgress)
   |> When (ServeDrink (lemonade, order.Tab.Id))
   |> ThenStateShouldBe (OrderServed order)
-  |> WithEvent (DrinkServed (lemonade, order.Tab.Id))
+  |> WithEvents [DrinkServed (lemonade, order.Tab.Id)]
 
 [<Test>]
 let ``Can maintain the order in progress state by serving drinks`` () =
@@ -76,7 +76,7 @@ let ``Can maintain the order in progress state by serving drinks`` () =
   Given (OrderInProgress orderInProgress)
   |> When (ServeDrink (lemonade, order.Tab.Id))
   |> ThenStateShouldBe (OrderInProgress expected)
-  |> WithEvent (DrinkServed (lemonade, order.Tab.Id))
+  |> WithEvents [DrinkServed (lemonade, order.Tab.Id)]
 
 [<Test>]
 let ``Can serve drinks for order containing only one drinks`` () =
@@ -84,7 +84,7 @@ let ``Can serve drinks for order containing only one drinks`` () =
   Given (PlacedOrder order)
   |> When (ServeDrink (coke, order.Tab.Id))
   |> ThenStateShouldBe (OrderServed order)
-  |> WithEvent (DrinkServed (coke, order.Tab.Id))
+  |> WithEvents [DrinkServed (coke, order.Tab.Id)]
 
 
 [<Test>]

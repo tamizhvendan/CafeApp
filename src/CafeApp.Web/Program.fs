@@ -51,9 +51,10 @@ let commandApiHandler eventStore (context : HttpContext) = async {
     handleCommandRequest
       inMemoryValidationQueries eventStore payload
   match response with
-  | Ok ((state,event), _) ->
-    do! eventStore.SaveEvent state event
-    eventStream.OnNext(event)
+  | Ok ((state,events), _) ->
+    for event in events do
+      do! eventStore.SaveEvent state event
+      eventStream.OnNext(event)
     return! toStateJson state context
   | Bad (err) ->
     return! toErrorJson err.Head context

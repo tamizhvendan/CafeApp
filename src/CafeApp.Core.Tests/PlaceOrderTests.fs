@@ -16,7 +16,7 @@ let ``Can place drinks order`` () =
   Given (OpenedTab tab)
   |> When (PlaceOrder order)
   |> ThenStateShouldBe (PlacedOrder order)
-  |> WithEvent (OrderPlaced order)
+  |> WithEvents [OrderPlaced order]
 
 
 [<Test>]
@@ -45,7 +45,7 @@ let ``Can place food order`` () =
   Given (OpenedTab tab)
   |> When (PlaceOrder order)
   |> ThenStateShouldBe (PlacedOrder order)
-  |> WithEvent (OrderPlaced order)
+  |> WithEvents [OrderPlaced order]
 
 [<Test>]
 let ``Can place food and drinks order`` () =
@@ -55,4 +55,4 @@ let ``Can place food and drinks order`` () =
   Given (OpenedTab tab)
   |> When (PlaceOrder order)
   |> ThenStateShouldBe (PlacedOrder order)
-  |> WithEvent (OrderPlaced order)
+  |> WithEvents [OrderPlaced order]

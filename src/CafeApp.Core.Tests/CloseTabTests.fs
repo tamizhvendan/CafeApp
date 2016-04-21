@@ -21,7 +21,7 @@ let ``Can close the tab by paying full amount`` () =
   Given (OrderServed order)
   |> When (CloseTab payment)
   |> ThenStateShouldBe (ClosedTab (Some tab.Id))
-  |> WithEvent (TabClosed payment)
+  |> WithEvents [TabClosed payment]
 
 [<Test>]
 let ``Can not close a tab with invalid payment amount`` () =

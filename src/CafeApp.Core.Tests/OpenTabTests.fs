@@ -13,7 +13,7 @@ let ``Can Open a new Tab``() =
   Given (ClosedTab None)
   |> When (OpenTab tab)
   |> ThenStateShouldBe (OpenedTab tab)
-  |> WithEvent (TabOpened tab)
+  |> WithEvents [TabOpened tab]
 
 [<Test>]
 let ``Cannot open an already Opened tab`` () =

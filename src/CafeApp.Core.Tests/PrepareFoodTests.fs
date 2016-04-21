@@ -19,7 +19,7 @@ let ``Can Prepare Food`` () =
   Given (PlacedOrder order)
   |> When (PrepareFood (salad,order.Tab.Id))
   |> ThenStateShouldBe (OrderInProgress expected)
-  |> WithEvent (FoodPrepared (salad, order.Tab.Id))
+  |> WithEvents [FoodPrepared (salad, order.Tab.Id)]
 
 [<Test>]
 let ``Can not prepare a non-ordered food`` () =
@@ -54,7 +54,7 @@ let ``Can prepare food during order in progress`` () =
   Given (OrderInProgress orderInProgress)
   |> When (PrepareFood (salad, order.Tab.Id))
   |> ThenStateShouldBe (OrderInProgress expected)
-  |> WithEvent (FoodPrepared (salad, order.Tab.Id))
+  |> WithEvents [FoodPrepared (salad, order.Tab.Id)]
 
 [<Test>]
 let ``Can not prepare non-ordered food during order in progress`` () =

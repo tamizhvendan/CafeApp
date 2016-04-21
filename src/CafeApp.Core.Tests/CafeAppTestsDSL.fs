@@ -17,11 +17,12 @@ let ThenStateShouldBe expectedState (command, state) =
       sprintf "Expected : %A, But Actual : %A" expectedState errs.Head
       |> Assert.Fail
       None
-let WithEvent expectedEvent actualEvent =
-  match actualEvent with
-  | Some (actualEvent) ->
-    actualEvent |> should equal expectedEvent
-  | None -> None |> should equal expectedEvent
+
+let WithEvents expectedEvents actualEvents =
+  match actualEvents with
+  | Some (actualEvents) ->
+    actualEvents |> should equal expectedEvents
+  | None -> None |> should equal expectedEvents
 
 let ShouldFailWith (expectedError : Error) (command, state) =
   match evolve state command with
