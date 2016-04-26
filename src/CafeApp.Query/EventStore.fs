@@ -9,7 +9,7 @@ let getTabIdFromState = function
 | OpenedTab tab -> Some tab.Id
 | PlacedOrder po -> Some po.Tab.Id
 | OrderInProgress ipo -> Some ipo.PlacedOrder.Tab.Id
-| OrderServed payment -> Some payment.Tab.Id
+| ServedOrder payment -> Some payment.Tab.Id
 | ClosedTab (Some tabId) -> Some tabId
 
 let saveEvent (storeEvents : IStoreEvents) state event  =

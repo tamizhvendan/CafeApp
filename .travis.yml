@@ -1,6 +1,6 @@
 language: csharp
 script:
-  - ./build.sh
+  - ./build.sh RunUnitTests
 mono:
   - latest
 after_success:

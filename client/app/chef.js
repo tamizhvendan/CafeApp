@@ -1,4 +1,4 @@
-import {OrderPlaced, FoodPrepared, TabClosed} from './events.js';
+import {OrderPlaced, FoodPrepared, OrderServed} from './events.js';
 import update from 'react-addons-update';
 
 const intialChefTodosState = {
@@ -38,7 +38,7 @@ export function chefToDosReducer (state = intialChefTodosState, action) {
     })
     return {chefToDos}
   }
-  if (action.type === TabClosed){
+  if (action.type === OrderServed){
     let chefToDos = state.chefToDos.filter(todo => todo.tabId !== action.data.tabId)
     return {chefToDos}
   }

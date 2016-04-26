@@ -83,9 +83,9 @@ let stateJObj = function
     "state" .= "OrderInProgress"
     "data" .= orderInProgressJObj ipo
   ]
-| OrderServed order ->
+| ServedOrder order ->
   jobj [
-    "state" .= "OrderServed"
+    "state" .= "ServedOrder"
     "data" .= orderJObj order
   ]
 
@@ -178,7 +178,6 @@ let eventJObj = function
     "event" .= "OrderPlaced"
     "data" .= jobj [
       "order" .= orderJObj order
-      "amount" .= orderAmount order
     ]
   ]
 | DrinkServed (item, tabId) ->
@@ -203,6 +202,16 @@ let eventJObj = function
     "data" .= jobj [
       "food" .= foodJObj item
       "tabId" .= tabId
+    ]
+  ]
+| OrderServed (order, payment) ->
+  jobj [
+    "event" .= "OrderServed"
+    "data" .= jobj [
+      "order" .= orderJObj order
+      "tabId" .= payment.Tab.Id
+      "tableNumber" .= payment.Tab.TableNumber
+      "amount" .= payment.Amount
     ]
   ]
 | TabClosed payment ->
