@@ -21,7 +21,7 @@ let ``Can Complete the order by serving food`` () =
 
   Given (OrderInProgress orderInProgress)
   |> When (ServeFood (salad, order.Tab.Id))
-  |> ThenStateShouldBe (OrderServed order)
+  |> ThenStateShouldBe (ServedOrder order)
   |> WithEvents [FoodServed (salad, order.Tab.Id)]
 
 [<Test>]
@@ -96,7 +96,7 @@ let ``Can not serve for non placed order`` () =
 
 [<Test>]
 let ``Can not serve for already served order`` () =
-  Given (OrderServed order)
+  Given (ServedOrder order)
   |> When (ServeFood (salad, order.Tab.Id))
   |> ShouldFailWith OrderAlreadyServed
 

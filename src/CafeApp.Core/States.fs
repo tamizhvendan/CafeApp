@@ -8,11 +8,11 @@ type State =
   | OpenedTab of Tab
   | PlacedOrder of Order
   | OrderInProgress of InProgressOrder
-  | OrderServed of Order
+  | ServedOrder of Order
 
 let getState (ipo : InProgressOrder) =
-  if isOrderServed ipo then
-    OrderServed ipo.PlacedOrder
+  if isServedOrder ipo then
+    ServedOrder ipo.PlacedOrder
   else
     OrderInProgress ipo
 
@@ -43,6 +43,6 @@ let apply state event =
   | OrderInProgress ipo, FoodServed (item, _) ->
     {ipo with ServedFoods = item :: ipo.ServedFoods}
     |> getState
-  | OrderServed order, TabClosed payment ->
+  | ServedOrder order, TabClosed payment ->
     ClosedTab (Some payment.Tab.Id)
   | _ -> state

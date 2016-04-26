@@ -83,9 +83,9 @@ let stateJObj = function
     "state" .= "OrderInProgress"
     "data" .= orderInProgressJObj ipo
   ]
-| OrderServed order ->
+| ServedOrder order ->
   jobj [
-    "state" .= "OrderServed"
+    "state" .= "ServedOrder"
     "data" .= orderJObj order
   ]
 

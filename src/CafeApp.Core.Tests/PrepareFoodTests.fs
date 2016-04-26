@@ -30,7 +30,7 @@ let ``Can not prepare a non-ordered food`` () =
 
 [<Test>]
 let ``Can not prepare a food for served order`` () =
-  Given (OrderServed order)
+  Given (ServedOrder order)
   |> When (PrepareFood (pizza, order.Tab.Id))
   |> ShouldFailWith OrderAlreadyServed
 

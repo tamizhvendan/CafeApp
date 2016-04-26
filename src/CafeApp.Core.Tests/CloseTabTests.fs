@@ -18,7 +18,7 @@ let ``Can close the tab by paying full amount`` () =
     Amount = 10.5m
   }
 
-  Given (OrderServed order)
+  Given (ServedOrder order)
   |> When (CloseTab payment)
   |> ThenStateShouldBe (ClosedTab (Some tab.Id))
   |> WithEvents [TabClosed payment]
@@ -29,6 +29,6 @@ let ``Can not close a tab with invalid payment amount`` () =
                   Foods = [salad;pizza]
                   Drinks = [coke]}
 
-  Given (OrderServed order)
+  Given (ServedOrder order)
   |> When (CloseTab {Tab = tab; Amount = 9.5m})
   |> ShouldFailWith (InvalidPayment (10.5m, 9.5m))

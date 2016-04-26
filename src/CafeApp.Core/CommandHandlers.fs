@@ -32,7 +32,7 @@ let handleServeDrink item tabId state =
         DrinkServed (item,tabId) |> toListOK
       else
         CanNotServeNonOrderedDrink item |> fail
-  | OrderServed _ -> OrderAlreadyServed |> fail
+  | ServedOrder _ -> OrderAlreadyServed |> fail
   | OpenedTab _ ->  CanNotServeForNonPlacedOrder |> fail
   | ClosedTab _ -> CanNotServeWithClosedTab |> fail
   | OrderInProgress ipo ->
@@ -54,7 +54,7 @@ let handlePrepareFood item tabId state =
       FoodPrepared (item, tabId) |> toListOK
     else
       CanNotPrepareNonOrderedFood item |> fail
-  | OrderServed _ -> OrderAlreadyServed |> fail
+  | ServedOrder _ -> OrderAlreadyServed |> fail
   | OpenedTab _ ->  CanNotPrepareForNonPlacedOrder |> fail
   | ClosedTab _ -> CanNotPrepareWithClosedTab |> fail
   | OrderInProgress ipo ->
@@ -79,12 +79,12 @@ let handleServeFood item tabId = function
   else
     CanNotServeNonOrderedFood item |> fail
 | PlacedOrder _ -> CanNotServeNonPreparedFood item |> fail
-| OrderServed _ -> OrderAlreadyServed |> fail
+| ServedOrder _ -> OrderAlreadyServed |> fail
 | OpenedTab _ -> CanNotServeForNonPlacedOrder |> fail
 | ClosedTab _ -> CanNotServeWithClosedTab |> fail
 
 let handleCloseTab payment = function
-| OrderServed order ->
+| ServedOrder order ->
   let orderAmount = orderAmount order
   if payment.Amount = orderAmount then
     TabClosed payment |> toListOK

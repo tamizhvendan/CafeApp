@@ -39,7 +39,7 @@ let nonServedFoods ipo =
 let nonServedDrinks ipo =
   List.except ipo.ServedDrinks ipo.PlacedOrder.Drinks
 
-let isOrderServed ipo =
+let isServedOrder ipo =
   List.isEmpty (nonServedFoods ipo) &&
     List.isEmpty (nonServedDrinks ipo)
 
