@@ -42,7 +42,6 @@ let projectReadModel actions = function
   let tabId = order.Tab.Id
   [
     actions.Table.ReceivedOrder tabId
-    actions.Cashier.AddTabAmount tabId (orderAmount order)
     actions.Chef.AddFoodsToPrepare tabId order.Foods
     actions.Waiter.AddDrinksToServe tabId order.Drinks
   ] |> Async.Parallel
@@ -57,11 +56,16 @@ let projectReadModel actions = function
 | FoodServed (item, tabId) ->
   [actions.Waiter.MarkFoodServed tabId item]
   |> Async.Parallel
+| OrderServed (order, payment) ->
+  let tabId = order.Tab.Id
+  [
+    actions.Waiter.Remove tabId
+    actions.Chef.Remove tabId
+    actions.Cashier.AddTabAmount tabId payment.Amount
+  ] |> Async.Parallel
 | TabClosed payment ->
   let tabId = payment.Tab.Id
   [
     actions.Cashier.Remove tabId
-    actions.Waiter.Remove tabId
-    actions.Chef.Remove tabId
     actions.Table.CloseTab payment.Tab
   ] |> Async.Parallel

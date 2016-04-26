@@ -18,11 +18,11 @@ let ``Can Complete the order by serving food`` () =
     ServedDrinks = []
     PreparedFoods = [salad]
   }
-
+  let payment = {Tab = tab; Amount = foodPrice salad}
   Given (OrderInProgress orderInProgress)
   |> When (ServeFood (salad, order.Tab.Id))
   |> ThenStateShouldBe (ServedOrder order)
-  |> WithEvents [FoodServed (salad, order.Tab.Id)]
+  |> WithEvents [FoodServed (salad, order.Tab.Id); OrderServed(order, payment)]
 
 [<Test>]
 let ``Can maintain the order in progress state by serving food`` () =

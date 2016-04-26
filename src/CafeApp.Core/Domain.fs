@@ -39,9 +39,11 @@ let nonServedFoods ipo =
 let nonServedDrinks ipo =
   List.except ipo.ServedDrinks ipo.PlacedOrder.Drinks
 
-let isServedOrder ipo =
-  List.isEmpty (nonServedFoods ipo) &&
-    List.isEmpty (nonServedDrinks ipo)
+let isServingDrinkCompletesOrder ipo drink =
+  List.isEmpty (nonServedFoods ipo) && (nonServedDrinks ipo) = [drink]
+
+let isServingFoodCompletesOrder ipo food =
+  List.isEmpty (nonServedDrinks ipo) && (nonServedFoods ipo) = [food]
 
 let orderAmount order =
   let foodAmount =
@@ -51,3 +53,6 @@ let orderAmount order =
     order.Drinks
     |> List.map (fun (Drink d) -> d.Price) |> List.sum
   foodAmount + drinksAmount
+
+let payment ipo =
+  {Tab = ipo.PlacedOrder.Tab; Amount = orderAmount ipo.PlacedOrder}

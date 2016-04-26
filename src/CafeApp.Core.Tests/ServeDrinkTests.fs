@@ -55,10 +55,15 @@ let ``Can complete the order by serving drinks`` () =
     PreparedFoods = []
     ServedFoods = []
   }
+  let amount = drinkPrice coke + drinkPrice lemonade
+  let payment = { Tab = tab; Amount = amount}
   Given (OrderInProgress orderInProgress)
   |> When (ServeDrink (lemonade, order.Tab.Id))
   |> ThenStateShouldBe (ServedOrder order)
-  |> WithEvents [DrinkServed (lemonade, order.Tab.Id)]
+  |> WithEvents [
+      DrinkServed (lemonade, order.Tab.Id)
+      OrderServed (order, payment)
+    ]
 
 [<Test>]
 let ``Can maintain the order in progress state by serving drinks`` () =
@@ -81,10 +86,15 @@ let ``Can maintain the order in progress state by serving drinks`` () =
 [<Test>]
 let ``Can serve drinks for order containing only one drinks`` () =
   let order = {order with Drinks = [coke]}
+  let payment = {Tab = order.Tab; Amount = drinkPrice coke}
+
   Given (PlacedOrder order)
   |> When (ServeDrink (coke, order.Tab.Id))
   |> ThenStateShouldBe (ServedOrder order)
-  |> WithEvents [DrinkServed (coke, order.Tab.Id)]
+  |> WithEvents [
+      DrinkServed (coke, order.Tab.Id)
+      OrderServed (order, payment)
+    ]
 
 
 [<Test>]

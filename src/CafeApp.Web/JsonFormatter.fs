@@ -205,6 +205,16 @@ let eventJObj = function
       "tabId" .= tabId
     ]
   ]
+| OrderServed (order, payment) ->
+  jobj [
+    "event" .= "OrderServed"
+    "data" .= jobj [
+      "order" .= orderJObj order
+      "tabId" .= payment.Tab.Id
+      "tableNumber" .= payment.Tab.TableNumber
+      "amount" .= payment.Amount
+    ]
+  ]
 | TabClosed payment ->
   jobj [
     "event" .= "TabClosed"

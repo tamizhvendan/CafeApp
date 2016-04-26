@@ -8,10 +8,9 @@ open Commands
 open Errors
 
 let toList x = [x]
-let toListOK = toList >> ok
 
 let handleOpenTab tab = function
-| ClosedTab _ -> TabOpened tab |> toListOK
+| ClosedTab _ -> [TabOpened tab] |> ok
 | _ -> TabAlreadyOpened |> fail
 
 let handlePlaceOrder order = function
@@ -19,66 +18,80 @@ let handlePlaceOrder order = function
   if List.isEmpty order.Foods && List.isEmpty order.Drinks then
     fail CanNotPlaceEmptyOrder
   else
-    OrderPlaced order |> toListOK
+    [OrderPlaced order] |> ok
 | ClosedTab _ -> fail CanNotOrderWithClosedTab
 | _ -> fail OrderAlreadyPlaced
 
-let handleServeDrink item tabId state =
-  let isOrderedDrinks item order =
-    List.contains item order.Drinks
+let handleServeDrink drink tabId state =
+  let isOrderedDrink drink order =
+    List.contains drink order.Drinks
   match state with
   | PlacedOrder order ->
-      if isOrderedDrinks item order then
-        DrinkServed (item,tabId) |> toListOK
+      if isOrderedDrink drink order then
+        let event = DrinkServed (drink,tabId)
+        if order.Drinks = [drink] then
+          let payment = {Tab = order.Tab; Amount = orderAmount order}
+          event :: [OrderServed (order, payment)] |> ok
+        else
+          [event] |> ok
       else
-        CanNotServeNonOrderedDrink item |> fail
+        CanNotServeNonOrderedDrink drink |> fail
   | ServedOrder _ -> OrderAlreadyServed |> fail
   | OpenedTab _ ->  CanNotServeForNonPlacedOrder |> fail
   | ClosedTab _ -> CanNotServeWithClosedTab |> fail
   | OrderInProgress ipo ->
-      if isOrderedDrinks item ipo.PlacedOrder then
+      let order = ipo.PlacedOrder
+      if isOrderedDrink drink order then
         let nonServedDrinks = nonServedDrinks ipo
-        if List.contains item nonServedDrinks then
-          DrinkServed (item,tabId) |> toListOK
+        if List.contains drink nonServedDrinks then
+          let event = DrinkServed (drink,tabId)
+          if isServingDrinkCompletesOrder ipo drink then
+            event :: [OrderServed (order, payment ipo)] |> ok
+          else
+            [event] |> ok
         else
-          CanNotServeAlreadyServedDrink item |> fail
+          CanNotServeAlreadyServedDrink drink |> fail
       else
-        CanNotServeNonOrderedDrink item |> fail
+        CanNotServeNonOrderedDrink drink |> fail
 
-let handlePrepareFood item tabId state =
-  let isOrderedFoodItem item order =
-    List.contains item order.Foods
+let handlePrepareFood food tabId state =
+  let isOrderedFood food order =
+    List.contains food order.Foods
   match state with
   | PlacedOrder order ->
-    if isOrderedFoodItem item order then
-      FoodPrepared (item, tabId) |> toListOK
+    if isOrderedFood food order then
+      [FoodPrepared (food, tabId)] |> ok
     else
-      CanNotPrepareNonOrderedFood item |> fail
+      CanNotPrepareNonOrderedFood food |> fail
   | ServedOrder _ -> OrderAlreadyServed |> fail
   | OpenedTab _ ->  CanNotPrepareForNonPlacedOrder |> fail
   | ClosedTab _ -> CanNotPrepareWithClosedTab |> fail
   | OrderInProgress ipo ->
-    if isOrderedFoodItem item ipo.PlacedOrder then
-      if List.contains item ipo.PreparedFoods then
-        CanNotPrepareAlreadyPreparedFood item |> fail
+    if isOrderedFood food ipo.PlacedOrder then
+      if List.contains food ipo.PreparedFoods then
+        CanNotPrepareAlreadyPreparedFood food |> fail
       else
-        FoodPrepared (item, tabId) |> toListOK
+        [FoodPrepared (food, tabId)] |> ok
     else
-      CanNotPrepareNonOrderedFood item |> fail
+      CanNotPrepareNonOrderedFood food |> fail
 
-let handleServeFood item tabId = function
+let handleServeFood food tabId = function
 | OrderInProgress ipo ->
-  if List.contains item ipo.PlacedOrder.Foods then
-    if List.contains item ipo.ServedFoods then
-      CanNotServeAlreadyServedFood item |> fail
+  if List.contains food ipo.PlacedOrder.Foods then
+    if List.contains food ipo.ServedFoods then
+      CanNotServeAlreadyServedFood food |> fail
     else
-      if List.contains item ipo.PreparedFoods then
-        FoodServed (item, tabId) |> toListOK
+      if List.contains food ipo.PreparedFoods then
+        let event = FoodServed (food, tabId)
+        if isServingFoodCompletesOrder ipo food then
+          event :: [OrderServed (ipo.PlacedOrder, payment ipo)] |> ok
+        else
+          [event] |> ok
       else
-        CanNotServeNonPreparedFood item |> fail
+        CanNotServeNonPreparedFood food |> fail
   else
-    CanNotServeNonOrderedFood item |> fail
-| PlacedOrder _ -> CanNotServeNonPreparedFood item |> fail
+    CanNotServeNonOrderedFood food |> fail
+| PlacedOrder _ -> CanNotServeNonPreparedFood food |> fail
 | ServedOrder _ -> OrderAlreadyServed |> fail
 | OpenedTab _ -> CanNotServeForNonPlacedOrder |> fail
 | ClosedTab _ -> CanNotServeWithClosedTab |> fail
@@ -87,7 +100,7 @@ let handleCloseTab payment = function
 | ServedOrder order ->
   let orderAmount = orderAmount order
   if payment.Amount = orderAmount then
-    TabClosed payment |> toListOK
+    [TabClosed payment] |> ok
   else
     InvalidPayment (orderAmount, payment.Amount) |> fail
 | _ -> CanNotPayForNonServedOrder |> fail
@@ -96,9 +109,9 @@ let execute state command =
     match command with
     | OpenTab tab -> handleOpenTab tab state
     | PlaceOrder order -> handlePlaceOrder order state
-    | ServeDrink (item, tabId) -> handleServeDrink item tabId state
-    | PrepareFood (item, tabId) -> handlePrepareFood item tabId state
-    | ServeFood (item, tabId) -> handleServeFood item tabId state
+    | ServeDrink (food, tabId) -> handleServeDrink food tabId state
+    | PrepareFood (food, tabId) -> handlePrepareFood food tabId state
+    | ServeFood (food, tabId) -> handleServeFood food tabId state
     | CloseTab payment -> handleCloseTab payment state
 
 let evolve state command =
