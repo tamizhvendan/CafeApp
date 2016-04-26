@@ -178,7 +178,6 @@ let eventJObj = function
     "event" .= "OrderPlaced"
     "data" .= jobj [
       "order" .= orderJObj order
-      "amount" .= orderAmount order
     ]
   ]
 | DrinkServed (item, tabId) ->

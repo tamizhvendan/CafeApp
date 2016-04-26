@@ -1,4 +1,4 @@
-import {TabClosed, OrderPlaced} from './events.js';
+import {TabClosed, OrderServed} from './events.js';
 
 const initialCashierToDosSate = {
   cashierToDos : []
@@ -18,10 +18,10 @@ export function cashierToDosReducer(state = initialCashierToDosSate, action) {
     return action.cashierToDos;
   }
 
-  if (action.type === OrderPlaced) {
-    let todo = { tabId : action.data.order.tabId,
+  if (action.type === OrderServed) {
+    let todo = { tabId : action.data.tabId,
                   paymentAmount: action.data.amount,
-                  tableNumber: action.data.order.tableNumber};
+                  tableNumber: action.data.tableNumber};
     let cashierToDos = state.cashierToDos.concat(todo);
     return {cashierToDos}
   }
