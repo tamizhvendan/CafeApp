@@ -51,17 +51,17 @@
       <Project>{8b43f7df-22b3-4193-8a66-cb441f526682}</Project>
       <Private>True</Private>
     </ProjectReference>
-    <ProjectReference Include="../CafeApp.Query/CafeApp.Query.fsproj">
+    <ProjectReference Include="../CafeApp.Persistence/CafeApp.Persistence.fsproj">
       <Name>CafeApp.Core</Name>
       <Project>{bccb8f38-b9ad-4250-a085-9ffae8c98d34}</Project>
       <Private>True</Private>
     </ProjectReference>
-    <ProjectReference Include="../CafeApp.Persistence/CafeApp.Persistence.fsproj">
+    <ProjectReference Include="../CafeApp.Persistence.InMemory/CafeApp.Persistence.InMemory.fsproj">
       <Name>CafeApp.Core</Name>
       <Project>{d5ea0c73-c058-4e47-aef9-fb5549c6c823}</Project>
       <Private>True</Private>
     </ProjectReference>
-    <ProjectReference Include="../CafeApp.Api/CafeApp.Api.fsproj">
+    <ProjectReference Include="../CafeApp.Commands.Api/CafeApp.Commands.Api.fsproj">
       <Name>CafeApp.Core</Name>
       <Project>{5bf31b50-8cc5-4338-adde-5f47a5cdb192}</Project>
       <Private>True</Private>

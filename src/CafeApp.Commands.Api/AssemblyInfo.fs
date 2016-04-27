@@ -1,4 +1,4 @@
-namespace CafeApp.Api.AssemblyInfo
+namespace CafeApp.Commands.Api.AssemblyInfo
 
 open System.Reflection
 open System.Runtime.CompilerServices
@@ -7,11 +7,11 @@ open System.Runtime.InteropServices
 (* General Information about an assembly is controlled through the following 
 set of attributes. Change these attribute values to modify the information
 associated with an assembly. *)
-[<assembly: AssemblyTitle("CafeApp.Api")>]
+[<assembly: AssemblyTitle("CafeApp.Commands.Api")>]
 [<assembly: AssemblyDescription("")>]
 [<assembly: AssemblyConfiguration("")>]
 [<assembly: AssemblyCompany("MyOrg")>]
-[<assembly: AssemblyProduct("CafeApp.Api")>]
+[<assembly: AssemblyProduct("CafeApp.Commands.Api")>]
 [<assembly: AssemblyCopyright("Copyright © MyOrg 2016")>]
 [<assembly: AssemblyTrademark("")>]
 [<assembly: AssemblyCulture("")>]

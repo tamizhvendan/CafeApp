@@ -7,8 +7,8 @@
     <SchemaVersion>2.0</SchemaVersion>
     <ProjectGuid>5bf31b50-8cc5-4338-adde-5f47a5cdb192</ProjectGuid>
     <OutputType>Library</OutputType>
-    <RootNamespace>CafeApp.Api</RootNamespace>
-    <AssemblyName>CafeApp.Api</AssemblyName>
+    <RootNamespace>CafeApp.Commands.Api</RootNamespace>
+    <AssemblyName>CafeApp.Commands.Api</AssemblyName>
     <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
     <TargetFSharpCoreVersion>4.3.1.0</TargetFSharpCoreVersion>
   </PropertyGroup>
@@ -20,7 +20,7 @@
     <OutputPath>bin\Debug\</OutputPath>
     <DefineConstants>DEBUG;TRACE</DefineConstants>
     <WarningLevel>3</WarningLevel>
-    <DocumentationFile>bin\Debug\CafeApp.Api.XML</DocumentationFile>
+    <DocumentationFile>bin\Debug\CafeApp.Commands.Api.XML</DocumentationFile>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
     <DebugType>pdbonly</DebugType>
@@ -29,7 +29,7 @@
     <OutputPath>bin\Release\</OutputPath>
     <DefineConstants>TRACE</DefineConstants>
     <WarningLevel>3</WarningLevel>
-    <DocumentationFile>bin\Release\CafeApp.Api.XML</DocumentationFile>
+    <DocumentationFile>bin\Release\CafeApp.Commands.Api.XML</DocumentationFile>
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="mscorlib" />
@@ -44,7 +44,7 @@
       <Project>{8b43f7df-22b3-4193-8a66-cb441f526682}</Project>
       <Private>True</Private>
     </ProjectReference>
-    <ProjectReference Include="../CafeApp.Query/CafeApp.Query.fsproj">
+    <ProjectReference Include="../CafeApp.Persistence/CafeApp.Persistence.fsproj">
       <Name>CafeApp.Core</Name>
       <Project>{bccb8f38-b9ad-4250-a085-9ffae8c98d34}</Project>
       <Private>True</Private>

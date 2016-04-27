@@ -1,4 +1,4 @@
-namespace CafeApp.Query.AssemblyInfo
+namespace CafeApp.Persistence.InMemory.AssemblyInfo
 
 open System.Reflection
 open System.Runtime.CompilerServices
@@ -7,11 +7,11 @@ open System.Runtime.InteropServices
 (* General Information about an assembly is controlled through the following 
 set of attributes. Change these attribute values to modify the information
 associated with an assembly. *)
-[<assembly: AssemblyTitle("CafeApp.Query")>]
+[<assembly: AssemblyTitle("CafeApp.Persistence.InMemory")>]
 [<assembly: AssemblyDescription("")>]
 [<assembly: AssemblyConfiguration("")>]
 [<assembly: AssemblyCompany("MyOrg")>]
-[<assembly: AssemblyProduct("CafeApp.Query")>]
+[<assembly: AssemblyProduct("CafeApp.Persistence.InMemory")>]
 [<assembly: AssemblyCopyright("Copyright © MyOrg 2016")>]
 [<assembly: AssemblyTrademark("")>]
 [<assembly: AssemblyCulture("")>]
@@ -22,7 +22,7 @@ COM, set the ComVisible attribute to true on that type. *)
 [<assembly: ComVisible(false)>]
 
 // The following GUID is for the ID of the typelib if this project is exposed to COM
-[<assembly: Guid("bccb8f38-b9ad-4250-a085-9ffae8c98d34")>]
+[<assembly: Guid("d5ea0c73-c058-4e47-aef9-fb5549c6c823")>]
 
 (* Version information for an assembly consists of the following four values:
 
