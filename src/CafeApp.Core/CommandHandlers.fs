@@ -17,7 +17,7 @@ let (|NonOrderedFood|_|) order food =
   | false -> Some food
   | true -> None
 
-let (|NonPreparedFood|_|) ipo food =
+let (|UnPreparedFood|_|) ipo food =
   match List.contains food ipo.PreparedFoods with
   | false -> Some food
   | true -> None
@@ -38,17 +38,17 @@ let (|AlreadyPreparedFood|_|) ipo food =
   | false -> None
 
 let (|ServeDrinkCompletesIPOrder|_|) ipo drink =
-  match isServingDrinkCompletesOrder ipo drink with
+  match isServingDrinkCompletesIPOrder ipo drink with
   | true -> Some drink
   | false -> None
 
 let (|ServeFoodCompletesIPOrder|_|) ipo food =
-  match isServingFoodCompletesOrder ipo food with
+  match isServingFoodCompletesIPOrder ipo food with
   | true -> Some food
   | false -> None
 
 let (|ServeDrinkCompletesOrder|_|) order drink =
-  match order.Drinks = [drink] with
+  match isServingDrinkCompletesOrder order drink with
   | true -> Some drink
   | false -> None
 
@@ -123,7 +123,7 @@ let handleServeFood food tabId = function
     CanNotServeNonOrderedFood food |> fail
   | AlreadyServedFood ipo _ ->
     CanNotServeAlreadyServedFood food |> fail
-  | NonPreparedFood ipo _ ->
+  | UnPreparedFood ipo _ ->
     CanNotServeNonPreparedFood food |> fail
   | ServeFoodCompletesIPOrder ipo _ ->
     foodServed ::

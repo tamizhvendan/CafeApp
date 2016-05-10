@@ -39,10 +39,14 @@ let nonServedFoods ipo =
 let nonServedDrinks ipo =
   List.except ipo.ServedDrinks ipo.PlacedOrder.Drinks
 
-let isServingDrinkCompletesOrder ipo drink =
-  List.isEmpty (nonServedFoods ipo) && (nonServedDrinks ipo) = [drink]
+let isServingDrinkCompletesIPOrder ipo drink =
+  List.isEmpty (nonServedFoods ipo)
+  && (nonServedDrinks ipo) = [drink]
 
-let isServingFoodCompletesOrder ipo food =
+let isServingDrinkCompletesOrder order drink =
+  List.isEmpty order.Foods && order.Drinks = [drink]
+
+let isServingFoodCompletesIPOrder ipo food =
   List.isEmpty (nonServedDrinks ipo) && (nonServedFoods ipo) = [food]
 
 let orderAmount order =
