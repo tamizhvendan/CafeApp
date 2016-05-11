@@ -1,15 +1,12 @@
 NUGET
   remote: https://www.nuget.org/api/v2
   specs:
-    Chessie (0.4)
+    Chessie (0.5.1)
       FSharp.Core
-    FAKE (4.21.3)
-    FSharp.Compiler.Tools (4.0.0.1)
+    FAKE (4.25.5)
     FSharp.Core (4.0.0.1)
-    FSharp.Data (2.2.5)
-      Zlib.Portable (>= 1.10) - framework: portable-net40+sl50+wp80+win80
-    FSharp.Data.Toolbox.Twitter (0.13)
-      FSharp.Data (>= 2.2.3)
+    FSharp.Data (2.3)
+      Zlib.Portable (>= 1.11) - framework: portable-net45+sl5+win8, portable-net45+win8, portable-net45+win8+wp8+wpa81
     FsUnit (1.4.1)
       FSharp.Core (>= 3.1.2.5)
       NUnit (2.6.4)
@@ -20,27 +17,6 @@ NUGET
       Node.js (>= 0.12.7)
     NUnit (2.6.4)
     NUnit.Runners (2.6.4)
-    Rx-Core (2.2.5)
-      Rx-Interfaces (>= 2.2.5)
-    Rx-Interfaces (2.2.5)
-    Rx-Linq (2.2.5)
-      Rx-Core (>= 2.2.5)
-      Rx-Interfaces (>= 2.2.5)
-    Rx-Main (2.2.5)
-      Rx-Core (>= 2.2.5)
-      Rx-Interfaces (>= 2.2.5)
-      Rx-Linq (>= 2.2.5)
-      Rx-PlatformServices (>= 2.2.5)
-    Rx-PlatformServices (2.2.5)
-      Rx-Core (>= 2.2.5)
-      Rx-Interfaces (>= 2.2.5)
-    Suave (1.1.1)
+    Suave (1.1.2)
       FSharp.Core (>= 3.1.2.5)
-    Zlib.Portable (1.11) - framework: portable-net40+sl50+wp80+win80
-GITHUB
-  remote: tpetricek/new-year-tweets-2016
-  specs:
-    async.fs (1ae7ba77d52aabdd4a0c33f4b068bfe2a169bb47)
-      FSharp.Compiler.Tools
-      FSharp.Data.Toolbox.Twitter
-      Suave
+    Zlib.Portable (1.11) - framework: portable-net45+sl5+win8, portable-net45+win8, portable-net45+win8+wp8+wpa81

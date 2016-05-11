@@ -11,34 +11,25 @@ open InMemory
 open System.Text
 open Chessie.ErrorHandling
 open Events
-open System.Reactive.Linq
-open System.Reactive.Subjects
-open System.Reactive.Concurrency
 open Projections
 open JsonFormatter
 open QueriesApi
 open Suave.WebSocket
 open Suave.Sockets.Control
 open Suave.Sockets.SocketOp
-open AsyncHelpers
 open System.Reflection
 open System.IO
 
-let eventStream = new Subject<Event>()
-let asyncEventStream =
-  eventStream.ObserveOn(Scheduler.Default)
-
+let eventStream = new Control.Event<Event>()
 let project event =
   projectReadModel inMemoryActions event
   |> Async.RunSynchronously |> ignore
 
-
-let socketOfObservable eventStream (ws : WebSocket) cx = socket {
+let socketHandler (ws : WebSocket) cx = socket {
   while true do
     let! event =
-      eventStream
-      |> Async.AwaitObservable
-      |> ofAsync
+      Control.Async.AwaitEvent(eventStream.Publish)
+      |> Suave.Sockets.SocketOp.ofAsync
     let eventData =
       event |> eventJObj |> string |> Encoding.UTF8.GetBytes
     do! ws.send Text eventData true
@@ -54,7 +45,7 @@ let commandApiHandler eventStore (context : HttpContext) = async {
   | Ok ((state,events), _) ->
     for event in events do
       do! eventStore.SaveEvent state event
-      eventStream.OnNext(event)
+      eventStream.Trigger(event)
     return! toStateJson state context
   | Bad (err) ->
     return! toErrorJson err.Head context
@@ -76,7 +67,7 @@ let main argv =
     let eventStore = inMemoryEventStore ()
     choose [
       path "/websocket" >=>
-        handShake (socketOfObservable asyncEventStream)
+        handShake socketHandler
       commandApi eventStore
       queriesApi inMemoryQueries eventStore
       GET >=> choose [
@@ -84,8 +75,7 @@ let main argv =
         Files.browseHome ]
     ]
 
-  use projectionSubscription =
-    asyncEventStream.Subscribe project
+  eventStream.Publish.Add(project)
 
   let cfg = {defaultConfig with
               homeFolder = Some(clientDir)

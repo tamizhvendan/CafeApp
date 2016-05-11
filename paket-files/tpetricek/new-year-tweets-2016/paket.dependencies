@@ -1,5 +1,0 @@
-source http://nuget.org/api/v2
-
-nuget Suave
-nuget FSharp.Data.Toolbox.Twitter
-nuget FSharp.Compiler.Tools

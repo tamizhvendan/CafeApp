@@ -10,6 +10,4 @@ nuget Chessie
 nuget NEventStore
 nuget Suave
 nuget FSharp.Data
-nuget Rx-Main
 nuget Newtonsoft.Json
-github tpetricek/new-year-tweets-2016 async.fs
