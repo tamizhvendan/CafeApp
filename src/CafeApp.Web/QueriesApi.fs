@@ -28,16 +28,16 @@ let queriesApi queries eventStore =
   GET >=>
   choose [
      path "/tables" >=>
-      readModels queries.GetTables toTablesJSON
+      readModels queries.Table.GetTables toTablesJSON
      path "/todos/chef" >=>
-      readModels queries.GetChefToDos toChefToDosJSON
+      readModels queries.ToDo.GetChefToDos toChefToDosJSON
      path "/todos/waiter" >=>
-      readModels queries.GetWaiterToDos toWaiterToDosJSON
+      readModels queries.ToDo.GetWaiterToDos toWaiterToDosJSON
      path "/todos/cashier" >=>
-      readModels queries.GetCashierToDos toCashierToDosJSON
+      readModels queries.ToDo.GetCashierToDos toCashierToDosJSON
      path "/foods" >=>
-      readModels queries.GetFoods toFoodsJSON
+      readModels queries.Food.GetFoods toFoodsJSON
      path "/drinks" >=>
-      readModels queries.GetDrinks toDrinksJSON
+      readModels queries.Drink.GetDrinks toDrinksJSON
      pathScan "/state/%s" (getState eventStore)
   ]

@@ -1,6 +1,7 @@
 module Items
 open System.Collections.Generic
 open Domain
+open Queries
 
 let private foods =
   let dict = new Dictionary<int, Food>()
@@ -55,7 +56,7 @@ let getFoodByMenuNumber key =
 let getDrinksByMenuNumbers keys =
   getItems drinks keys |> async.Return
 
-let getDrinksByMenuNumber key =
+let getDrinkByMenuNumber key =
   getItem drinks key |> async.Return
 
 let getFoods () =
@@ -63,3 +64,15 @@ let getFoods () =
 
 let getDrinks () =
   drinks.Values |> Seq.toList |> async.Return
+
+let foodQueries = {
+  GetFoods = getFoods
+  GetFoodByMenuNumber = getFoodByMenuNumber
+  GetFoodsByMenuNumbers = getFoodsByMenuNumbers
+}
+
+let drinkQueries = {
+  GetDrinks = getDrinks
+  GetDrinkByMenuNumber = getDrinkByMenuNumber
+  GetDrinksByMenuNumbers = getDrinksByMenuNumbers
+}

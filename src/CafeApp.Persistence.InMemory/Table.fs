@@ -3,6 +3,7 @@ open Domain
 open System.Collections.Generic
 open ReadModel
 open Projections
+open Queries
 
 let private tables =
   let dict = new Dictionary<int, Table>()
@@ -55,3 +56,12 @@ let getTableByTableNumber tableNumber =
     tables.[tableNumber] |> Some |> async.Return
   else
     None |> async.Return
+
+let getTableByTabIdAsync tabId =
+  getTableByTabId tabId |> async.Return
+
+let tableQueries = {
+  GetTables = getTables
+  GetTableByTableNumber = getTableByTableNumber
+  GetTableByTabId = getTableByTabIdAsync
+}

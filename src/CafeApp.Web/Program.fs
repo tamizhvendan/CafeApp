@@ -40,7 +40,7 @@ let commandApiHandler eventStore (context : HttpContext) = async {
     Encoding.UTF8.GetString context.request.rawForm
   let! response =
     handleCommandRequest
-      inMemoryValidationQueries eventStore payload
+      inMemoryQueries eventStore payload
   match response with
   | Ok ((state,events), _) ->
     for event in events do

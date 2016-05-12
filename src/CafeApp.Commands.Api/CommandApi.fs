@@ -11,31 +11,31 @@ open ServeFood
 open CloseTab
 open Chessie.ErrorHandling
 
-let handleCommandRequest validationQueries eventStore
+let handleCommandRequest queries eventStore
   = function
   | OpenTabRequest tab ->
-    validationQueries.GetTableByTableNumber
+    queries.Table.GetTableByTableNumber
     |> openTabCommander
     |> handleCommand eventStore tab
   | PlaceOrderRequest placeOrder ->
-    placeOrderCommander validationQueries
+    placeOrderCommander queries
     |> handleCommand eventStore placeOrder
   | ServeDrinkRequest (tabId, drinksMenuNumber) ->
-    validationQueries.GetDrinkByMenuNumber
+    queries.Drink.GetDrinkByMenuNumber
     |> serveDrinkCommander
-        validationQueries.GetTableByTabId
+        queries.Table.GetTableByTabId
     |> handleCommand eventStore (tabId, drinksMenuNumber)
   | PrepareFoodRequest (tabId, foodMenuNumber) ->
-    validationQueries.GetFoodByMenuNumber
+    queries.Food.GetFoodByMenuNumber
     |> prepareFoodCommander
-        validationQueries.GetTableByTabId
+        queries.Table.GetTableByTabId
     |> handleCommand eventStore (tabId, foodMenuNumber)
   | ServeFoodRequest (tabId, foodMenuNumber) ->
-    validationQueries.GetFoodByMenuNumber
+    queries.Food.GetFoodByMenuNumber
     |> serveFoodCommander
-        validationQueries.GetTableByTabId
+        queries.Table.GetTableByTabId
     |> handleCommand eventStore (tabId, foodMenuNumber)
   | CloseTabRequest (tabId, amount) ->
-    closeTabCommander validationQueries.GetTableByTabId
+    closeTabCommander queries.Table.GetTableByTabId
     |> handleCommand eventStore (tabId, amount)
   | _ -> err "Invalid command" |> fail |> async.Return

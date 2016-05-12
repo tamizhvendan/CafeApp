@@ -22,27 +22,18 @@ let inMemoryEventStore () =
     SaveEvent = saveEvent eventStoreInstance
   }
 
-let inMemoryQueries = {
-  GetTables = getTables
+let toDoQueries = {
   GetChefToDos = getChefToDos
   GetCashierToDos = getCashierToDos
   GetWaiterToDos = getWaiterToDos
-  GetDrinks = getDrinks
-  GetFoods = getFoods
 }
 
-let inMemoryValidationQueries =
-  let getTableByTabId tabId =
-    getTableByTabId tabId |> async.Return
-
-  {
-    GetTableByTableNumber = getTableByTableNumber
-    GetTableByTabId = getTableByTabId
-    GetFoodsByMenuNumbers = getFoodsByMenuNumbers
-    GetDrinksByMenuNumbers = getDrinksByMenuNumbers
-    GetDrinkByMenuNumber = getDrinksByMenuNumber
-    GetFoodByMenuNumber = getFoodByMenuNumber
-  }
+let inMemoryQueries = {
+  Table = tableQueries
+  Food = foodQueries
+  Drink = drinkQueries
+  ToDo = toDoQueries
+}
 
 let inMemoryActions = {
   Table = tableActions

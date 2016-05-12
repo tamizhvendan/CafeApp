@@ -22,19 +22,14 @@ let (|PlaceOrderRequest|_|) payload =
   with
   | ex -> None
 
-let validateTabId getTableByTabId (tabId, drinks, foods)  =
-  match getTableByTabId tabId with
-  | Some _ -> Choice1Of2 (drinks,foods)
-  | _ -> Choice2Of2 "Invalid Tab Id"
-
 let validatePlaceOrder queries (c : PlaceOrderReq.PlaceOrder) = async {
-  let! table = queries.GetTableByTabId c.TabId
+  let! table = queries.Table.GetTableByTabId c.TabId
   match table with
   | Some table ->
       let! foods =
-        queries.GetFoodsByMenuNumbers c.FoodMenuNumbers
+        queries.Food.GetFoodsByMenuNumbers c.FoodMenuNumbers
       let! drinks =
-        queries.GetDrinksByMenuNumbers c.DrinkMenuNumbers
+        queries.Drink.GetDrinksByMenuNumbers c.DrinkMenuNumbers
       let isEmptyOrder foods drinks =
         List.isEmpty foods && List.isEmpty drinks
       match foods, drinks with
