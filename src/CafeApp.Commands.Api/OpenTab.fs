@@ -28,9 +28,7 @@ let validateOpenTab getTableByTableNumber tab = async {
   let! result = getTableByTableNumber tab.TableNumber
   match result with
   | Some table ->
-    match table.Status with
-    | Closed -> return Choice1Of2 tab
-    | Open _ | InService _ -> return Choice2Of2 "Table already opened"
+    return Choice1Of2 tab
   | _ ->
     return Choice2Of2 "Invalid Table Number"
 }
