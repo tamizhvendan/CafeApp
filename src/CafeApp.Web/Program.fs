@@ -20,19 +20,23 @@ open Suave.Sockets.SocketOp
 open System.Reflection
 open System.IO
 
-let eventStream = new Control.Event<Event>()
+let eventsStream = new Control.Event<Event list>()
 let project event =
   projectReadModel inMemoryActions event
   |> Async.RunSynchronously |> ignore
+let projectEvents events =
+  events
+  |> List.iter project
 
 let socketHandler (ws : WebSocket) cx = socket {
   while true do
-    let! event =
-      Control.Async.AwaitEvent(eventStream.Publish)
+    let! events =
+      Control.Async.AwaitEvent(eventsStream.Publish)
       |> Suave.Sockets.SocketOp.ofAsync
-    let eventData =
-      event |> eventJObj |> string |> Encoding.UTF8.GetBytes
-    do! ws.send Text eventData true
+    for event in events do
+      let eventData =
+        event |> eventJObj |> string |> Encoding.UTF8.GetBytes
+      do! ws.send Text eventData true
 }
 
 let commandApiHandler eventStore (context : HttpContext) = async {
@@ -43,9 +47,8 @@ let commandApiHandler eventStore (context : HttpContext) = async {
       inMemoryQueries eventStore payload
   match response with
   | Ok ((state,events), _) ->
-    for event in events do
-      do! eventStore.SaveEvent state event
-      eventStream.Trigger(event)
+    do! eventStore.SaveEvents state events
+    eventsStream.Trigger(events)
     return! toStateJson state context
   | Bad (err) ->
     return! toErrorJson err.Head context
@@ -75,7 +78,7 @@ let main argv =
         Files.browseHome ]
     ]
 
-  eventStream.Publish.Add(project)
+  eventsStream.Publish.Add(projectEvents)
 
   let cfg = {defaultConfig with
               homeFolder = Some(clientDir)
