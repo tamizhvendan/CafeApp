@@ -148,7 +148,7 @@ let execute state command =
     match command with
     | OpenTab tab -> handleOpenTab tab state
     | PlaceOrder order -> handlePlaceOrder order state
-    | ServeDrink (food, tabId) -> handleServeDrink food tabId state
+    | ServeDrink (drink, tabId) -> handleServeDrink drink tabId state
     | PrepareFood (food, tabId) -> handlePrepareFood food tabId state
     | ServeFood (food, tabId) -> handleServeFood food tabId state
     | CloseTab payment -> handleCloseTab payment state
