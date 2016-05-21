@@ -10,9 +10,9 @@ let Given (state : State) = state
 let When command state = (command, state)
 let ThenStateShouldBe expectedState (command, state) =
   match evolve state command with
-  | Ok((actualState,event),_) ->
+  | Ok((actualState,events),_) ->
       actualState |> should equal expectedState
-      event |> Some
+      events |> Some
   | Bad errs ->
       sprintf "Expected : %A, But Actual : %A" expectedState errs.Head
       |> Assert.Fail
