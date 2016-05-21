@@ -47,6 +47,18 @@ let ``Can not serve with closed tab`` () =
   |> ShouldFailWith (CanNotServeWithClosedTab)
 
 [<Test>]
+let ``Can not serve an already served drink`` () =
+  let order = {order with Drinks = [coke;lemonade]}
+  let ipo = {
+      PlacedOrder = order
+      ServedDrinks = [coke]
+      PreparedFoods = []
+      ServedFoods = []}
+  Given (OrderInProgress ipo)
+  |> When (ServeDrink (coke, order.Tab.Id))
+  |> ShouldFailWith (CanNotServeAlreadyServedDrink coke)
+  
+[<Test>]
 let ``Can complete the order by serving drinks`` () =
   let order = {order with Drinks = [coke;lemonade]}
   let orderInProgress = {
