@@ -92,24 +92,23 @@ let handleServeDrink drink tabId = function
     |> ok
   | _ -> [drinkServed] |> ok
 
-let handlePrepareFood food tabId state =
-  match state with
-  | PlacedOrder order ->
-    match food with
-    | NonOrderedFood order _ ->
-      CanNotPrepareNonOrderedFood food |> fail
-    | _ -> [FoodPrepared (food, tabId)] |> ok
-  | ServedOrder _ -> OrderAlreadyServed |> fail
-  | OpenedTab _ ->  CanNotPrepareForNonPlacedOrder |> fail
-  | ClosedTab _ -> CanNotPrepareWithClosedTab |> fail
-  | OrderInProgress ipo ->
-    let order = ipo.PlacedOrder
-    match food with
-    | NonOrderedFood order _ ->
-      CanNotPrepareNonOrderedFood food |> fail
-    | AlreadyPreparedFood ipo _ ->
-        CanNotPrepareAlreadyPreparedFood food |> fail
-    | _ -> [FoodPrepared (food, tabId)] |> ok
+let handlePrepareFood food tabId = function
+| PlacedOrder order ->
+  match food with
+  | NonOrderedFood order _ ->
+    CanNotPrepareNonOrderedFood food |> fail
+  | _ -> [FoodPrepared (food, tabId)] |> ok
+| ServedOrder _ -> OrderAlreadyServed |> fail
+| OpenedTab _ ->  CanNotPrepareForNonPlacedOrder |> fail
+| ClosedTab _ -> CanNotPrepareWithClosedTab |> fail
+| OrderInProgress ipo ->
+  let order = ipo.PlacedOrder
+  match food with
+  | NonOrderedFood order _ ->
+    CanNotPrepareNonOrderedFood food |> fail
+  | AlreadyPreparedFood ipo _ ->
+      CanNotPrepareAlreadyPreparedFood food |> fail
+  | _ -> [FoodPrepared (food, tabId)] |> ok
 
 let handleServeFood food tabId = function
 | OrderInProgress ipo ->
