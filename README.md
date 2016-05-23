@@ -19,19 +19,21 @@ F# port of [Edument](http://www.edument.se/)'s [DDD, EventSourcing and CQRS](htt
 
 * Install [Docker](https://docs.docker.com/engine/installation/)
 * Clone the Repo
+
   ```bash
   git clone git@github.com:tamizhvendan/CafeApp.git
   ```
 * Go the root directory in the shell/command prompt and run the following command
+
   ```bash
-  CafeApp $ docker build -t CafeApp .
+  CafeApp$ docker build -t CafeApp .
   ```
 * After successful docker build, Run the docker container
+
   ```bash
-  CafeApp $ docker run --name CafeAppContainer -p 8083:8083 CafeApp
+  CafeApp$ docker run --name CafeAppContainer -p 8083:8083 CafeApp
   ```
 * Access the application in your browser
+
   Linux Users - `http://localhost:8083`
   Windows & iOS - `http://192.168.99.100:8083` (192.168.99.100 is based on your docker setup)
-
-  ```
