@@ -36,4 +36,4 @@ F# port of [Edument](http://www.edument.se/)'s [DDD, EventSourcing and CQRS](htt
 * Access the application in your browser
 
   Linux Users - `http://localhost:8083`
-  Windows & iOS - `http://192.168.99.100:8083` (192.168.99.100 is based on your docker setup)
+  Windows & Mac - `http://192.168.99.100:8083` (192.168.99.100 is based on your docker setup)
