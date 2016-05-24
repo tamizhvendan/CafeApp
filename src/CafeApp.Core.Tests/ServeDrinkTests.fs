@@ -57,7 +57,7 @@ let ``Can not serve an already served drink`` () =
   Given (OrderInProgress ipo)
   |> When (ServeDrink (coke, order.Tab.Id))
   |> ShouldFailWith (CanNotServeAlreadyServedDrink coke)
-  
+
 [<Test>]
 let ``Can complete the order by serving drink`` () =
   let order = {order with Drinks = [coke;lemonade]}
@@ -78,7 +78,7 @@ let ``Can complete the order by serving drink`` () =
     ]
 
 [<Test>]
-let ``Remain in order in progress while serving drink` () =
+let ``Remain in order in progress while serving drink`` () =
   let order = {order with Drinks = [coke;lemonade;appleJuice]}
   let orderInProgress = {
     PlacedOrder = order
