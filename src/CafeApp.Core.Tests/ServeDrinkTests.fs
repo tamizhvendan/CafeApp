@@ -9,7 +9,7 @@ open TestData
 open Errors
 
 [<Test>]
-let ``Can Serve Drinks`` () =
+let ``Can Serve Drink`` () =
   let order = {order with Drinks = [coke;lemonade]}
   let expected = {
       PlacedOrder = order
@@ -22,20 +22,20 @@ let ``Can Serve Drinks`` () =
   |> WithEvents [DrinkServed (coke, order.Tab.Id)]
 
 [<Test>]
-let ``Can not serve non ordered drinks`` () =
+let ``Can not serve non ordered drink`` () =
   let order = {order with Drinks = [coke]}
   Given (PlacedOrder order)
   |> When (ServeDrink (lemonade, order.Tab.Id))
   |> ShouldFailWith (CanNotServeNonOrderedDrink lemonade)
 
 [<Test>]
-let ``Can not serve drinks for already served order`` () =
+let ``Can not serve drink for already served order`` () =
   Given (ServedOrder order)
   |> When (ServeDrink (coke, order.Tab.Id))
   |> ShouldFailWith OrderAlreadyServed
 
 [<Test>]
-let ``Can not serve drinks for non placed order`` () =
+let ``Can not serve drink for non placed order`` () =
   Given (OpenedTab tab)
   |> When (ServeDrink (coke, tab.Id))
   |> ShouldFailWith CanNotServeForNonPlacedOrder
@@ -59,7 +59,7 @@ let ``Can not serve an already served drink`` () =
   |> ShouldFailWith (CanNotServeAlreadyServedDrink coke)
   
 [<Test>]
-let ``Can complete the order by serving drinks`` () =
+let ``Can complete the order by serving drink`` () =
   let order = {order with Drinks = [coke;lemonade]}
   let orderInProgress = {
     PlacedOrder = order
@@ -78,7 +78,7 @@ let ``Can complete the order by serving drinks`` () =
     ]
 
 [<Test>]
-let ``Can maintain the order in progress state by serving drinks`` () =
+let ``Remain in order in progress while serving drink` () =
   let order = {order with Drinks = [coke;lemonade;appleJuice]}
   let orderInProgress = {
     PlacedOrder = order
