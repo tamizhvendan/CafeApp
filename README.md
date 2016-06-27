@@ -37,3 +37,6 @@ F# port of [Edument](http://www.edument.se/)'s [DDD, EventSourcing and CQRS](htt
 
   Linux Users - `http://localhost:8083`
   Windows & Mac - `http://192.168.99.100:8083` (192.168.99.100 is based on your docker setup)
+  
+## Documentation
+For more details on the implementation, check out the last chapter of my book ["F# Applied"](http://products.tamizhvendan.in/fsharp-applied)
