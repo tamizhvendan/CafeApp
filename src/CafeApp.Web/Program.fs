@@ -82,7 +82,7 @@ let main argv =
 
   let cfg = {defaultConfig with
               homeFolder = Some(clientDir)
-              bindings = [HttpBinding.mkSimple HTTP "0.0.0.0" 8083]
+              bindings = [HttpBinding.mkSimple HTTP "127.0.0.1" 8083]
             }
   startWebServer cfg app
   0
