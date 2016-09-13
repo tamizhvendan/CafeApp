@@ -10,7 +10,7 @@
     <RootNamespace>CafeApp.Core.Tests</RootNamespace>
     <AssemblyName>CafeApp.Core.Tests</AssemblyName>
     <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
-    <TargetFSharpCoreVersion>4.3.1.0</TargetFSharpCoreVersion>
+    <TargetFSharpCoreVersion>4.4.0.0</TargetFSharpCoreVersion>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <DebugSymbols>true</DebugSymbols>
@@ -48,6 +48,7 @@
   <ItemGroup>
     <Compile Include="AssemblyInfo.fs" />
     <None Include="Script.fsx" />
+    <None Include="app.config" />
     <Compile Include="CafeAppTestsDSL.fs" />
     <Compile Include="TestData.fs" />
     <Compile Include="OpenTabTests.fs" />
