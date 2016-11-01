@@ -26,12 +26,12 @@ F# port of [Edument](http://www.edument.se/)'s [DDD, EventSourcing and CQRS](htt
 * Go the root directory in the shell/command prompt and run the following command
 
   ```bash
-  CafeApp$ docker build -t CafeApp .
+  CafeApp$ docker build -t tamizhvendan/cafeapp:0.1 .
   ```
 * After successful docker build, Run the docker container
 
   ```bash
-  CafeApp$ docker run --name CafeAppContainer -p 8083:8083 CafeApp
+  CafeApp$ docker run --name cafeapp -p 8083:8083 tamizhvendan/cafeapp:0.1
   ```
 * Access the application in your browser
 
