@@ -1,6 +1,7 @@
 source https://nuget.org/api/v2
 
 nuget FAKE
+nuget FSharp.Core
 nuget Node.js
 nuget Npm.js
 nuget NUnit 2.6.4
