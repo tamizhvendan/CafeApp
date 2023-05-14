@@ -13,7 +13,7 @@ let readModels getReadModels wp (context : HttpContext) =
     return! wp models context
   }
 
-let getState eventStore tabId (context : HttpContext) =
+let getState eventStore (tabId:string) (context : HttpContext) =
   async {
     match System.Guid.TryParse(tabId) with
     | true, tabId ->
